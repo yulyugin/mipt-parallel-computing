@@ -1,4 +1,4 @@
-% Compile with XeLaTeX, TeXLive 2013 or more recent
+	% Compile with XeLaTeX, TeXLive 2013 or more recent
 \documentclass{beamer}
 
 % Base packages
@@ -12,7 +12,6 @@
 \usepackage{csquotes}
 \usepackage{standalone}
 
-\usepackage{framed}
 \usepackage{listings}
 \lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true }
 
@@ -42,7 +41,7 @@
 
 \newcommand{\abbr}{\textit{англ.}\ }
 
-\title{Title}
+\title{Основы MPI}
 \subtitle{Курс «Параллельное программирование»}
 \subject{Lecture}
 \author[Евгений Юлюгин]{Евгений Юлюгин \\ \small{\href{mailto:yulyugin@gmail.com}{yulyugin@gmail.com}}}
@@ -67,7 +66,73 @@
 \tableofcontents
 \end{frame} 
 
-\begin{frame}{На прошлой лекции}
+\begin{frame}{История MPI}
+
+\begin{itemize}
+	\item MPI расшифровывается как интерфейс передачи сообщений (\abbr Massage Passing Interface).
+	\item Программный интерфейс, позволяющий обмениваться сообщениями между процессами выполняющими одну задачу.
+	\item Разработан Уильямом Гроуппом, Эвином Ласком и другими.
+	\item Первая версия разрабатывалась в 1993-1994 году.
+	\item MPI версии 1 вышла в 1994 году.
+	\item MPI 1.1 опубликован в 12 июня 1995 года. Поддерживается большинством современных реализаций MPI. Первая раелизация появилась в 2002 году.
+	\item Существуют реализации для языков Fortran, Java, C и C++.
+\end{itemize}
+
+\end{frame}
+
+\section{Базовые функции MPI}
+
+\defverbatim[colored]\initfinalize{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+int MPI_Init(int *pargc, char ***pargv);
+int MPI_Finalize(void);
+\end{lstlisting}
+}
+
+\begin{frame}{Инициализация и завершение процессов}
+
+Определены в заголовочном файле mpi.h
+
+\vfill
+
+\initfinalize
+
+\end{frame}
+
+\defverbatim[colored]\size{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+MPI_Comm_size(MPI_Comm comm, int *size);
+\end{lstlisting}
+}
+
+\defverbatim[colored]\rank{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+MPI_Comm_rank(MPI_Comm comm, int *rank);
+\end{lstlisting}
+}
+
+\begin{frame}{MPI communicator}
+
+\begin{itemize}
+	\item MPI_COMM_WORLD is the initially defined universe intracommunicator for all processes to conduct various communications once MPI_INIT has been called,
+	\item MPI_COMM_SELF,
+	\item User defined communicators.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Self-identification}
+
+\size
+
+Returns the size of the group associated with communicator.
+
+\vfill
+
+\rank
+
+Determines the rank of the calling process in the communicator.
+
 \end{frame}
 
 \section{Конец}
