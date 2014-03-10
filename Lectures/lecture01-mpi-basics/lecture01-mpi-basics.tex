@@ -1,61 +1,7 @@
 % Compile with XeLaTeX, TeXLive 2013 or more recent
-\documentclass{beamer}
-
-% Base packages
-\usepackage{fontspec}
-\usepackage{xunicode}
-\usepackage{xltxtra}
-
-\usepackage{amsfonts}
-\usepackage{amsmath}
-\usepackage{longtable}
-\usepackage{csquotes}
-\usepackage{standalone}
-
-\usepackage{graphicx}
-\graphicspath{{./images/}}
-
-\usepackage{listings}
-\lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true }
-
-% Setup Russian hyphenation
-\usepackage{polyglossia}
-\setdefaultlanguage[spelling=modern]{russian} % for polyglossia
-\setotherlanguage{english} % for polyglossia
-\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
-
-% Setup fonts
-\newfontfamily\russianfont{CMU Serif}
-\setromanfont{CMU Serif}
-\setsansfont{CMU Sans Serif}
-\setmonofont{CMU Typewriter Text}
-
-% Be able to insert hyperlinks
-\usepackage{hyperref}
-\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, citecolor=black, urlcolor=blue , pdfauthor=Evgeny Yulyugin <yulyugin@gmail.com>, pdftitle=Параллельное программирование}
-% \usepackage{url}
-
-% Misc optional packages
-\usepackage{underscore}
-\usepackage{amsthm}
-
-% A new command to mark not done places
-\newcommand{\todo}[1][Write me]{{\color{red}TODO\ #1}}
-
-\newcommand{\abbr}{\textit{англ.}\ }
+\input{../lecture-template/config}
 
 \title{Основы MPI}
-\subtitle{Курс «Параллельное программирование»}
-\subject{Lecture}
-\author[Евгений Юлюгин]{Евгений Юлюгин \\ \small{\href{mailto:yulyugin@gmail.com}{yulyugin@gmail.com}}}
-\date{\today}
-\pgfdeclareimage[height=0.5cm]{mipt-logo}{../common-images/mipt.png}
-\logo{\pgfuseimage{mipt-logo}}
-
-\typeout{Copyright 2014 Evgeny Yulyugin}
-
-\usetheme{Berlin}
-\setbeamertemplate{navigation symbols}{}%remove navigation symbols
 
 \begin{document}
 
