@@ -1,4 +1,4 @@
-	% Compile with XeLaTeX, TeXLive 2013 or more recent
+% Compile with XeLaTeX, TeXLive 2013 or more recent
 \documentclass{beamer}
 
 % Base packages
@@ -11,6 +11,9 @@
 \usepackage{longtable}
 \usepackage{csquotes}
 \usepackage{standalone}
+
+\usepackage{graphicx}
+\graphicspath{{./images/}}
 
 \usepackage{listings}
 \lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true }
@@ -65,6 +68,8 @@
 \begin{frame}
 \tableofcontents
 \end{frame} 
+
+\section{История MPI}
 
 \begin{frame}{История MPI}
 
@@ -132,6 +137,119 @@ Returns the size of the group associated with communicator.
 \rank
 
 Determines the rank of the calling process in the communicator.
+
+\end{frame}
+
+\defverbatim[colored]\sendrecv{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
+int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status);
+\end{lstlisting}
+}
+
+\begin{frame}{Send/Receive Overview}
+
+\sendrecv
+
+\end{frame}
+
+\begin{frame}{MPI_Datatype}
+
+\begin{itemize}
+	\item MPI_CHAR,
+	\item MPI_INT,
+	\item MPI_UNSIGNED,
+	\item MPI_DOUBLE,
+	\item etc.,
+	\item Custom data types.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{MPI_Status \& tag}
+
+MPI_Status:
+
+\begin{itemize}
+	\item Содержит дополнительную информацию о полученном сообщении.
+	\item MPI_STATUS_IGNORE --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
+\end{itemize}
+
+\vfill
+
+tag:
+
+\begin{itemize}
+	\item Число для идентификации сообщения,
+	\item MPI_ANY_TAG.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Блокирующие и не блокирующие операции}
+
+MPI_Send/Recv --- блокирующиеся функции.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.4\textwidth]{blocked}
+\end{figure}
+
+MPI_Isend/Irecv – не блокирующиеся варианты MPI_Send/Recv.
+
+\end{frame}
+
+\defverbatim[colored]\wtime{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+double MPI_Wtime()
+\end{lstlisting}
+}
+
+\defverbatim[colored]\wtick{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+double MPI_Wtick()
+\end{lstlisting}
+}
+
+\defverbatim[colored]\barrier{
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+int MPI_Barrier(MPI_Comm comm)
+\end{lstlisting}
+}
+
+\begin{frame}{Вычисление времени}
+
+\wtime
+
+Возвращает время в секундах, прошедшее с  некоторого момента в прошлом (точки отсчета). Гарантируется, что эта точка отсчета не будет изменена в течение жизни процесса.
+
+\wtick
+
+Возвращает разрешение таймера (минимальное значение кванта времени). 
+
+\barrier
+
+Блокирует работу вызвавшего ее процесса до тех пор, пока все другие процессы группы также не вызовут эту функцию.
+
+\end{frame}
+
+\section{Компиляция и запуск}
+
+\defverbatim[colored]\mpirun{
+\begin{lstlisting}[language=bash,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+$ mpirun –np <n_processes> <programm> <args>
+\end{lstlisting}
+}
+
+\begin{frame}{Компиляция и запуск}
+
+Для компиляции используется \texttt{mpicc} вместо \texttt{gcc}.
+
+\vfill
+
+Запуск производится командой вида
+
+\mpirun
 
 \end{frame}
 
