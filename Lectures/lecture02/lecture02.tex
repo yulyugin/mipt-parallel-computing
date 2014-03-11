@@ -1,0 +1,95 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{../lecture-template/config}
+
+\title{Title}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Обзор}
+
+\begin{frame}
+\tableofcontents
+\end{frame} 
+
+\begin{frame}{На прошлой лекции}
+
+\begin{itemize}
+	\item Основы MPI.
+\end{itemize}
+
+\end{frame}
+
+\section{Классификация архитектур вычислительных систем}
+
+\begin{frame}{Классификация Флинна}
+
+\begin{table}[htp]
+	\begin{center}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		& Single data & Multiple data \\
+		\hline
+		Single instruction & SISD & SIMD \\
+		\hline
+		Multiple instruction & MISD & MIMD \\
+		\hline
+	\end{tabular}
+	\end{center}
+\end{table}
+
+\end{frame}
+
+\section{Состояние гонки}
+
+\begin{frame}{Определение}
+
+Состояние гонки --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
+
+Свое название получила от похожей ошибки проектирования электронных схем (Гонки сигналов).
+
+Состояние гонки --- ошибка проявляющаяся в случайный момент времени.
+
+\end{frame}
+
+\begin{frame}{Пример}
+\todo
+\end{frame}
+
+\section{Синхронизация}
+
+\begin{frame}{Deadlock}
+\todo
+\end{frame}
+
+\begin{frame}{Livelock}
+\todo
+\end{frame}
+
+\begin{frame}{Алгоритм Деккера}
+\todo
+\end{frame}
+
+\section{Конец}
+% The final "thank you" frame 
+
+\begin{frame}{Задания}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
