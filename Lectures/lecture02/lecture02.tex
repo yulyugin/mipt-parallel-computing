@@ -47,7 +47,7 @@
 
 \begin{frame}{Определение}
 
-Состояние гонки --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
+Состояние гонки (\abbr Race condition) --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
 
 Свое название получила от похожей ошибки проектирования электронных схем (Гонки сигналов).
 
@@ -55,8 +55,36 @@
 
 \end{frame}
 
-\begin{frame}{Пример}
-\todo
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+int N = 10;
+int x = 0;
+\end{lstlisting}
+
+\begin{columns}[t]
+    \begin{column}[T]{0.45\textwidth}
+    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+// thread 0
+for (i = 0; i < N; ++i) {
+    x *= 2;
+}
+    \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\textwidth}
+    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+// thread 1
+for (i = 0; i < N; ++i) {
+    x += 2;
+}
+    \end{lstlisting}
+    \end{column}
+\end{columns}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+printf("%d\n", x);
+\end{lstlisting}
+
 \end{frame}
 
 \section{Синхронизация}
