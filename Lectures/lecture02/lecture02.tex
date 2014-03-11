@@ -18,7 +18,7 @@
 \begin{frame}{На прошлой лекции}
 
 \begin{itemize}
-	\item Основы MPI.
+    \item Основы MPI.
 \end{itemize}
 
 \end{frame}
@@ -28,17 +28,17 @@
 \begin{frame}{Классификация Флинна}
 
 \begin{table}[htp]
-	\begin{center}
-	\begin{tabular}{|l|c|c|}
-		\hline
-		& Single data & Multiple data \\
-		\hline
-		Single instruction & SISD & SIMD \\
-		\hline
-		Multiple instruction & MISD & MIMD \\
-		\hline
-	\end{tabular}
-	\end{center}
+    \begin{center}
+    \begin{tabular}{|l|c|c|}
+        \hline
+                                & Single data   & Multiple data \\
+        \hline
+        Single instruction      & SISD          & SIMD \\
+        \hline
+        Multiple instruction    & MISD          & MIMD \\
+        \hline
+    \end{tabular}
+    \end{center}
 \end{table}
 
 \end{frame}
@@ -69,8 +69,56 @@
 \todo
 \end{frame}
 
-\begin{frame}{Алгоритм Деккера}
-\todo
+\begin{frame}[fragile]{Алгоритм Деккера}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+bool flag[2] = {false, false};
+bool turn = false; // or true
+\end{lstlisting}
+
+\begin{columns}[t]
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 0
+flag[0] = true;
+while (flag[1]) {
+    if (turn) {
+        flag[0] = false;
+        while (turn);
+        flag[0] = true;
+    }
+}
+
+// critical section
+//...
+turn = true;
+flag[0] = false;
+// end of critical section
+// ...
+        \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 1
+flag[1] = true;
+while (flag[0]) {
+    if (!turn) {
+        flag[1] = false;
+        while (!turn);
+        flag[1] = true;
+    }
+}
+
+// critical section
+//...
+turn = false;
+flag[0] = false;
+// end of critical section
+// ...
+        \end{lstlisting}
+    \end{column}
+\end{columns}
+
 \end{frame}
 
 \section{Конец}
