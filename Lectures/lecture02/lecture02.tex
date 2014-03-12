@@ -127,12 +127,67 @@ printf("%d\n", x);
 
 \section{Синхронизация}
 
-\begin{frame}{Deadlock}
-\todo Write me.
+\begin{frame}{Семафор}
+
+Семафор --- объект, ограничивающий количество потоков, которые могут войти в заданный участок кода.
+
+Интерфейс семафора:
+
+\begin{itemize}
+    \item init(n) --- установить счетчик в n,
+    \item enter() --- подождать пока счетчик не станет больше нуля, затем уменьшить его на единицу,
+    \item leave() --- увеличить счетчик на еденицу.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Мьютекс}
+
+Мьютекс (\abbr mutex) --- <<одноместный>> семафор, служащий для синхранизации одновременно выполняющихся потоков.
+
+\todo Mutex types.
+
+\end{frame}
+
+\begin{frame}[fragile]{Взаимная блокировка}
+
+Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
+
+\vfill
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+pthread_mutex_t A, B;
+pthread_mutex_init(&A, NULL);
+pthread_mutex_init(&B, NULL);
+\end{lstlisting}
+
+\begin{columns}[t]
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 0
+pthread_mutex_lock(&A);
+pthread_mutex_lock(&B);
+// ...
+        \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 1
+pthread_mutex_lock(&B);
+pthread_mutex_lock(&A);
+// ...
+        \end{lstlisting}
+    \end{column}
+\end{columns}
+
 \end{frame}
 
 \begin{frame}{Livelock}
-\todo Write me.
+
+Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
+
+Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
+
 \end{frame}
 
 \begin{frame}[fragile]{Алгоритм Деккера}
