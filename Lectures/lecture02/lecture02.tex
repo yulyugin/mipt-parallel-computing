@@ -95,25 +95,26 @@ NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) сист
 
 \begin{frame}[fragile]{Пример}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
-int N = 10;
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+int N = 1000;
 int x = 0;
 \end{lstlisting}
 
 \begin{columns}[t]
     \begin{column}[T]{0.45\textwidth}
-    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 // thread 0
 for (i = 0; i < N; ++i) {
-    x *= 2;
+    ++x;
 }
     \end{lstlisting}
     \end{column}
     \begin{column}[T]{0.45\textwidth}
-    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+    \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 // thread 1
 for (i = 0; i < N; ++i) {
-    x += 2;
+    if (x%2 == 0)
+        printf("%d\n", x%2);
 }
     \end{lstlisting}
     \end{column}
