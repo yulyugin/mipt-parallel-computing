@@ -64,6 +64,8 @@
 
 Массово-параллельная архитектура (\abbr Massive parallel processing, MPP) --- класс архитектур, в которых процессоры имеют доступ исключительно к локальным ресурсам. То есть память разделена физически.
 
+Не обеспечивает встроенного механизма обмена данными между узлами. Реализовывать коммуникации и распределение должен выполнять софт.
+
 \end{frame}
 
 \begin{frame}{Массово-параллельная архитектура}
@@ -80,7 +82,10 @@ NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) сист
 
 \begin{frame}{Архитектура с неравномерной памятью}
 
-\todo Add a picture.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\textwidth]{NUMA}
+\end{figure}
 
 \end{frame}
 
