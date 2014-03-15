@@ -21,6 +21,146 @@
 % Use [fragile] option to insert listings
 % \begin{frame}[fragile]
 
+\section{История OpenMP}
+
+\begin{frame}
+
+\todo Write me.
+
+\end{frame}
+
+\section{Основные команды OpenMP}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+int a = {...};
+int j = 0;
+
+#pragma omp parallel for shared(a), private(j)
+{
+  for (j = 0; j < N; ++j)
+    a[j] = a[j] * a[j];
+}
+\end{lstlisting}
+
+Можно использовать только операции сравнения: >=, >, <=, <.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel
+{
+  myid = omp_get_thread_num();
+  if (myid == 0) {
+    // ...
+  } else {
+    // ...
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp for
+\end{lstlisting}
+
+Будет выполнгена с уже созданными потоками, что позволит сохранить время.
+
+\end{frame}
+
+\begin{frame}[fragile]{Редукция}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel reduction (+:sum)
+{
+  #pragma omp for
+  {
+    sum+= f(a[j]);
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Секции}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp sections
+  init();
+#pragma omp section
+  task_1();
+#pragma omp section
+  task_2();
+\end{lstlisting}
+
+\end{frame}
+
+\section{Синхронизация в OpenMP}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp critical (label)
+{
+  ...
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp atomic
+{
+  sum += value;
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+omp_lock_t losk;
+omp_init_lock(&lock);
+
+#pragma omp parallel
+{
+  omp_set_lock(&lock);
+  // ...
+  omp_unset_lock(&lock);
+  omp_test_lock(&lock);
+  omp_destroy_lock(&lock);
+}
+\end{lstlisting}
+
+\end{frame}
+
+\section{Компиляция}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+> gcc -fopenmp
+\end{lstlisting}
+
+\end{frame}
+
 \section{Конец}
 % The final "thank you" frame 
 
