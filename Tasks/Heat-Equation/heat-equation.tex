@@ -1,0 +1,82 @@
+\documentclass[11pt, oneside, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[top=1.5cm, bottom=2.2cm, left=2.2cm, right=1.5cm, footskip=1cm]{geometry}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true }
+
+% Setup Russian hyphenation
+\usepackage{polyglossia}
+\setdefaultlanguage[spelling=modern]{russian} % for polyglossia
+\setotherlanguage{english} % for polyglossia
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
+
+% Setup fonts
+\newfontfamily\russianfont{CMU Serif}
+\setromanfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\section{Постановка задачи}
+
+Требуется написать программу, численно решающую двумерное уравнение теплопроводности
+
+\begin{displaymath}
+\left\{\begin{array}{l}
+\frac{\partial u(x, y, y)}{\partial t} = \frac{\partial^2 u(x, y, t)}{\partial x^2} + \frac{\partial^2 u(x, y, t)}{\partial y^2} + f(x, y, t, u) \\
+0 \le x \le 1 \\
+0 \le y \le 1 \\
+0 \le t \le T \\
+u(x, y, t) = exp(-\frac{1}{\alpha^2}(x^2 - 2 \beta x y + y^2)) \\
+u(0, y, t) = u(0, y, 0) \\
+u(1, y, t) = u(1, y, 0) \\
+u(x, 0, t) = u(x, 0, 0) \\
+u(x, 1, t) = u(x, 1, 0)
+\end{array}\right.
+\end{displaymath}
+
+Функция $f(x, y, t, u)$ в первом варианте задания равна нулю.
+
+Для решения задачи используется разностная схема типа крест. Шаг по координатам одинаковый, и определяется числом узлов сетки по координатный осям $N$. Шаг по времени требуется вычислить исходя из условий устойчивости схемы.
+
+Из аргументов командной строки программа получает значения: $T$, $N$, $\alpha$, $\beta$.
+
+Результат решения записывается в файл result\_фамилия.txt в виде матрицы чисел, отражающих значение $u(x, y, T)$ в узлах сети. i-ая строка матрицы отражает значения $u(x, i, T)$.
+
+Для удобства проверки результатов для записи в файл необходимо использовать следующую процедуру:
+
+\begin{lstlisting}
+fprintf(fp, "%8.3f", u[i][j]);
+\end{lstlisting}
+
+Программа должна выводить в стандартный вывод время, потраченное на решение.
+
+\section{Последовательный алгоритм}
+
+Ниже приводится описание последовательного алгоритма для численного решения уравнения теплопроводности на основе явной разностной схемы.
+
+Решение уравнения проводится в области $\Omega = \in \{x [0; L], y \in [0; L], t \in [0, T]\}$. Вводим в этой непрерывной области сетку с шагом $\tau$ по времени и $h$ по координате. Пусть $K = \frac{T}{\tau}$, $N = \frac{L}{h}$. Решение уравнения будем искать в узлах выбранной сетки. Подмножество узлов сетки $\{(m, n, k) : 0 \le m \le N, 0 \le n \le N\}$ образует слой по времени с номеров $k$. Узлы этого слоя соответствуют моменту времени $t = k \tau$.
+
+Используя стандартные разностные выражения для первой и второй производных исходной уравнение можно переписать в виде
+
+\begin{displaymath}
+\left\{\begin{array}{l}
+\frac{U(m, n, k+1) - U(m, n, k)}{\tau} = \frac{U(m-1, n, k) - 2U(m, n, k) + U(m+1, n, k)}{h^2} + \frac{U(m, n-1, k) - 2U(m, n, k) + U(m, n+1, k)}{h^2} + F(m, n, k) \\
+U(m, n, 0) = \Phi (m, n) \\
+U(0, n, k) = \Phi (0, n) \\
+U(N-1, n, k) = \Phi (N-1, n) \\
+U(m, 0, k) = \Phi(m, 0) \\
+U(m, N-1, k) = \Phi(m, N-1)
+\end{array}\right.
+\end{displaymath}
+
+Эти уравнения позволяют вычислить значения $U(m, n, k+1)$ во всех точкая $k+1$-го слоя, используя известные значения $U(m, n, k)$ на $k$-ом слое.
+
+\end{document}
