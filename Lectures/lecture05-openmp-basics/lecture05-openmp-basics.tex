@@ -156,7 +156,71 @@ omp_init_lock(&lock);
 \begin{frame}[fragile]
 
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#include <omp.h>
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 > gcc -fopenmp
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel
+{
+  while (i < N)
+  {
+    #pragma omp for
+    {
+      for (...)
+    }
+    #pragma omp single
+    {
+      ++i;
+    }
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Динамический режим}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel for shedul(dinamic)
+{
+  for (i = 0; i < N; ++i) {
+    // ...
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+#pragma omp parallel for ordered
+{
+  for (i = 0; i < N; ++i) {
+    // ...
+  }
+  # pragma omp odered
+  {
+    write_result(...);
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+omp_set_num_threads();
+omp_get_wtime();
 \end{lstlisting}
 
 \end{frame}
