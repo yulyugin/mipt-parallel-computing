@@ -29,6 +29,123 @@
 
 \end{frame}
 
+\begin{frame}
+
+\begin{itemize}
+  \item RAW
+  \item RAR
+  \item WAW
+  \item WAR
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+антизависимость
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+x = 2y + 1
+y = z + 2
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+истинная зависимость
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+x = 2 + z
+y = 4 + x
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+for (i = 0; i < M; ++i) {
+  a[i] = f(a[i])
+}
+\end{lstlisting}
+
+можно распараллелить на $M$ потоков.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+for (i = 0; i < M - 1; ++i) {
+  a[i] = f(a[i + 1]);
+}
+\end{lstlisting}
+
+антизависимость $=>$ можно распараллелить на $M$.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+for (i = 1; i < M; ++i) {
+  a[i] = f(a[i-1]);
+}
+\end{lstlisting}
+
+нельзя распараллелить
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+for (i = 0; i < M; ++i) {
+  a[i] = f(a[i - 2]);
+}
+\end{lstlisting}
+
+можно распараллелить на два потока
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+do {
+  A[f(k)] = ...;
+  ... = A[g(l)];
+}
+\end{lstlisting}
+
+Если $f(k) == g(l)$, то распараллелить нельзя, так как производится чтение и запись одного и того же элемента.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+Для того, чтоб узнать, можно ли распараллелить цикл необходимо вычислить
+
+$D = K - L$
+
+\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+for (i = 0; i < M; ++i) {
+  a[i] = f(a[i+1]);
+}
+\end{lstlisting}
+
+Разворачиваем цикл
+
+\begin{itemize}
+  \item \texttt{a[1] = f(a[2])}
+  \item \texttt{a[2] = f(a[3])}
+\end{itemize}
+
+D = -1 $=>$ в цикле есть антизависимость и от нее можно избавиться копирование данных
+
+\end{frame}
+
 \section{Конец}
 % The final "thank you" frame 
 
