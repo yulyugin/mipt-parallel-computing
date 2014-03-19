@@ -1,6 +1,8 @@
 #!/usr/bin/python2.7
 """
-Program to build graphics:
+Program to build graphics and test parallel programs
+
+It builds dependancies of
 * execution time to processes number
 * acceleration to processes number
 
