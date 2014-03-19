@@ -15,11 +15,14 @@ import argparse
 import os
 import subprocess
 
+compile_options=["-Werror"]
+
 def compile(compiler, source):
     command = list()
     command.append(compiler)
+    command.extend(compile_options)
     command.append(source)
-    subprocess.call(command)
+    return subprocess.call(command)
 
 def mkenv():
     parser = argparse.ArgumentParser(add_help=True, version = '0.1',
@@ -39,7 +42,8 @@ def mkenv():
 
 def main():
     env = mkenv()
-    compile(env.compiler, env.source)
+    if compile(env.compiler, env.source) != 0:
+        return 1
 
     return 0
 
