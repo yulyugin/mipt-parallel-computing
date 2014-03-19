@@ -15,7 +15,9 @@ import argparse
 import os
 import subprocess
 
-gnuplot_file = "builder.graph"
+graph_file      = "graph_input.tmp"
+gnuplot_file    = "builder.graph"
+binary          = "a.out"
 
 def compile(compiler, source):
     """
@@ -26,8 +28,23 @@ def compile(compiler, source):
     command = list()
     command.append(compiler)
     command.extend(compile_options)
-    command.append(source)
+    command.extend([source, "-o", binary])
     return subprocess.call(command)
+
+def single(env, size):
+    command = list()
+    if env.compiler == "mpicc":  # Expand check to env.eompiler contains mpicc string
+        command.extend([env.mpirun, "-n", str(size), binary])
+    else:
+        assert(0)   # Not yet implemented
+
+    if env.options != None:
+        command.append(env.options)
+
+    return subprocess.call(command)
+
+def collect(env):
+    single(env, 2)
 
 def mkenv():
     parser = argparse.ArgumentParser(add_help=True, version = '0.1',
@@ -47,11 +64,14 @@ def mkenv():
 
 def clean():
     os.unlink("a.out")
+    #os.unlink(graph_file)
 
 def main():
     env = mkenv()
     if compile(env.compiler, env.source) != 0:
         return 1
+
+    collect(env)
 
     clean()
     return 0
