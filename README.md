@@ -1,4 +1,18 @@
 mipt-parallel-computing
 =======================
 
-This repository contains lectures and other materials of "Introduction to parallel computing" course of Moscow Institute of Physics and Technology.
+Этот репозиторий содержит материалы к семинарам по курса "Параллельное
+программирование" и "Основы распереллеливания программ", читаемых в московском
+физико-техническом институте.
+
+## Структура репозитория
+
+## Список лекций
+
+1. Основы MPI
+2. Общая теория
+2. Параллельные архитектуры
+3. Основы OpenMP
+4. Зависимости
+
+## Список заданий
