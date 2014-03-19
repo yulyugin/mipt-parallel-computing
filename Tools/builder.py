@@ -15,9 +15,14 @@ import argparse
 import os
 import subprocess
 
-compile_options=["-Werror"]
+gnuplot_file = "builder.graph"
 
 def compile(compiler, source):
+    """
+    Compile given file with given compiler and extra options.
+    Base option: -Werror -O2
+    """
+    compile_options = ["-Werror", "-O2"]
     command = list()
     command.append(compiler)
     command.extend(compile_options)
@@ -40,11 +45,15 @@ def mkenv():
     args = parser.parse_args()
     return args
 
+def clean():
+    os.unlink("a.out")
+
 def main():
     env = mkenv()
     if compile(env.compiler, env.source) != 0:
         return 1
 
+    clean()
     return 0
 
 if __name__ == "__main__":
