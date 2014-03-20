@@ -14,6 +14,7 @@ import sys
 import argparse
 import os
 import subprocess
+import multiprocessing
 
 graph_file      = "graph_input.tmp"
 gnuplot_file    = "builder.graph"
@@ -70,6 +71,8 @@ def main():
     env = mkenv()
     if compile(env.compiler, env.source) != 0:
         return 1
+
+    print "Runninig on %d cores." % multiprocessing.cpu_count()
 
     collect(env)
 
