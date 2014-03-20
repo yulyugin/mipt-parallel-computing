@@ -13,6 +13,7 @@ Year: 2014
 import sys
 import argparse
 import os
+import re
 import subprocess
 import multiprocessing
 
@@ -42,13 +43,20 @@ def single(env, size):
     if env.options != None:
         command.append(env.options)
 
-    return subprocess.call(command)
+    output = re.split('\n', subprocess.check_output(command))
+    i = 0
+    for line in output:
+        if re.match('Time|time', line):
+            times = re.findall('\d+\.\d+', line)
+            if len(times) != 1:
+                raise Exception("Invalid output format of tested program.")
+            return times[0]
 
 def collect(env):
-    single(env, 2)
+    print single(env, 2)
 
 def mkenv():
-    parser = argparse.ArgumentParser(add_help=True, version = '0.1',
+    parser = argparse.ArgumentParser(add_help=True, version = '0.2',
                                      description="Graphics builder.")
     parser.add_argument("--compiler", type=str, action="store", default="mpicc",
                         help="Path to mpicc compiler.")
