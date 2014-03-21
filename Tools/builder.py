@@ -20,6 +20,7 @@ import multiprocessing
 graph_file      = "graph_input.tmp"
 gnuplot_file    = "builder.graph"
 binary          = "a.out"
+process_count   = [1, 2, 4, 8, 16, 32, 64, 128]
 
 def compile(compiler, source):
     """
@@ -35,7 +36,7 @@ def compile(compiler, source):
 
 def single(env, size):
     command = list()
-    if env.compiler == "mpicc":  # Expand check to env.eompiler contains mpicc string
+    if env.compiler == "mpicc":  # TODO: Expand check to env.eompiler contains mpicc string
         command.extend([env.mpirun, "-n", str(size), binary])
     else:
         assert(0)   # Not yet implemented
@@ -53,10 +54,14 @@ def single(env, size):
             return times[0]
 
 def collect(env):
-    print single(env, 2)
+    fout = open(graph_file, 'w')
+    fout.write("# process-count time acceleration\n")
+    for process in process_count:
+        fout.write("%d %s\n" % (process, single(env, process))) # TODO: Add acceleration calculation
+    fout.close()
 
 def mkenv():
-    parser = argparse.ArgumentParser(add_help=True, version = '0.2',
+    parser = argparse.ArgumentParser(add_help=True, version = '0.3',
                                      description="Graphics builder.")
     parser.add_argument("--compiler", type=str, action="store", default="mpicc",
                         help="Path to mpicc compiler.")
@@ -73,7 +78,7 @@ def mkenv():
 
 def clean():
     os.unlink("a.out")
-    #os.unlink(graph_file)
+    os.unlink(graph_file)
 
 def main():
     env = mkenv()
