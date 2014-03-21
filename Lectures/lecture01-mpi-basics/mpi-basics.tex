@@ -33,79 +33,63 @@
 
 \section{Базовые функции MPI}
 
-\defverbatim[colored]\initfinalize{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-int MPI_Init(int *pargc, char ***pargv);
-int MPI_Finalize(void);
-\end{lstlisting}
-}
+\begin{frame}[fragile]{Инициализация и завершение процессов}
 
-\begin{frame}{Инициализация и завершение процессов}
-
-Определены в заголовочном файле mpi.h
+Определены в заголовочном файле \texttt{mpi.h}
 
 \vfill
 
-\initfinalize
+\begin{lstlisting}
+int MPI_Init(int *pargc, char ***pargv);
+int MPI_Finalize(void);
+\end{lstlisting}
 
 \end{frame}
-
-\defverbatim[colored]\size{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-MPI_Comm_size(MPI_Comm comm, int *size);
-\end{lstlisting}
-}
-
-\defverbatim[colored]\rank{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-MPI_Comm_rank(MPI_Comm comm, int *rank);
-\end{lstlisting}
-}
 
 \begin{frame}{MPI communicator}
 
 \begin{itemize}
-	\item MPI_COMM_WORLD is the initially defined universe intracommunicator for all processes to conduct various communications once MPI_INIT has been called,
-	\item MPI_COMM_SELF,
+	\item \texttt{MPI_COMM_WORLD} is the initially defined universe intracommunicator for all processes to conduct various communications once \texttt{MPI_INIT} has been called,
+	\item \texttt{MPI_COMM_SELF},
 	\item User defined communicators.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Self-identification}
+\begin{frame}[fragile]{Self-identification}
 
-\size
+\begin{lstlisting}
+MPI_Comm_size(MPI_Comm comm, int *size);
+\end{lstlisting}
 
 Returns the size of the group associated with communicator.
 
 \vfill
 
-\rank
+\begin{lstlisting}
+MPI_Comm_rank(MPI_Comm comm, int *rank);
+\end{lstlisting}
 
 Determines the rank of the calling process in the communicator.
 
 \end{frame}
 
-\defverbatim[colored]\sendrecv{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+\begin{frame}[fragile]{Send/Receive Overview}
+
+\begin{lstlisting}
 int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
 int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status);
 \end{lstlisting}
-}
-
-\begin{frame}{Send/Receive Overview}
-
-\sendrecv
 
 \end{frame}
 
 \begin{frame}{MPI_Datatype}
 
 \begin{itemize}
-	\item MPI_CHAR,
-	\item MPI_INT,
-	\item MPI_UNSIGNED,
-	\item MPI_DOUBLE,
+	\item \texttt{MPI_CHAR},
+	\item \texttt{MPI_INT},
+	\item \texttt{MPI_UNSIGNED},
+	\item \texttt{MPI_DOUBLE},
 	\item etc.,
 	\item Custom data types.
 \end{itemize}
@@ -114,11 +98,11 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 
 \begin{frame}{MPI_Status \& tag}
 
-MPI_Status:
+\texttt{MPI_Status}:
 
 \begin{itemize}
 	\item Содержит дополнительную информацию о полученном сообщении.
-	\item MPI_STATUS_IGNORE --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
+	\item \texttt{MPI_STATUS_IGNORE} --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
 \end{itemize}
 
 \vfill
@@ -127,53 +111,41 @@ tag:
 
 \begin{itemize}
 	\item Число для идентификации сообщения,
-	\item MPI_ANY_TAG.
+	\item \texttt{MPI_ANY_TAG}.
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Блокирующие и не блокирующие операции}
 
-MPI_Send/Recv --- блокирующиеся функции.
+\texttt{MPI_Send/Recv} --- блокирующиеся функции.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.4\textwidth]{blocked}
 \end{figure}
 
-MPI_Isend/Irecv – не блокирующиеся варианты MPI_Send/Recv.
+\texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты MPI_Send/Recv.
 
 \end{frame}
 
-\defverbatim[colored]\wtime{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+\begin{frame}[fragile]{Вычисление времени}
+
+\begin{lstlisting}
 double MPI_Wtime()
 \end{lstlisting}
-}
-
-\defverbatim[colored]\wtick{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-double MPI_Wtick()
-\end{lstlisting}
-}
-
-\defverbatim[colored]\barrier{
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-int MPI_Barrier(MPI_Comm comm)
-\end{lstlisting}
-}
-
-\begin{frame}{Вычисление времени}
-
-\wtime
 
 Возвращает время в секундах, прошедшее с  некоторого момента в прошлом (точки отсчета). Гарантируется, что эта точка отсчета не будет изменена в течение жизни процесса.
 
-\wtick
+\begin{lstlisting}
+double MPI_Wtick()
+\end{lstlisting}
 
 Возвращает разрешение таймера (минимальное значение кванта времени). 
 
-\barrier
+\begin{lstlisting}
+int MPI_Barrier(MPI_Comm comm)
+\end{lstlisting}
 
 Блокирует работу вызвавшего ее процесса до тех пор, пока все другие процессы группы также не вызовут эту функцию.
 
@@ -181,13 +153,7 @@ int MPI_Barrier(MPI_Comm comm)
 
 \section{Компиляция и запуск}
 
-\defverbatim[colored]\mpirun{
-\begin{lstlisting}[language=bash,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-$ mpirun –np <n_processes> <programm> <args>
-\end{lstlisting}
-}
-
-\begin{frame}{Компиляция и запуск}
+\begin{frame}[fragile]{Компиляция и запуск}
 
 Для компиляции используется \texttt{mpicc} вместо \texttt{gcc}.
 
@@ -195,7 +161,9 @@ $ mpirun –np <n_processes> <programm> <args>
 
 Запуск производится командой вида
 
-\mpirun
+\begin{lstlisting}
+$ mpirun –np <n_processes> <programm> <args>
+\end{lstlisting}
 
 \end{frame}
 
