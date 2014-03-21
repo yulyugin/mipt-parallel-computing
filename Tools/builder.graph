@@ -5,13 +5,11 @@ set terminal pdfcairo solid color enhanced
 # Setting output
 set output "Graph.pdf"
 
-x_label = system("echo $x_label")
-y_label = system("echo $y_label")
 input = system("echo $graph_input")
 
 # Setting tags to axis
-set xlabel x_label font "Helvetica,18"
-set ylabel y_label font "Helvetica,18"
+set xlabel "Number of Processes" font "Helvetica,18"
+set ylabel "Time" font "Helvetica,18"
 
 set grid
 

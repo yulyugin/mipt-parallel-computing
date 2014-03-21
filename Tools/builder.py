@@ -18,6 +18,7 @@ import subprocess
 import multiprocessing
 
 graph_file      = "graph_input.tmp"
+gnuplot_env     = "graph_input"
 gnuplot_file    = "builder.graph"
 binary          = "a.out"
 process_count   = [1, 2, 4, 8, 16, 32, 64, 128]
@@ -60,8 +61,21 @@ def collect(env):
         fout.write("%d %s\n" % (process, single(env, process))) # TODO: Add acceleration calculation
     fout.close()
 
+def build_graph(env):
+    """
+    Setup appropriate environment and call gnuplot to build graphics.
+    """
+
+    # Setup environment
+    os.putenv(gnuplot_env, graph_file)
+
+    # Run a command
+    command = list()
+    command.extend([env.gnuplot, gnuplot_file])
+    subprocess.call(command)
+
 def mkenv():
-    parser = argparse.ArgumentParser(add_help=True, version = '0.3',
+    parser = argparse.ArgumentParser(add_help=True, version = '0.4',
                                      description="Graphics builder.")
     parser.add_argument("--compiler", type=str, action="store", default="mpicc",
                         help="Path to mpicc compiler.")
@@ -88,6 +102,7 @@ def main():
     print "Runninig on %d cores." % multiprocessing.cpu_count()
 
     collect(env)
+    build_graph(env)
 
     clean()
     return 0
