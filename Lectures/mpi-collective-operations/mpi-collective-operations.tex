@@ -41,16 +41,19 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
     \begin{tikzpicture}
         \path (0,0.25) coordinate (a);
         \draw (0,0) rectangle (6.5,0.5);
-        \node[left = 0.25cm of a] (root) {Процесс root};
+        \node[left = 0.5cm of a] (root) {Процесс root};
 
         \draw[fill=orange] (-0.25,-2) rectangle (1.75,-1.5);
         \draw[fill=orange] (2.25,-2) rectangle (4.25,-1.5);
         \draw[fill=orange] (4.75,-2) rectangle (6.75,-1.5);
-        \node[below = 1.35cm of root] {Все процессы};
+        \node[below = 1.38cm of root] (all) {Все процессы};
 
         \draw[fill=orange] (0,0) rectangle (2,0.5);
         \draw[fill=orange] (2,0) rectangle (4,0.5);
         \draw[fill=orange] (4.5,0) rectangle (6.5,0.5);
+
+        \node[right = 3.95cm of a] {...};
+        \node[right = 4.65cm of all] {...};
     \end{tikzpicture}
 \end{figure}
 
@@ -77,16 +80,19 @@ int MPI_Gather(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void *
     \begin{tikzpicture}
         \path (0,0.25) coordinate (a);
         \draw (0,0) rectangle (6.5,0.5);
-        \node[left = 0.25cm of a] (root) {Процесс root};
+        \node[left = 0.5cm of a] (root) {Процесс root};
 
         \draw[fill=orange] (-0.25,-2) rectangle (1.75,-1.5);
         \draw[fill=orange] (2.25,-2) rectangle (4.25,-1.5);
         \draw[fill=orange] (4.75,-2) rectangle (6.75,-1.5);
-        \node[below = 1.35cm of root] {Все процессы};
+        \node[below = 1.38cm of root] (all) {Все процессы};
 
         \draw[fill=orange] (0,0) rectangle (2,0.5);
         \draw[fill=orange] (2,0) rectangle (4,0.5);
         \draw[fill=orange] (4.5,0) rectangle (6.5,0.5);
+
+        \node[right = 3.95cm of a] {...};
+        \node[right = 4.65cm of all] {...};
     \end{tikzpicture}
 \end{figure}
 
