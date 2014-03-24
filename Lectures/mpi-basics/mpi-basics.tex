@@ -120,12 +120,15 @@ tag:
 
 \texttt{MPI_Send/Recv} --- блокирующиеся функции.
 
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=0.4\textwidth]{blocked}
+\begin{figure}
+\centering
+\begin{tikzpicture}
+    \fill[red] (0,0) circle (0.15\textwidth);
+    \fill[white] (-0.1\textwidth,-0.03\textwidth) rectangle (0.1\textwidth,0.03\textwidth);
+\end{tikzpicture}
 \end{figure}
 
-\texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты MPI_Send/Recv.
+\texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты \texttt{MPI_Send/Recv}.
 
 \end{frame}
 
