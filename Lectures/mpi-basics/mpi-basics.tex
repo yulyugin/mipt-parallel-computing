@@ -20,13 +20,13 @@
 \begin{frame}{История MPI}
 
 \begin{itemize}
-	\item MPI расшифровывается как интерфейс передачи сообщений (\abbr Massage Passing Interface).
-	\item Программный интерфейс, позволяющий обмениваться сообщениями между процессами выполняющими одну задачу.
-	\item Разработан Уильямом Гроуппом, Эвином Ласком и другими.
-	\item Первая версия разрабатывалась в 1993-1994 году.
-	\item MPI версии 1 вышла в 1994 году.
-	\item MPI 1.1 опубликован в 12 июня 1995 года. Поддерживается большинством современных реализаций MPI. Первая раелизация появилась в 2002 году.
-	\item Существуют реализации для языков Fortran, Java, C и C++.
+    \item MPI расшифровывается как интерфейс передачи сообщений (\abbr Massage Passing Interface).
+    \item Программный интерфейс, позволяющий обмениваться сообщениями между процессами выполняющими одну задачу.
+    \item Разработан Уильямом Гроуппом, Эвином Ласком и другими.
+    \item Первая версия разрабатывалась в 1993-1994 году.
+    \item MPI версии 1 вышла в 1994 году.
+    \item MPI 1.1 опубликован в 12 июня 1995 года. Поддерживается большинством современных реализаций MPI. Первая раелизация появилась в 2002 году.
+    \item Существуют реализации для языков Fortran, Java, C и C++.
 \end{itemize}
 
 \end{frame}
@@ -49,9 +49,9 @@ int MPI_Finalize(void);
 \begin{frame}{MPI communicator}
 
 \begin{itemize}
-	\item \texttt{MPI_COMM_WORLD} is the initially defined universe intracommunicator for all processes to conduct various communications once \texttt{MPI_INIT} has been called,
-	\item \texttt{MPI_COMM_SELF},
-	\item User defined communicators.
+    \item \texttt{MPI_COMM_WORLD} is the initially defined universe intracommunicator for all processes to conduct various communications once \texttt{MPI_INIT} has been called,
+    \item \texttt{MPI_COMM_SELF},
+    \item User defined communicators.
 \end{itemize}
 
 \end{frame}
@@ -86,12 +86,12 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 \begin{frame}{MPI_Datatype}
 
 \begin{itemize}
-	\item \texttt{MPI_CHAR},
-	\item \texttt{MPI_INT},
-	\item \texttt{MPI_UNSIGNED},
-	\item \texttt{MPI_DOUBLE},
-	\item etc.,
-	\item Custom data types.
+    \item \texttt{MPI_CHAR},
+    \item \texttt{MPI_INT},
+    \item \texttt{MPI_UNSIGNED},
+    \item \texttt{MPI_DOUBLE},
+    \item etc.,
+    \item Custom data types.
 \end{itemize}
 
 \end{frame}
@@ -101,8 +101,8 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 \texttt{MPI_Status}:
 
 \begin{itemize}
-	\item Содержит дополнительную информацию о полученном сообщении.
-	\item \texttt{MPI_STATUS_IGNORE} --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
+    \item Содержит дополнительную информацию о полученном сообщении.
+    \item \texttt{MPI_STATUS_IGNORE} --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
 \end{itemize}
 
 \vfill
@@ -110,8 +110,8 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 tag:
 
 \begin{itemize}
-	\item Число для идентификации сообщения,
-	\item \texttt{MPI_ANY_TAG}.
+    \item Число для идентификации сообщения,
+    \item \texttt{MPI_ANY_TAG}.
 \end{itemize}
 
 \end{frame}
@@ -121,8 +121,8 @@ tag:
 \texttt{MPI_Send/Recv} --- блокирующиеся функции.
 
 \begin{figure}[htp]
-	\centering
-	\includegraphics[width=0.4\textwidth]{blocked}
+    \centering
+    \includegraphics[width=0.4\textwidth]{blocked}
 \end{figure}
 
 \texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты MPI_Send/Recv.
