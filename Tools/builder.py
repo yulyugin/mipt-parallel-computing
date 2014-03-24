@@ -21,7 +21,7 @@ graph_file      = "graph_input.tmp"
 gnuplot_env     = "graph_input"
 gnuplot_file    = "builder.graph"
 binary          = "a.out"
-process_count   = [1, 2, 4, 8, 16, 32, 64, 128]
+process_count   = [2, 4, 8, 16, 32, 64, 128]
 
 def compile(compiler, source):
     """
@@ -57,8 +57,11 @@ def single(env, size):
 def collect(env):
     fout = open(graph_file, 'w')
     fout.write("# process-count time acceleration\n")
+    time_one = float(single(env, 1))
+    fout.write("%d %lf 0\n" % (1, time_one))
     for process in process_count:
-        fout.write("%d %s\n" % (process, single(env, process))) # TODO: Add acceleration calculation
+        time = float(single(env, process))
+        fout.write("%d %lf %lf\n" % (process, time, time_one/time))
     fout.close()
 
 def build_graph(env):
@@ -92,7 +95,7 @@ def mkenv():
 
 def clean():
     os.unlink("a.out")
-    os.unlink(graph_file)
+    #os.unlink(graph_file)
 
 def main():
     env = mkenv()
