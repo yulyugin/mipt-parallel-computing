@@ -21,7 +21,12 @@
 % Use [fragile] option to insert listings
 % \begin{frame}[fragile]
 
-\begin{frame}{MPI_Bcast}
+\begin{frame}[fragile]{MPI_Bcast}
+
+\begin{lstlisting}
+int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm);
+\end{lstlisting}
+
 \end{frame}
 
 \section{Функции распределения данных}
@@ -59,9 +64,28 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
 
 \end{frame}
 
-% \begin{frame}[fragile]{MPI_Scatterv}
+\begin{frame}[fragile]{Пример}
 
-% \end{frame}
+\begin{lstlisting}
+MPI_Comm comm;
+int  rbuf[100], gsize;
+int  root, *array;
+// ...
+MPI_Comm_size(comm, &gsize);
+array = (int *) malloc(gsize * 100 * sizeof(int));
+// ...
+MPI_Scatter(array, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{MPI_Scatterv}
+
+\begin{lstlisting}
+int MPI_Scatterv(const void *sendbuf, const int *sendcounts, const int *displs, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, int root, MPI_Comm comm);
+\end{lstlisting}
+
+\end{frame}
 
 \section{Функции сбора данных}
 
