@@ -2,7 +2,7 @@
 
 % Base packages
 \usepackage{fontspec}
-
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -18,11 +18,6 @@
 
 \usepackage{listings}
 \lstset{language=C, basicstyle=\ttfamily, breaklines=true, keepspaces=true, keywordstyle=\color{blue}}
-
-% Setup Russian hyphenation
-\usepackage{polyglossia}
-\setdefaultlanguage[spelling=modern]{russian} % for polyglossia
-\setotherlanguage{english} % for polyglossia
 
 % Setup fonts
 \newfontfamily\russianfont{CMU Serif}
@@ -44,7 +39,7 @@
 
 \newcommand{\abbr}{\textit{англ.}\ }
 
-\subtitle{Курс «Параллельное программирование»}
+\subtitle{Курс <<Параллельное программирование>>}
 \subject{Лекция}
 \author[Евгений Юлюгин]{Евгений Юлюгин \\ \small{\href{mailto:yulyugin@gmail.com}{yulyugin@gmail.com}}}
 \date{\today}
