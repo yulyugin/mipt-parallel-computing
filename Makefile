@@ -25,7 +25,7 @@ LECTURES=$(patsubst $(SRC_DIR)/%.tex,%,$(wildcard $(SRC_DIR)/*.tex))
 all: $(LECTURES)
 
 $(LECTURES):
-	cd $(SRC_DIR) && $(LATEXCOMMAND) $(OPTIONS) $@
+	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:
 	cd $(SRC_DIR) && rm -f *.log *.aux *.nav *.out *.pdf *.snm *.toc *.vrb
