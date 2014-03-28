@@ -6,13 +6,14 @@ ifneq ($(VERBOSE),yes)
 MAKEFLAGS += -s
 endif  # VERBOSE
 
-OPTIONS= -halt-on-error
+OPTIONS=-halt-on-error
+
 ifeq ($(UNAME), Linux)
 LATEXCOMMAND=xelatex
-RM = rm
+RM=rm -f
 else
 LATEXCOMMAND=xelatex.exe
-RM = rm.exe
+RM=rm.exe -f
 endif
 
 SRC_DIR=lectures
@@ -28,4 +29,4 @@ $(LECTURES):
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:
-	cd $(SRC_DIR) && rm -f *.log *.aux *.nav *.out *.pdf *.snm *.toc *.vrb
+	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.pdf *.snm *.toc *.vrb
