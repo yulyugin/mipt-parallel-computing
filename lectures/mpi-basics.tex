@@ -164,7 +164,7 @@ int MPI_Barrier(MPI_Comm comm)
 Запуск производится командой вида
 
 \begin{lstlisting}
-$ mpirun –np <n_processes> <programm> <args>
+> mpirun –np <n_processes> <programm> <args>
 \end{lstlisting}
 
 \end{frame}
@@ -185,9 +185,13 @@ $ mpirun –np <n_processes> <programm> <args>
 \begin{frame}{На следующей лекции}
 
 \begin{itemize}
-    \item Классификация архитектур вычислительных систем,
-    \item Состояние гонки,
-    \item Примитивы синхронизации.
+    \item Общая теория параллельного программирования:
+    \begin{itemize}
+        \item Состояние гонки,
+        \item Примитивы синхронизации,
+        \item Эффективнось работы параллельного алгоритма,
+        \item Закон Амдала.
+    \end{itemize}
 \end{itemize}
 
 \end{frame}
