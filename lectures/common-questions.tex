@@ -16,6 +16,11 @@
 \end{frame} 
 
 \begin{frame}{На прошлой лекции}
+
+\begin{itemize}
+    \item Основы MPI.
+\end{itemize}
+
 \end{frame}
 
 % Use [fragile] option to insert listings
@@ -204,7 +209,7 @@ while (flag[0]) {
 // critical section
 //...
 turn = false;
-flag[0] = false;
+flag[1] = false;
 // end of critical section
 // ...
         \end{lstlisting}
@@ -227,13 +232,39 @@ $E = \frac{S}{N}$
 
 \end{frame}
 
+\section{Эффективность}
+
+\begin{frame}{Закон Амдала}
+
+\todo Write me.
+
+\end{frame}
+
 \section{Конец}
 % The final "thank you" frame 
 
 \begin{frame}{Задания}
+
+Вычислить $\sum \limits_{n=0}^{N} \frac{1}{n!}$.
+
+N --- аргумент командной строки.
+
+Построить графики времени работы в зависимости от количества процессов и ускорения в зависимости от количества процессов.
+
 \end{frame}
 
 \begin{frame}{На следующей лекции}
+
+\begin{itemize}
+    \item Классификация Флинна
+    \item Память в параллельных вычислительных системах:
+    \begin{itemize}
+        \item Симметричная мультипроцессорность,
+        \item Массово-параллельная архитектура,
+        \item Архитектура с неравномерной памятью.
+    \end{itemize}
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}
