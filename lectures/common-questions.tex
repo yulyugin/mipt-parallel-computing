@@ -1,7 +1,7 @@
 % Compile with XeLaTeX, TeXLive 2013 or more recent
 \input{../common/config}
 
-\title{Title}
+\title{Общине вопросы}
 
 \begin{document}
 
@@ -16,81 +16,10 @@
 \end{frame} 
 
 \begin{frame}{На прошлой лекции}
-
-\begin{itemize}
-    \item Основы MPI.
-\end{itemize}
-
 \end{frame}
 
-\section{Классификация архитектур вычислительных систем}
-
-\begin{frame}{Классификация Флинна}
-
-\begin{table}[htp]
-    \begin{center}
-    \begin{tabular}{|l|c|c|}
-        \hline
-                                & Single data   & Multiple data \\
-        \hline
-        Single instruction      & SISD          & SIMD \\
-        \hline
-        Multiple instruction    & MISD          & MIMD \\
-        \hline
-    \end{tabular}
-    \end{center}
-\end{table}
-
-\end{frame}
-
-\begin{frame}{Симметричная мультипроцессорность}
-
-Симметричная мультипроцессорность (\abbr Symmetric Multiprocessing, MPP) --- архитектура вычислительных систем, в которой все процессоры подключаются к общей памяти (при помощи шины или подобного устройства) симметрично и имеют к ней однородный доступ.
-
-Так же известна как UMA (Uniform Memory Access или Uniform Memory Architecture).
-
-\end{frame}
-
-\begin{frame}{Симметричная мультипроцессорность}
-
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=0.7\textwidth]{SMP}
-\end{figure}
-
-\end{frame}
-
-\begin{frame}{Массово-параллельная архитектура}
-
-Массово-параллельная архитектура (\abbr Massive parallel processing, MPP) --- класс архитектур, в которых процессоры имеют доступ исключительно к локальным ресурсам. То есть память разделена физически.
-
-Не обеспечивает встроенного механизма обмена данными между узлами. Реализовывать коммуникации и распределение должен выполнять софт.
-
-\end{frame}
-
-\begin{frame}{Массово-параллельная архитектура}
-
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=0.65\textwidth]{MPP}
-\end{figure}
-
-\end{frame}
-
-\begin{frame}{Архитектура с неравномерной памятью}
-
-NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) система разделяется на множественные узлы, имеющие доступ как к своей локальной памяти, так и к памяти других узлов.
-
-\end{frame}
-
-\begin{frame}{Архитектура с неравномерной памятью}
-
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=\textwidth]{NUMA}
-\end{figure}
-
-\end{frame}
+% Use [fragile] option to insert listings
+% \begin{frame}[fragile]
 
 \section{Состояние гонки}
 
@@ -302,13 +231,6 @@ $E = \frac{S}{N}$
 % The final "thank you" frame 
 
 \begin{frame}{Задания}
-
-Вычислить $\sum \limits_{n=0}^{N} \frac{1}{N!}$.
-
-N --- аргумент командной строки.
-
-Построить график времени работы в зависимости от количества процессов и ускорения в зависимости от количества процессов.
-
 \end{frame}
 
 \begin{frame}{На следующей лекции}
