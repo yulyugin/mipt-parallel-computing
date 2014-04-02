@@ -44,25 +44,22 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
 \begin{figure}[htp]
     \centering
     \begin{tikzpicture}
-        \path (0,0.25) coordinate (a);
-        \draw (0,0) rectangle (6.5,0.5);
-        \node[left = 0.5cm of a] (root) {Процесс root};
+        \node[] (root) {Процесс root};
+        \node[below = 2cm of root] (all) {Все процессы};
 
-        \draw[fill=orange] (-0.25,-2) rectangle (1.75,-1.5);
-        \draw[fill=orange] (2.25,-2) rectangle (4.25,-1.5);
-        \draw[fill=orange] (4.75,-2) rectangle (6.75,-1.5);
-        \node[below = 1.38cm of root] (all) {Все процессы};
+        \node[draw, fill=orange, rectangle, right= 1cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot0) {};
+        \node[draw, fill=orange, rectangle, right= 0cm of memroot0, minimum width= 2cm, minimum height= 0.5cm] (memroot1) {};
+        \node[draw, rectangle, right= 0cm of memroot1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcroot) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etcroot, minimum width= 2cm, minimum height= 0.5cm] (memrootN) {};
 
-        \draw[fill=orange] (0,0) rectangle (2,0.5);
-        \draw[fill=orange] (2,0) rectangle (4,0.5);
-        \draw[fill=orange] (4.5,0) rectangle (6.5,0.5);
+        \node[draw, fill=orange, rectangle, right= 0.75cm of all, minimum width= 2cm, minimum height= 0.5cm] (memall0) {};
+        \node[draw, fill=orange, rectangle, right= 0.5cm of memall0, minimum width= 2cm, minimum height= 0.5cm] (memall1) {};
+        \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etcall, minimum width= 2cm, minimum height= 0.5cm] (memallN) {};
 
-        \node[right = 3.95cm of a] {...};
-        \node[right = 4.65cm of all] {...};
-
-        \path[] (1,1) -- (1,-2) node[draw, pos=0.55, sloped, single arrow, text width=0.85cm] {};
-        \path[] (3,1) -- (3,-2) node[draw, pos=0.55, sloped, single arrow, text width=0.85cm] {};
-        \path[] (5.5,1) -- (5.5,-2) node[draw, pos=0.55, sloped, single arrow, text width=0.85cm] {};
+        \path[] (memroot0) -- (memall0) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memroot1) -- (memall1) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memrootN) -- (memallN) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
     \end{tikzpicture}
 \end{figure}
 
@@ -106,25 +103,22 @@ int MPI_Gather(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void *
 \begin{figure}[htp]
     \centering
     \begin{tikzpicture}
-        \path (0,0.25) coordinate (a);
-        \draw (0,0) rectangle (6.5,0.5);
-        \node[left = 0.5cm of a] (root) {Процесс root};
+        \node[] (root) {Процесс root};
+        \node[below = 2cm of root] (all) {Все процессы};
 
-        \draw[fill=orange] (-0.25,-2) rectangle (1.75,-1.5);
-        \draw[fill=orange] (2.25,-2) rectangle (4.25,-1.5);
-        \draw[fill=orange] (4.75,-2) rectangle (6.75,-1.5);
-        \node[below = 1.38cm of root] (all) {Все процессы};
+        \node[draw, fill=orange, rectangle, right= 1cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot0) {};
+        \node[draw, fill=orange, rectangle, right= 0cm of memroot0, minimum width= 2cm, minimum height= 0.5cm] (memroot1) {};
+        \node[draw, rectangle, right= 0cm of memroot1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcroot) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etcroot, minimum width= 2cm, minimum height= 0.5cm] (memrootN) {};
 
-        \draw[fill=orange] (0,0) rectangle (2,0.5);
-        \draw[fill=orange] (2,0) rectangle (4,0.5);
-        \draw[fill=orange] (4.5,0) rectangle (6.5,0.5);
+        \node[draw, fill=orange, rectangle, right= 0.75cm of all, minimum width= 2cm, minimum height= 0.5cm] (memall0) {};
+        \node[draw, fill=orange, rectangle, right= 0.5cm of memall0, minimum width= 2cm, minimum height= 0.5cm] (memall1) {};
+        \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etcall, minimum width= 2cm, minimum height= 0.5cm] (memallN) {};
 
-        \node[right = 3.95cm of a] {...};
-        \node[right = 4.65cm of all] {...};
-
-        \path[] (1,-2) -- (1,1) node[draw, pos=0.4, sloped, single arrow, text width=0.85cm] {};
-        \path[] (3,-2) -- (3,1) node[draw, pos=0.4, sloped, single arrow, text width=0.85cm] {};
-        \path[] (5.5,-2) -- (5.5,1) node[draw, pos=0.4, sloped, single arrow, text width=0.85cm] {};
+        \path[] (memall0) -- (memroot0) node[draw, rotate=90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memall1) -- (memroot1) node[draw, rotate=90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memallN) -- (memrootN) node[draw, rotate=90, pos=0.5, single arrow, minimum height=1.5cm] {};
     \end{tikzpicture}
 \end{figure}
 
