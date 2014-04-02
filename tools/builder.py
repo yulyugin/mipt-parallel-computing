@@ -73,19 +73,41 @@ def collect(env):
 
 def build_graph(env):
     """
-    Setup appropriate environment and call gnuplot to build graphics.
+    Generates gnuplot file, setup appropriate environment and call gnuplot to build graphics.
     """
-
+    generate_gnuplot_targets()
     # Setup environment
     os.putenv(gnuplot_env, graph_file)
-
     # Run a command
     command = list()
     command.extend([env.gnuplot, gnuplot_file])
     subprocess.call(command)
 
+def generate_gnuplot_target(ylabel, column):
+    f = open(gnuplot_file, 'w')
+
+    header = '''#!/usr/bin/gnuplot -persist
+set terminal pdfcairo solid color enhanced
+set style line 1 lt 7 pt 7
+set logscale x 2
+set grid\n'''
+    output = '''set output "%s.pdf"\n''' % ylabel
+    axes = '''set xlabel "Number of Processes" font "Helvetica,18"
+set ylabel "%s" font "Helvetica,18"\n''' % ylabel
+    plot = '''plot "%s" using 1:%d title "%s" with linespoints linestyle 1\n''' % (graph_file, column, ylabel)
+
+    f.write(header)
+    f.write(output)
+    f.write(axes)
+    f.write(plot)
+
+    f.close()
+
+def generate_gnuplot_targets():
+    generate_gnuplot_target("Time", 2)
+
 def mkenv():
-    parser = argparse.ArgumentParser(add_help=True, version = '0.4',
+    parser = argparse.ArgumentParser(add_help=True, version = '0.5',
                                      description="Graphics builder.")
     parser.add_argument("--compiler", type=str, action="store", default="mpicc",
                         help="Path to mpicc compiler.")
@@ -101,8 +123,12 @@ def mkenv():
     return args
 
 def clean():
-    os.unlink("a.out")
-    os.unlink(graph_file)
+    if os.access(binary, os.F_OK):
+        os.unlink(binary)
+    if os.access(graph_file, os.F_OK):
+        os.unlink(graph_file)
+    if os.access(gnuplot_file, os.F_OK):
+        os.unlink(gnuplot_file)
 
 def main():
     env = mkenv()
