@@ -39,7 +39,7 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{MPI_Scatter}
 
 \begin{figure}[htp]
     \centering
@@ -85,6 +85,34 @@ MPI_Scatter(array, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
 \begin{lstlisting}
 int MPI_Scatterv(const void *sendbuf, const int *sendcounts, const int *displs, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, int root, MPI_Comm comm);
 \end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{MPI_Scatterv}
+
+\begin{figure}[htp]
+    \centering
+    \begin{tikzpicture}
+        \node[] (root) {Процесс root};
+        \node[below = 2cm of root] (all) {Все процессы};
+
+        \node[draw, fill=orange, rectangle, right= 0.8cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot0) {};
+        \node[draw, rectangle, right= 0cm of memroot0, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcroot0) {...};
+        \node[draw, fill=brown, rectangle, right= 0cm of etcroot0, minimum width= 2.3cm, minimum height= 0.5cm] (memroot1) {};
+        \node[draw, rectangle, right= 0cm of memroot1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcroot1) {...};
+        \node[draw, fill=yellow, rectangle, right= 0cm of etcroot1, minimum width= 2cm, minimum height= 0.5cm] (memrootN) {};
+
+        \node[draw, fill=orange, rectangle, right= 0.8cm of all, minimum width= 2cm, minimum height= 0.5cm] (memall0) {};
+        \node[right= 0cm of memall0, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall0) {...};
+        \node[draw, fill=brown, rectangle, right= 0cm of etcall0, minimum width= 2.3cm, minimum height= 0.5cm] (memall1) {};
+        \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall1) {...};
+        \node[draw, fill=yellow, rectangle, right= 0cm of etcall1, minimum width= 2cm, minimum height= 0.5cm] (memallN) {};
+
+        \path[] (memroot0) -- (memall0) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memroot1) -- (memall1) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \path[] (memrootN) -- (memallN) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+    \end{tikzpicture}
+\end{figure}
 
 \end{frame}
 
