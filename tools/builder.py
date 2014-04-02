@@ -10,6 +10,13 @@ Author: Evgeny Yulyugin
 Year: 2014
 """
 
+''' TODO list:
+    * Generate gnuplot input file
+    * Make global environment
+    * Build acceleration to process number graph
+    * Expand process_count. Calculate in dependance on physical CPU count
+'''
+
 import sys
 import argparse
 import os
