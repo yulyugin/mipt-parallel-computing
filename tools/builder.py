@@ -95,7 +95,7 @@ def mkenv():
 
 def clean():
     os.unlink("a.out")
-    #os.unlink(graph_file)
+    os.unlink(graph_file)
 
 def main():
     env = mkenv()
