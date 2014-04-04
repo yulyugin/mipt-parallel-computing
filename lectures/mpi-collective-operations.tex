@@ -37,17 +37,17 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
     \centering
     \begin{tikzpicture}
         \node[] (root) {Процесс root};
-        \node[below = 2cm of root] (all) {Все процессы};
+        \node[below = 2.5cm of root] (all) {Все процессы};
 
         \node[draw, fill=orange, rectangle, right= 3.5cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot) {};
         \draw[->] ([yshift= 0.3cm] memroot.north west) -- (memroot.north west);
-        \node[above left= 0cm and 0.1cm of memroot.north] {\scriptsize{\texttt{buffer}}};
+        \node[above left= 0cm and -0.1cm of memroot.north] {\scriptsize{\texttt{buffer}}};
         \draw[<->] ([yshift= -0.2cm] memroot.south west) -- ([yshift= -0.2cm] memroot.south east);
         \node[fill=white, below= 0cm of memroot.south] {\scriptsize{\texttt{count}}};
 
         \node[draw, fill=orange, rectangle, right= 1cm of all, minimum width= 2cm, minimum height= 0.5cm] (proc0) {};
         \draw[->] ([yshift= 0.3cm] proc0.north west) -- (proc0.north west);
-        \node[above left= 0cm and 0.1cm of proc0.north] {\scriptsize{\texttt{buffer}}};
+        \node[above left= 0cm and -0.1cm of proc0.north] {\scriptsize{\texttt{buffer}}};
         \draw[<->] ([yshift= -0.2cm] proc0.south west) -- ([yshift= -0.2cm] proc0.south east);
         \node[fill=white, below= 0cm of proc0.south] {\scriptsize{\texttt{count}}};
         \node[below= 0.3cm of proc0.south] {\scriptsize{процесс 0}};
@@ -55,7 +55,7 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
 
         \node[draw, fill=orange, rectangle, right= 0cm of etc0, minimum width= 2cm, minimum height= 0.5cm] (proc1) {};
         \draw[->] ([yshift= 0.3cm] proc1.north west) -- (proc1.north west);
-        \node[above left= 0cm and 0.1cm of proc1.north] {\scriptsize{\texttt{buffer}}};
+        \node[above left= 0cm and -0.1cm of proc1.north] {\scriptsize{\texttt{buffer}}};
         \draw[<->] ([yshift= -0.2cm] proc1.south west) -- ([yshift= -0.2cm] proc1.south east);
         \node[fill=white, below= 0cm of proc1.south] {\scriptsize{\texttt{count}}};
         \node[below= 0.3cm of proc1.south] {\scriptsize{процесс root}};
@@ -63,7 +63,7 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
 
         \node[draw, fill=orange, rectangle, right= 0cm of etc1, minimum width= 2cm, minimum height= 0.5cm] (procN) {};
         \draw[->] ([yshift= 0.3cm] procN.north west) -- (procN.north west);
-        \node[above left= 0cm and 0.1cm of procN.north] {\scriptsize{\texttt{buffer}}};
+        \node[above left= 0cm and -0.1cm of procN.north] {\scriptsize{\texttt{buffer}}};
         \draw[<->] ([yshift= -0.2cm] procN.south west) -- ([yshift= -0.2cm] procN.south east);
         \node[fill=white, below= 0cm of procN.south] {\scriptsize{\texttt{count}}};
         \node[below= 0.3cm of procN.south] {\scriptsize{процесс n-1}};
@@ -193,7 +193,7 @@ int MPI_Scatterv(const void *sendbuf, const int *sendcounts, const int *displs, 
 
         \node[draw, fill=brown, rectangle, right= 0cm of etcall0, minimum width= 2.6cm, minimum height= 0.5cm] (memall1) {};
         \draw[->] ([yshift= 0.3cm] memall1.north west) -- (memall1.north west);
-        \node[above left= 0cm and -0.2cm of memall1.north] {\scriptsize{\texttt{recvbuf}}};
+        \node[above left= 0cm and 0.05cm of memall1.north] {\scriptsize{\texttt{recvbuf}}};
         \draw[<->] ([yshift= -0.2cm] memall1.south west) -- ([yshift= -0.2cm] memall1.south east);
         \node[fill=white, below= 0cm of memall1.south] {\scriptsize{\texttt{recvcount}}};
         \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall1) {...};
@@ -314,7 +314,7 @@ int MPI_Gatherv(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rbuf,
 
         \node[draw, fill=brown, rectangle, right= 0cm of etcall0, minimum width= 2.6cm, minimum height= 0.5cm] (memall1) {};
         \draw[->] ([yshift= 0.3cm] memall1.north west) -- (memall1.north west);
-        \node[above left= 0cm and -0.2cm of memall1.north] {\scriptsize{\texttt{sendbuf}}};
+        \node[above left= 0cm and 0.05cm of memall1.north] {\scriptsize{\texttt{sendbuf}}};
         \draw[<->] ([yshift= -0.2cm] memall1.south west) -- ([yshift= -0.2cm] memall1.south east);
         \node[fill=white, below= 0cm of memall1.south] {\scriptsize{\texttt{sendcount}}};
         \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall1) {...};
@@ -337,6 +337,13 @@ int MPI_Gatherv(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rbuf,
 % The final "thank you" frame 
 
 \begin{frame}{Задания}
+
+Реализовать параллельную сортировку массива.
+
+Имя файла задается через аргументы командной строки.
+
+Построить графики зависимости времени работы и ускорения от количества процессов.
+
 \end{frame}
 
 \begin{frame}{На следующей лекции}
