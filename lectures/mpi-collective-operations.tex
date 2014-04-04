@@ -95,18 +95,42 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
         \node[below = 2cm of root] (all) {Все процессы};
 
         \node[draw, fill=orange, rectangle, right= 1cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot0) {};
+        \draw[->] ([yshift= 0.3cm] memroot0.north west) -- (memroot0.north west);
+        \node[above left= 0cm and -0.2cm of memroot0.north] {\scriptsize{\texttt{sendbuf}}};
+        \draw[<->] ([yshift= -0.2cm] memroot0.south west) -- ([yshift= -0.2cm] memroot0.south east);
+        \node[fill=white, below= 0cm of memroot0.south] {\scriptsize{\texttt{sendcount}}};
+
         \node[draw, fill=orange, rectangle, right= 0cm of memroot0, minimum width= 2cm, minimum height= 0.5cm] (memroot1) {};
+        \draw[<->] ([yshift= -0.2cm] memroot1.south west) -- ([yshift= -0.2cm] memroot1.south east);
+        \node[fill=white, below= 0cm of memroot1.south] {\scriptsize{\texttt{sendcount}}};
         \node[draw, rectangle, right= 0cm of memroot1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcroot) {...};
+
         \node[draw, fill=orange, rectangle, right= 0cm of etcroot, minimum width= 2cm, minimum height= 0.5cm] (memrootN) {};
+        \draw[<->] ([yshift= -0.2cm] memrootN.south west) -- ([yshift= -0.2cm] memrootN.south east);
+        \node[fill=white, below= 0cm of memrootN.south] {\scriptsize{\texttt{sendcount}}};
 
         \node[draw, fill=orange, rectangle, right= 0.75cm of all, minimum width= 2cm, minimum height= 0.5cm] (memall0) {};
-        \node[draw, fill=orange, rectangle, right= 0.5cm of memall0, minimum width= 2cm, minimum height= 0.5cm] (memall1) {};
-        \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall) {...};
-        \node[draw, fill=orange, rectangle, right= 0cm of etcall, minimum width= 2cm, minimum height= 0.5cm] (memallN) {};
+        \draw[->] ([yshift= 0.3cm] memall0.north west) -- (memall0.north west);
+        \node[above left= 0cm and -0.2cm of memall0.north] {\scriptsize{\texttt{recvbuf}}};
+        \draw[<->] ([yshift= -0.2cm] memall0.south west) -- ([yshift= -0.2cm] memall0.south east);
+        \node[fill=white, below= 0cm of memall0.south] {\scriptsize{\texttt{recvcount}}};
 
-        \path[] (memroot0) -- (memall0) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
-        \path[] (memroot1) -- (memall1) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
-        \path[] (memrootN) -- (memallN) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
+        \node[draw, fill=orange, rectangle, right= 0.5cm of memall0, minimum width= 2cm, minimum height= 0.5cm] (memall1) {};
+        \draw[->] ([yshift= 0.3cm] memall1.north west) -- (memall1.north west);
+        \node[above left= 0cm and -0.2cm of memall1.north] {\scriptsize{\texttt{recvbuf}}};
+        \draw[<->] ([yshift= -0.2cm] memall1.south west) -- ([yshift= -0.2cm] memall1.south east);
+        \node[fill=white, below= 0cm of memall1.south] {\scriptsize{\texttt{recvcount}}};
+        \node[right= 0cm of memall1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcall) {...};
+
+        \node[draw, fill=orange, rectangle, right= 0cm of etcall, minimum width= 2cm, minimum height= 0.5cm] (memallN) {};
+        \draw[->] ([yshift= 0.3cm] memallN.north west) -- (memallN.north west);
+        \node[above left= 0cm and -0.2cm of memallN.north] {\scriptsize{\texttt{recvbuf}}};
+        \draw[<->] ([yshift= -0.2cm] memallN.south west) -- ([yshift= -0.2cm] memallN.south east);
+        \node[fill=white, below= 0cm of memallN.south] {\scriptsize{\texttt{recvcount}}};
+
+        \path[] (memroot0) -- (memall0) node[draw, rotate=-90, pos=0.45, single arrow, minimum height=1.2cm] {};
+        \path[] (memroot1) -- (memall1) node[draw, rotate=-90, pos=0.45, single arrow, minimum height=1.2cm] {};
+        \path[] (memrootN) -- (memallN) node[draw, rotate=-90, pos=0.45, single arrow, minimum height=1.2cm] {};
     \end{tikzpicture}
 \end{figure}
 
