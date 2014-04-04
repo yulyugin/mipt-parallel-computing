@@ -40,20 +40,33 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
         \node[below = 2cm of root] (all) {Все процессы};
 
         \node[draw, fill=orange, rectangle, right= 3.5cm of root, minimum width= 2cm, minimum height= 0.5cm] (memroot) {};
-        \draw[->] (memroot.north west)+(0,0.3cm) -- (memroot.north west);
+        \draw[->] ([yshift= 0.3cm] memroot.north west) -- (memroot.north west);
         \node[above left= 0cm and 0.1cm of memroot.north] {\scriptsize{\texttt{buffer}}};
+        \draw[<->] ([yshift= -0.2cm] memroot.south west) -- ([yshift= -0.2cm] memroot.south east);
+        \node[fill=white, below= 0cm of memroot.south] {\scriptsize{\texttt{count}}};
 
         \node[draw, fill=orange, rectangle, right= 1cm of all, minimum width= 2cm, minimum height= 0.5cm] (proc0) {};
-        \draw[->] (proc0.north west)+(0,0.3cm) -- (proc0.north west);
+        \draw[->] ([yshift= 0.3cm] proc0.north west) -- (proc0.north west);
         \node[above left= 0cm and 0.1cm of proc0.north] {\scriptsize{\texttt{buffer}}};
+        \draw[<->] ([yshift= -0.2cm] proc0.south west) -- ([yshift= -0.2cm] proc0.south east);
+        \node[fill=white, below= 0cm of proc0.south] {\scriptsize{\texttt{count}}};
+        \node[below= 0.3cm of proc0.south] {\scriptsize{процесс 0}};
         \node[right= 0cm of proc0, minimum width= 0cm, minimum height= 0.5cm, align=center] (etc0) {...};
+
         \node[draw, fill=orange, rectangle, right= 0cm of etc0, minimum width= 2cm, minimum height= 0.5cm] (proc1) {};
-        \draw[->] (proc1.north west)+(0,0.3cm) -- (proc1.north west);
+        \draw[->] ([yshift= 0.3cm] proc1.north west) -- (proc1.north west);
         \node[above left= 0cm and 0.1cm of proc1.north] {\scriptsize{\texttt{buffer}}};
+        \draw[<->] ([yshift= -0.2cm] proc1.south west) -- ([yshift= -0.2cm] proc1.south east);
+        \node[fill=white, below= 0cm of proc1.south] {\scriptsize{\texttt{count}}};
+        \node[below= 0.3cm of proc1.south] {\scriptsize{процесс root}};
         \node[right= 0cm of proc1, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etc1) {...};
+
         \node[draw, fill=orange, rectangle, right= 0cm of etc1, minimum width= 2cm, minimum height= 0.5cm] (procN) {};
-        \draw[->] (procN.north west)+(0,0.3cm) -- (procN.north west);
+        \draw[->] ([yshift= 0.3cm] procN.north west) -- (procN.north west);
         \node[above left= 0cm and 0.1cm of procN.north] {\scriptsize{\texttt{buffer}}};
+        \draw[<->] ([yshift= -0.2cm] procN.south west) -- ([yshift= -0.2cm] procN.south east);
+        \node[fill=white, below= 0cm of procN.south] {\scriptsize{\texttt{count}}};
+        \node[below= 0.3cm of procN.south] {\scriptsize{процесс n-1}};
 
         \path[] (memroot) -- (proc0) node[draw, rotate=-135, pos=0.5, single arrow, minimum height=1.5cm] {};
         \path[] (memroot) -- (proc1) node[draw, rotate=-90, pos=0.5, single arrow, minimum height=1.5cm] {};
