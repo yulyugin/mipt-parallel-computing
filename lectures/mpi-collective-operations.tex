@@ -12,6 +12,11 @@
 \section*{Обзор}
 
 \begin{frame}{На прошлой лекции}
+
+\begin{itemize}
+  \item MPI операции типа точка-точка.
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}{На этой лекции}
@@ -21,9 +26,49 @@
 % Use [fragile] option to insert listings
 % \begin{frame}[fragile]
 
+\section{Синхронизация процессов}
+
+\begin{frame}[fragile]{MPI_Barrier}
+
+Блокирует работу вызвавшего ее процесса до тех пор, пока все другие процессы группы также не вызовут эту функцию.
+
+\begin{lstlisting}
+int MPI_Barrier(MPI_Comm comm);
+\end{lstlisting}
+
+Все процессы преодолевают барьер одновременно.
+
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+double timestamp0, timestamp1;
+
+MPI_Barrier(MPI_COMM_WORLD);
+if (rank == 0)
+  timestamp0 = MPI_Wtime();
+
+// ...
+
+MPI_Barrier(MPI_COMM_WORLD);
+if (rank == 0)
+  timestamp1 = MPI_Wtime();
+\end{lstlisting}
+
+\end{frame}
+
 \section{Широковещательная рассылка}
 
+\begin{frame}{Неявная синхронизация}
+
+Неявную синхронизацию процессов выполняет любая коллективная функция.
+
+\end{frame}
+
 \begin{frame}[fragile]{MPI_Bcast}
+
+Рассылка сообщения из \texttt{buffer} процесса \texttt{root} всем процессам коммуникатора.
 
 \begin{lstlisting}
 int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm);
@@ -76,7 +121,20 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
 
 \end{frame}
 
-\section{Функции распределения данных}
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+int n;
+if (rank == 0) {
+  printf("Enter parameter N:\n");
+  scanf("%d", &n);
+}
+MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
+\end{lstlisting}
+
+\end{frame}
+
+\section{Распределение данных}
 
 \begin{frame}[fragile]{MPI_Scatter}
 
@@ -212,7 +270,7 @@ int MPI_Scatterv(const void *sendbuf, const int *sendcounts, const int *displs, 
 
 \end{frame}
 
-\section{Функции сбора данных}
+\section{Сбор данных}
 
 \begin{frame}[fragile]{MPI_Gather}
 
