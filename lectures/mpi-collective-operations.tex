@@ -391,6 +391,43 @@ int MPI_Gatherv(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rbuf,
 
 \end{frame}
 
+
+\begin{frame}[fragile]{MPI_Allgather}
+
+\begin{lstlisting}
+int MPI_Allgather(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{MPI_Allgather}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \node[] (proc0) {процесс 0};
+        \node[below= 1cm of proc0] (proc1) {процесс 1};
+        \node[below= 0.6cm of proc1] (etcproc) {...};
+        \node[below= 0.6cm of etcproc] (procN) {процесс N};
+
+        \node[draw, fill=orange, rectangle, right= 0.5cm of proc0, minimum width= 1cm, minimum height= 0.5cm] (a0) {a0};
+        \node[draw, fill=orange, rectangle, right= 0.5cm of proc1, minimum width= 1cm, minimum height= 0.5cm] (a1) {a1};
+        \node[draw, fill=orange, rectangle, right= 0.5cm of procN, minimum width= 1cm, minimum height= 0.5cm] (aN) {aN};
+
+        \node[draw, fill=orange, rectangle, right= 4cm of a0, minimum width= 1cm, minimum height= 0.5cm] (a00) {a0};
+        \node[draw, fill=orange, rectangle, right= 0cm of a00, minimum width= 1cm, minimum height= 0.5cm] (a10) {a1};
+        \node[draw, fill=orange, rectangle, right= 0cm of a10, minimum width= 1cm, minimum height= 0.5cm] (aN0) {aN};
+        \node[draw, fill=orange, rectangle, right= 4cm of a1, minimum width= 1cm, minimum height= 0.5cm] (a01) {a0};
+        \node[draw, fill=orange, rectangle, right= 0cm of a01, minimum width= 1cm, minimum height= 0.5cm] (a11) {a1};
+        \node[draw, fill=orange, rectangle, right= 0cm of a11, minimum width= 1cm, minimum height= 0.5cm] (aN1) {aN};
+        \node[draw, fill=orange, rectangle, right= 4cm of aN, minimum width= 1cm, minimum height= 0.5cm] (a0N) {a0};
+        \node[draw, fill=orange, rectangle, right= 0cm of a0N, minimum width= 1cm, minimum height= 0.5cm] (a1N) {a1};
+        \node[draw, fill=orange, rectangle, right= 0cm of a1N, minimum width= 1cm, minimum height= 0.5cm] (aNN) {aN};
+    \end{tikzpicture}
+\end{figure}
+
+\end{frame}
+
 \section*{Конец}
 % The final "thank you" frame 
 
