@@ -414,15 +414,21 @@ int MPI_Allgather(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rec
         \node[draw, fill=orange, rectangle, right= 0.5cm of proc1, minimum width= 1cm, minimum height= 0.5cm] (a1) {a1};
         \node[draw, fill=orange, rectangle, right= 0.5cm of procN, minimum width= 1cm, minimum height= 0.5cm] (aN) {aN};
 
-        \node[draw, fill=orange, rectangle, right= 4cm of a0, minimum width= 1cm, minimum height= 0.5cm] (a00) {a0};
+        \node[draw, fill=orange, rectangle, right= 3cm of a0, minimum width= 1cm, minimum height= 0.5cm] (a00) {a0};
         \node[draw, fill=orange, rectangle, right= 0cm of a00, minimum width= 1cm, minimum height= 0.5cm] (a10) {a1};
-        \node[draw, fill=orange, rectangle, right= 0cm of a10, minimum width= 1cm, minimum height= 0.5cm] (aN0) {aN};
-        \node[draw, fill=orange, rectangle, right= 4cm of a1, minimum width= 1cm, minimum height= 0.5cm] (a01) {a0};
+        \node[right= 0cm of a10, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etc0) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etc0, minimum width= 1cm, minimum height= 0.5cm] (aN0) {aN};
+        \node[draw, fill=orange, rectangle, right= 3cm of a1, minimum width= 1cm, minimum height= 0.5cm] (a01) {a0};
         \node[draw, fill=orange, rectangle, right= 0cm of a01, minimum width= 1cm, minimum height= 0.5cm] (a11) {a1};
-        \node[draw, fill=orange, rectangle, right= 0cm of a11, minimum width= 1cm, minimum height= 0.5cm] (aN1) {aN};
-        \node[draw, fill=orange, rectangle, right= 4cm of aN, minimum width= 1cm, minimum height= 0.5cm] (a0N) {a0};
+        \node[right= 0cm of a11, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etc1) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etc1, minimum width= 1cm, minimum height= 0.5cm] (aN1) {aN};
+        \node[draw, fill=orange, rectangle, right= 3cm of aN, minimum width= 1cm, minimum height= 0.5cm] (a0N) {a0};
         \node[draw, fill=orange, rectangle, right= 0cm of a0N, minimum width= 1cm, minimum height= 0.5cm] (a1N) {a1};
-        \node[draw, fill=orange, rectangle, right= 0cm of a1N, minimum width= 1cm, minimum height= 0.5cm] (aNN) {aN};
+        \node[right= 0cm of a1N, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcN) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etcN, minimum width= 1cm, minimum height= 0.5cm] (aNN) {aN};
+
+        \path[] (a1.south west) -- (a01.south east) node[draw, pos=0.5, single arrow, minimum height=2cm] (allgatherarrow) {};
+        \node[above left= 0cm and -0.6cm of allgatherarrow.north] {Allgather};
     \end{tikzpicture}
 \end{figure}
 
