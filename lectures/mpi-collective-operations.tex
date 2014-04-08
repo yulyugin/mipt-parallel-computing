@@ -411,18 +411,32 @@ int MPI_Allgather(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rec
         \node[below= 0.6cm of etcproc] (procN) {процесс N};
 
         \node[draw, fill=orange, rectangle, right= 0.5cm of proc0, minimum width= 1cm, minimum height= 0.5cm] (a0) {a0};
+        \draw[->] ([yshift= 0.3cm] a0.north west) -- (a0.north west);
+        \node[above left= 0cm and -0.7cm of a0.north] {\scriptsize{\texttt{sendbuf}}};
         \node[draw, fill=orange, rectangle, right= 0.5cm of proc1, minimum width= 1cm, minimum height= 0.5cm] (a1) {a1};
+        \draw[->] ([yshift= 0.3cm] a1.north west) -- (a1.north west);
+        \node[above left= 0cm and -0.7cm of a1.north] {\scriptsize{\texttt{sendbuf}}};
         \node[draw, fill=orange, rectangle, right= 0.5cm of procN, minimum width= 1cm, minimum height= 0.5cm] (aN) {aN};
+        \draw[->] ([yshift= 0.3cm] aN.north west) -- (aN.north west);
+        \node[above left= 0cm and -0.7cm of aN.north] {\scriptsize{\texttt{sendbuf}}};
 
         \node[draw, fill=orange, rectangle, right= 3cm of a0, minimum width= 1cm, minimum height= 0.5cm] (a00) {a0};
+        \draw[->] ([yshift= 0.3cm] a00.north west) -- (a00.north west);
+        \node[above left= 0cm and -0.7cm of a00.north] {\scriptsize{\texttt{recvbuf}}};
         \node[draw, fill=orange, rectangle, right= 0cm of a00, minimum width= 1cm, minimum height= 0.5cm] (a10) {a1};
         \node[right= 0cm of a10, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etc0) {...};
         \node[draw, fill=orange, rectangle, right= 0cm of etc0, minimum width= 1cm, minimum height= 0.5cm] (aN0) {aN};
+
         \node[draw, fill=orange, rectangle, right= 3cm of a1, minimum width= 1cm, minimum height= 0.5cm] (a01) {a0};
+        \draw[->] ([yshift= 0.3cm] a01.north west) -- (a01.north west);
+        \node[above left= 0cm and -0.7cm of a01.north] {\scriptsize{\texttt{recvbuf}}};
         \node[draw, fill=orange, rectangle, right= 0cm of a01, minimum width= 1cm, minimum height= 0.5cm] (a11) {a1};
         \node[right= 0cm of a11, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etc1) {...};
         \node[draw, fill=orange, rectangle, right= 0cm of etc1, minimum width= 1cm, minimum height= 0.5cm] (aN1) {aN};
+
         \node[draw, fill=orange, rectangle, right= 3cm of aN, minimum width= 1cm, minimum height= 0.5cm] (a0N) {a0};
+        \draw[->] ([yshift= 0.3cm] a0N.north west) -- (a0N.north west);
+        \node[above left= 0cm and -0.7cm of a0N.north] {\scriptsize{\texttt{recvbuf}}};
         \node[draw, fill=orange, rectangle, right= 0cm of a0N, minimum width= 1cm, minimum height= 0.5cm] (a1N) {a1};
         \node[right= 0cm of a1N, minimum width= 0.2cm, minimum height= 0.5cm, align=center] (etcN) {...};
         \node[draw, fill=orange, rectangle, right= 0cm of etcN, minimum width= 1cm, minimum height= 0.5cm] (aNN) {aN};
