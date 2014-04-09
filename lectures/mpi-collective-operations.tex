@@ -26,7 +26,7 @@
 % Use [fragile] option to insert listings
 % \begin{frame}[fragile]
 
-\section{Синхронизация процессов}
+\section{Синхронизация}
 
 \begin{frame}[fragile]{MPI_Barrier}
 
@@ -443,6 +443,83 @@ int MPI_Allgather(void* sendbuf, int sendcount, MPI_Datatype sendtype, void* rec
 
         \path[] (a1.south west) -- (a01.south east) node[draw, pos=0.5, single arrow, minimum height=2cm] (allgatherarrow) {};
         \node[above left= 0cm and -0.6cm of allgatherarrow.north] {Allgather};
+    \end{tikzpicture}
+\end{figure}
+
+\end{frame}
+
+\section{Вычислительные операции}
+
+\begin{frame}[fragile]{MPI_Reduce}
+
+\begin{lstlisting}
+int MPI_Reduce(void* sendbuf, void* recvbuf, int count, MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Предопределенные операции в функциях редукции MPI}
+
+\begin{table}[htp]
+    \begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Название    &   Операция        &   Поддерживаемые типы     \\
+        \hline
+        MPI_MAX     &   Максимум        &   integer, floating point \\
+        MPI_MIN     &   Минимум         &                           \\
+        \hline
+        MPI_SUM     &   Сумма           &   integer, floating point \\
+        MPI_PROD    &   Произведение    &   complex                 \\
+        \hline
+        MPI_LAND    &   И               &                           \\
+        MPI_LOR     &   ИЛИ             &   integer, logical        \\
+        MPI_LXOR    &   Исключающее ИЛИ &                           \\  
+        \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{MPI_Reduce}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \node[] (proc) {процесс};
+        \node[below= 1cm of proc] (proc0) {0};
+        \node[below= 1cm of proc0] (proc1) {1};
+        \node[below= 0.6cm of proc1] (etcproc) {...};
+        \node[below= 0.6cm of etcproc] (procN) {N};
+        \node[right= 5cm of proc] (root) {процесс root};
+
+        \node[draw, fill=orange, rectangle, right= 0.1cm of proc0, minimum width= 0.7cm, minimum height= 0.65cm] (a0) {a0};
+        \node[draw, fill=orange, rectangle, right= 0cm of a0, minimum width= 0.7cm, minimum height= 0.65cm] (b0) {b0};
+        \node[draw, fill=orange, rectangle, right= 0cm of b0, minimum width= 0.7cm, minimum height= 0.65cm] (c0) {c0};
+        \draw[->] ([yshift= 0.3cm] a0.north west) -- (a0.north west);
+        \node[above left= 0cm and -0.9cm of a0.north] {\scriptsize{\texttt{sendbuf}}};
+
+        \node[draw, fill=orange, rectangle, right= 0.1cm of proc1, minimum width= 0.7cm, minimum height= 0.65cm] (a1) {a1};
+        \node[draw, fill=orange, rectangle, right= 0cm of a1, minimum width= 0.7cm, minimum height= 0.65cm] (b1) {b1};
+        \node[draw, fill=orange, rectangle, right= 0cm of b1, minimum width= 0.7cm, minimum height= 0.65cm] (c1) {c1};
+        \draw[->] ([yshift= 0.3cm] a1.north west) -- (a1.north west);
+        \node[above left= 0cm and -0.9cm of a1.north] {\scriptsize{\texttt{sendbuf}}};
+
+        \node[draw, fill=orange, rectangle, right= 0.1cm of procN, minimum width= 0.7cm, minimum height= 0.65cm] (aN) {aN};
+        \node[draw, fill=orange, rectangle, right= 0cm of aN, minimum width= 0.7cm, minimum height= 0.65cm] (bN) {bN};
+        \node[draw, fill=orange, rectangle, right= 0cm of bN, minimum width= 0.7cm, minimum height= 0.65cm] (cN) {cN};
+        \draw[->] ([yshift= 0.3cm] aN.north west) -- (aN.north west);
+        \node[above left= 0cm and -0.9cm of aN.north] {\scriptsize{\texttt{sendbuf}}};
+
+        \node[draw, fill=orange, rectangle, right= 2.3cm of c1.south, minimum width= 2.5cm, minimum height= 0.65cm] (opa) {op(a0,..., aN)};
+        \draw[->] ([yshift= 0.3cm] opa.north west) -- (opa.north west);
+        \node[above left= 0cm and 0cm of opa.north] {\scriptsize{\texttt{recvbuf}}};
+        \node[draw, rectangle, right= 0cm of opa, minimum width= 0.2cm, minimum height= 0.65cm, align=center] (etc) {...};
+        \node[draw, fill=orange, rectangle, right= 0cm of etc, minimum width= 2cm, minimum height= 0.65cm] (opc) {op(c0,..., cN)};
+
+        \path[] (c1.south west) -- (opa.east) node[draw, pos=0.32, single arrow, minimum height=1.6cm] (reducearrow) {};
+        \node[above left= 0cm and -0.6cm of reducearrow.north] {\texttt{Reduce}};
     \end{tikzpicture}
 \end{figure}
 
