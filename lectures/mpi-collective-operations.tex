@@ -198,11 +198,11 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
 
 \begin{lstlisting}
 MPI_Comm comm;
-int  rbuf[100], gsize;
+int  rbuf[100], size;
 int  root, *array;
 // ...
-MPI_Comm_size(comm, &gsize);
-array = (int *) malloc(gsize * 100 * sizeof(int));
+MPI_Comm_size(comm, &size);
+array = (int *) malloc(size * 100 * sizeof(int));
 // ...
 MPI_Scatter(array, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
 \end{lstlisting}
