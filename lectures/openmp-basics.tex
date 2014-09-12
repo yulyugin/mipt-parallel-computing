@@ -103,8 +103,8 @@ int j = 0;
 
 #pragma omp parallel
 {
-  for (j = 0; j < N; ++j)
-    a[j] = a[j] * a[j];
+    for (j = 0; j < N; ++j)
+        a[j] = a[j] * a[j];
 }
 \end{lstlisting}
 
@@ -118,8 +118,8 @@ int j = 0;
 
 #pragma omp parallel for
 {
-  for (j = 0; j < N; ++j)
-    a[j] = a[j] * a[j];
+    for (j = 0; j < N; ++j)
+        a[j] = a[j] * a[j];
 }
 \end{lstlisting}
 
@@ -146,12 +146,12 @@ void omp_set_num_threads(int num_threads);
 \begin{lstlisting}
 #pragma omp parallel
 {
-  myid = omp_get_thread_num();
-  if (myid == 0) {
-    // ...
-  } else {
-    // ...
-  }
+    myid = omp_get_thread_num();
+    if (myid == 0) {
+        <...>
+    } else {
+        <...>
+    }
 }
 \end{lstlisting}
 
@@ -176,10 +176,10 @@ void omp_set_num_threads(int num_threads);
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel reduction (+:sum)
 {
-  #pragma omp for
-  {
-    sum+= f(a[j]);
-  }
+    #pragma omp for
+    {
+        sum+= f(a[j]);
+    }
 }
 \end{lstlisting}
 
@@ -189,11 +189,11 @@ void omp_set_num_threads(int num_threads);
 
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp sections
-  init();
+    init();
 #pragma omp section
-  task_1();
+    task_1();
 #pragma omp section
-  task_2();
+    task_2();
 \end{lstlisting}
 
 \end{frame}
@@ -216,7 +216,7 @@ void omp_set_num_threads(int num_threads);
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp atomic
 {
-  sum += value;
+    sum += value;
 }
 \end{lstlisting}
 
@@ -230,11 +230,11 @@ omp_init_lock(&lock);
 
 #pragma omp parallel
 {
-  omp_set_lock(&lock);
-  // ...
-  omp_unset_lock(&lock);
-  omp_test_lock(&lock);
-  omp_destroy_lock(&lock);
+    omp_set_lock(&lock);
+    // ...
+    omp_unset_lock(&lock);
+    omp_test_lock(&lock);
+    omp_destroy_lock(&lock);
 }
 \end{lstlisting}
 
@@ -245,17 +245,17 @@ omp_init_lock(&lock);
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel
 {
-  while (i < N)
-  {
-    #pragma omp for
+    while (i < N)
     {
-      for (...)
+        #pragma omp for
+        {
+            for (...)
+        }
+        #pragma omp single
+        {
+            ++i;
+        }
     }
-    #pragma omp single
-    {
-      ++i;
-    }
-  }
 }
 \end{lstlisting}
 
@@ -266,9 +266,9 @@ omp_init_lock(&lock);
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel for shedul(dinamic)
 {
-  for (i = 0; i < N; ++i) {
-    // ...
-  }
+    for (i = 0; i < N; ++i) {
+        // ...
+    }
 }
 \end{lstlisting}
 
@@ -279,13 +279,13 @@ omp_init_lock(&lock);
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel for ordered
 {
-  for (i = 0; i < N; ++i) {
-    // ...
-  }
-  # pragma omp ordered
-  {
-    write_result(...);
-  }
+    for (i = 0; i < N; ++i) {
+        // ...
+    }
+    # pragma omp ordered
+    {
+        write_result(...);
+    }
 }
 \end{lstlisting}
 
