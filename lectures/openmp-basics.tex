@@ -8,14 +8,11 @@
 \section*{Обзор}
 
 \begin{frame}
-\tableofcontents
+\titlepage
 \end{frame} 
 
-\begin{frame}{На прошлой лекции}
-\end{frame}
-
 \begin{frame}{На этой лекции}
-\titlepage
+\tableofcontents
 \end{frame}
 
 % Use [fragile] option to insert listings
@@ -25,13 +22,42 @@
 
 \begin{frame}
 
-\todo Write me.
+OpenMP (Open Multi-Processing) --- открытый стандарт для распараллеливания программ на языках C, C++, Fortran.
+
+Описывает совокупность директив компилятора, процедур и переменных окружения.
+
+1997 год --- первая версия для Fortran.
+
+1998 год --- первая версия для C/C++.
+
+\end{frame}
+
+\begin{frame}[fragile]{Директивы компилятора}
+
+Директива компилятора --- указание особенностей обработки при компиляции.
+
+Директивы препроцессора:
+
+\begin{lstlisting}
+#include "file"
+#define
+\end{lstlisting}
+
+Директива \texttt{\#pragma} --- поддержка функций уникальных для хоста или компилятора (ОС) с сохранением совместимости языков C/C++.
+
+\end{frame}
+
+\begin{frame}{Примеры использования \#pragma}
+
+\texttt{\#pragma once} --- аналог include guard. \todo Example.
+
+\texttt{\#pragma message} --- определяет сообщение выдоваемое при компиляции. \todo Example.
 
 \end{frame}
 
 \section{Основные команды OpenMP}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Директивы OpenMP}
 
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel
