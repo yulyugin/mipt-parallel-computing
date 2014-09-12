@@ -49,9 +49,11 @@ OpenMP (Open Multi-Processing) --- открытый стандарт для ра
 
 \begin{frame}{Примеры использования \#pragma}
 
-\texttt{\#pragma once} --- аналог include guard. \todo Example.
+\texttt{\#pragma once} --- аналог include guard.
 
-\texttt{\#pragma message} --- определяет сообщение выдоваемое при компиляции. \todo Example.
+\texttt{\#pragma message} --- определяет сообщение выдоваемое при компиляции.
+
+\texttt{\#pragma omp}
 
 \end{frame}
 
@@ -59,32 +61,89 @@ OpenMP (Open Multi-Processing) --- открытый стандарт для ра
 
 \begin{frame}[fragile]{Директивы OpenMP}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel
+\begin{lstlisting}
+#pragma omp <directive> options
 \end{lstlisting}
+
+\begin{itemize}
+    \item parallel,
+    \item for,
+    \item single,
+    \item section,
+    \item critical,
+    \item atomic,
+    \item barrier.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Директивы parallel и for}
+
+Директива \texttt{parallel} сообщает компилятору, что блок кода должен быть выполнен в нескольких потоках.
+
+Директива \texttt{for} распределяет итерации цикла между тредами.
+
+\end{frame}
+
+\begin{frame}{Некоторые опции}
+
+\begin{itemize}
+    \item if --- исполнить параллельно, если истина. Последовательно в противном случае.
+    \item private(list) --- локальные для потоков переменные. При входе и выходе значения не определены.
+    \item shared(list) --- общение для всех потоков переменные.
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 int a = {...};
 int j = 0;
 
-#pragma omp parallel for shared(a), private(j)
+#pragma omp parallel
 {
   for (j = 0; j < N; ++j)
     a[j] = a[j] * a[j];
 }
 \end{lstlisting}
 
-Можно использовать только операции сравнения: >=, >, <=, <.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+int a = {...};
+int j = 0;
+
+#pragma omp parallel for
+{
+  for (j = 0; j < N; ++j)
+    a[j] = a[j] * a[j];
+}
+\end{lstlisting}
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Процедуры OpenMP}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{itemize}
+    \item Возвращает номер потока
+    \begin{lstlisting}
+int omp_get_thread_num()
+    \end{lstlisting}
+
+    \item Определяет количество потоков используемое по-умолчанию в параллельной секции.
+    \begin{lstlisting}
+void omp_set_num_threads(int num_threads);
+    \end{lstlisting}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
 #pragma omp parallel
 {
   myid = omp_get_thread_num();
@@ -98,13 +157,17 @@ int j = 0;
 
 \end{frame}
 
+\begin{frame}{Переменные окружения}
+\texttt{OMP_NUM_THREADS} --- определяет количество потоков используемое по-умолчанию в параллельной секции.
+\end{frame}
+
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp for
 \end{lstlisting}
 
-Будет выполнгена с уже созданными потоками, что позволит сохранить время.
+Будет выполнена с уже созданными потоками, что позволит сохранить время.
 
 \end{frame}
 
@@ -142,7 +205,7 @@ int j = 0;
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp critical (label)
 {
-  ...
+    <...>
 }
 \end{lstlisting}
 
@@ -173,20 +236,6 @@ omp_init_lock(&lock);
   omp_test_lock(&lock);
   omp_destroy_lock(&lock);
 }
-\end{lstlisting}
-
-\end{frame}
-
-\section{Компиляция}
-
-\begin{frame}[fragile]
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#include <omp.h>
-\end{lstlisting}
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-> gcc -fopenmp
 \end{lstlisting}
 
 \end{frame}
@@ -233,7 +282,7 @@ omp_init_lock(&lock);
   for (i = 0; i < N; ++i) {
     // ...
   }
-  # pragma omp odered
+  # pragma omp ordered
   {
     write_result(...);
   }
@@ -242,11 +291,29 @@ omp_init_lock(&lock);
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Измерение времени}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 omp_set_num_threads();
 omp_get_wtime();
+\end{lstlisting}
+
+\end{frame}
+
+\section{Компиляция}
+
+\begin{frame}[fragile]{Сборка и запуск}
+
+Поддерживается компилятором начиная с GCC 4.2.
+
+Заголовочный файл \texttt{omp.h}:
+
+\begin{lstlisting}
+#include <omp.h>
+\end{lstlisting}
+
+\begin{lstlisting}
+> gcc -fopenmp file.c
 \end{lstlisting}
 
 \end{frame}
@@ -255,6 +322,9 @@ omp_get_wtime();
 % The final "thank you" frame 
 
 \begin{frame}{Задания}
+
+Посчитать интеграл sin(1/x).
+
 \end{frame}
 
 \begin{frame}{На следующей лекции}
