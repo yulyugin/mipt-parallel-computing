@@ -96,33 +96,59 @@ OpenMP (Open Multi-Processing) --- открытый стандарт для ра
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}
-int a = {...};
-int j = 0;
-
-#pragma omp parallel
+int i, N = 8;
+#pragma omp parallel private(i)
 {
-    for (j = 0; j < N; ++j)
-        a[j] = a[j] * a[j];
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n",
+               omp_get_thread_num(), i);
 }
 \end{lstlisting}
 
+\pause
+
+Что неправильно?
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}
-int a = {...};
-int j = 0;
-
-#pragma omp parallel for
+int i, N = 8;
+#pragma omp parallel private(i)
 {
-    for (j = 0; j < N; ++j)
-        a[j] = a[j] * a[j];
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
 }
 \end{lstlisting}
 
+\pause
+
+Что будет напечатано?
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = 8;
+#pragma omp parallel for
+{
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = atoi(argv[1]);
+#pragma omp parallel if(N >= 8) private(i)
+{
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
+}
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{Процедуры OpenMP}
