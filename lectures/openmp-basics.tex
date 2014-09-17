@@ -251,14 +251,12 @@ void omp_set_num_threads(int num_threads);
 
 \begin{frame}[fragile]{Пример}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel reduction (+:sum)
-{
-    #pragma omp for
-    {
-        sum+= f(a[j]);
-    }
-}
+Вычисление суммы элементов массива:
+
+\begin{lstlisting}
+#pragma omp parallel for reduction(+:sum)
+    for (i = 0; i < N; i++)
+        sum += a[i];
 \end{lstlisting}
 
 \end{frame}
