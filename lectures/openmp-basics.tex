@@ -197,7 +197,59 @@ void omp_set_num_threads(int num_threads);
 
 \end{frame}
 
-\begin{frame}[fragile]{Редукция}
+\section{Редукция}
+
+\begin{frame}{Опция reduction}
+Формат опции: reduction(оператор: список)
+
+\bigskip
+
+Поддерживаеые операторы: +, *, -, \&, |, \^~, \&\&, ||.
+
+\bigskip
+
+Переменные должны иметь скалярный тип: \texttt{float}, \texttt{int},
+\texttt{std::vector}, и т.д.
+\end{frame}
+
+\begin{frame}{Принцип работы}
+\begin{enumerate}
+    \item Для каждой переменной создаются локальные копии в каждом потоке;
+    \item Переменные инициализируются: 0 для аддитивных операций и 1 для
+    мултипликативных;
+    \item После завершения надо локальными переменными выполняется заданный
+    оператор.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Операторы reduction}
+\begin{table}[htpb]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Оператор    &   Исходное значение   \\
+    \hline
+    +           &   0                   \\
+    \hline
+    *           &   1                   \\
+    \hline
+    -           &   0                   \\
+    \hline
+    \&          &   \~~0                \\
+    \hline
+    |           &   0                   \\
+    \hline
+    \^~         &   0                   \\
+    \hline
+    \&\&        &   1                   \\
+    \hline
+    ||          &   0                   \\
+    \hline
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
 
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 #pragma omp parallel reduction (+:sum)
