@@ -314,7 +314,7 @@ void omp_set_num_threads(int num_threads);
 
 \begin{frame}[fragile]{Секции}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp sections
     init();
 #pragma omp section
@@ -329,7 +329,7 @@ void omp_set_num_threads(int num_threads);
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp critical (label)
 {
     <...>
@@ -340,7 +340,7 @@ void omp_set_num_threads(int num_threads);
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp atomic
 {
     sum += value;
@@ -351,7 +351,7 @@ void omp_set_num_threads(int num_threads);
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 omp_lock_t losk;
 omp_init_lock(&lock);
 
@@ -369,7 +369,7 @@ omp_init_lock(&lock);
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp parallel for ordered
 {
     for (i = 0; i < N; ++i) {
