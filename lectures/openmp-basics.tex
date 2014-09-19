@@ -296,16 +296,13 @@ void omp_set_num_threads(int num_threads);
 \begin{lstlisting}
 #pragma omp parallel
 {
-    while (i < N)
+    #pragma omp for
     {
-        #pragma omp for
-        {
-            for (...)
-        }
-        #pragma omp single
-        {
-            ++i;
-        }
+        for (...)
+    }
+    #pragma omp single
+    {
+        write_result(...);
     }
 }
 \end{lstlisting}
@@ -315,12 +312,15 @@ void omp_set_num_threads(int num_threads);
 \begin{frame}[fragile]{Секции}
 
 \begin{lstlisting}
-#pragma omp sections
-    init();
-#pragma omp section
-    task_1();
-#pragma omp section
-    task_2();
+#pragma omp parallel
+{
+    #pragma omp sections
+        init();
+    #pragma omp section
+        task_1();
+    #pragma omp section
+        task_2();
+}
 \end{lstlisting}
 
 \end{frame}
@@ -352,7 +352,7 @@ void omp_set_num_threads(int num_threads);
 \begin{frame}[fragile]
 
 \begin{lstlisting}
-omp_lock_t losk;
+omp_lock_t lock;
 omp_init_lock(&lock);
 
 #pragma omp parallel
@@ -367,17 +367,19 @@ omp_init_lock(&lock);
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Директива ordered}
 
 \begin{lstlisting}
-#pragma omp parallel for ordered
+#pragma parallel private(i)
 {
-    for (i = 0; i < N; ++i) {
-        // ...
-    }
-    # pragma omp ordered
-    {
-        write_result(...);
+    int id = omp_get_thread_num();
+
+    #pragma omp for ordered
+    for (i = 0; i < N; i++) {
+        printf("Thread %d, iteration %d\n", id, i);
+
+        #pragma omp ordered
+            printf("Thread %d, iteration %d\n", id, i);
     }
 }
 \end{lstlisting}
