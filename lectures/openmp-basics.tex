@@ -261,15 +261,14 @@ void omp_set_num_threads(int num_threads);
 
 \end{frame}
 
-\begin{frame}[fragile]{Динамический режим}
+\begin{frame}[fragile]{Динамическое распределение нагрузки}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel for shedul(dinamic)
-{
-    for (i = 0; i < N; ++i) {
-        // ...
-    }
-}
+Опция \texttt{schedule}
+
+\begin{lstlisting}[basicstyle=\scriptsize]
+#pragma omp parallel for shared(a), schedule(dynamic)
+    for (i = 0; i < N; i++)
+        a[i] = a[i] * a[i];
 \end{lstlisting}
 
 \end{frame}
