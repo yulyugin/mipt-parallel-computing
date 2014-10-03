@@ -18,15 +18,16 @@
 \tableofcontents
 \end{frame} 
 
-% Use [fragile] option to insert listings
-% \begin{frame}[fragile]
+\section{Виды зависимостей}
 
-\begin{frame}
+\begin{frame}{Зависимости по данным}
+Виды зависимостей по данным:
 
-Истинная зависимость
-
-Антизависимость
-
+\begin{itemize}
+    \item Зависимость по выходным данным,
+    \item Антизависимость,
+    \item Истинная зависимость.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -40,31 +41,57 @@
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Зависимость по выходным данным}
+\begin{lstlisting}
+x = 2 * y + 5;
+x = 3 + k;
+\end{lstlisting}
 
-антизависимость
+Мешает ли распараллеливанию?
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-x = 2y + 1
+\pause
+
+\begin{lstlisting}
+x1 = 2 * y + 5;
+x2 = 3 + k;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Антизависимость}
+\begin{lstlisting}
+x = 2 * y + 1
 y = z + 2
 \end{lstlisting}
 
+Мешает ли распараллеливанию?
+
+\pause
+
+\begin{lstlisting}
+y1 = y
+x = 2 * y1 + 1
+y = z + 2
+\end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]
-
-истинная зависимость
-
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{frame}[fragile]{Истинная зависимость}
+\begin{lstlisting}
 x = 2 + z
 y = 4 + x
 \end{lstlisting}
 
+\pause\bigskip
+
+Мешает ли распараллеливанию?
+
+\pause\bigskip
+
+Да
 \end{frame}
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 for (i = 0; i < M; ++i) {
   a[i] = f(a[i])
 }
@@ -76,7 +103,7 @@ for (i = 0; i < M; ++i) {
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 for (i = 0; i < M - 1; ++i) {
   a[i] = f(a[i + 1]);
 }
@@ -88,7 +115,7 @@ for (i = 0; i < M - 1; ++i) {
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 for (i = 1; i < M; ++i) {
   a[i] = f(a[i-1]);
 }
@@ -100,7 +127,7 @@ for (i = 1; i < M; ++i) {
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 for (i = 0; i < M; ++i) {
   a[i] = f(a[i - 2]);
 }
@@ -112,7 +139,7 @@ for (i = 0; i < M; ++i) {
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 do {
   A[f(k)] = ...;
   ... = A[g(l)];
@@ -129,7 +156,7 @@ do {
 
 $D = K - L$
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 for (i = 0; i < M; ++i) {
   a[i] = f(a[i+1]);
 }
