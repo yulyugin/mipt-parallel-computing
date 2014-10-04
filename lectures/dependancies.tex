@@ -20,25 +20,36 @@
 
 \section{Виды зависимостей}
 
+\begin{frame}{Виды зависимостей}
+\begin{enumerate}
+    \item Зависимости по данным,
+    \pause
+    \item Зависимости по управлению,
+    \pause
+    \item Зависимости по ресурсам.
+\end{enumerate}
+\end{frame}
+
+\section{Зависимости по данным}
+
 \begin{frame}{Зависимости по данным}
 Виды зависимостей по данным:
 
 \begin{itemize}
     \item Зависимость по выходным данным,
+    \item Зависимость по входным данным,
     \item Антизависимость,
     \item Истинная зависимость.
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-
+\begin{frame}{Зависимости по данным}
 \begin{itemize}
-  \item RAW
-  \item RAR
-  \item WAW
-  \item WAR
+  \item WAW --- Зависимость по выходным данным,
+  \item RAR --- Ложная зависимость,
+  \item WAR --- Антизависимость,
+  \item RAW --- Истинная зависимость.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}[fragile]{Зависимость по выходным данным}
@@ -54,6 +65,13 @@ x = 3 + k;
 \begin{lstlisting}
 x1 = 2 * y + 5;
 x2 = 3 + k;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Зависимость по входным данным}
+\begin{lstlisting}
+y = x + 4;
+z = x + 5;
 \end{lstlisting}
 \end{frame}
 
