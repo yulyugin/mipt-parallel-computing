@@ -89,8 +89,8 @@ Antidependence.
 \pause\bigskip
 
 \begin{lstlisting}
-x = 2 * y + 1
-y = z + 2
+x = 2 * y + 1;
+y = z + 2;
 \end{lstlisting}
 
 Мешает ли распараллеливанию?
@@ -98,9 +98,9 @@ y = z + 2
 \pause
 
 \begin{lstlisting}
-y1 = y
-x = 2 * y1 + 1
-y = z + 2
+y1 = y;
+x = 2 * y1 + 1;
+y = z + 2;
 \end{lstlisting}
 \end{frame}
 
@@ -110,8 +110,8 @@ Flow (True) dependence.
 \pause\bigskip
 
 \begin{lstlisting}
-x = 2 + z
-y = 4 + x
+x = 2 + z;
+y = 4 + x;
 \end{lstlisting}
 
 \pause\bigskip
@@ -120,55 +120,67 @@ y = 4 + x
 
 \pause\bigskip
 
-Да
+Да.
 \end{frame}
 
-\begin{frame}[fragile]
+\section{Индексный анализ зависимостей}
+
+\begin{frame}[fragile]{Пример}
 
 \begin{lstlisting}
-for (i = 0; i < M; ++i) {
-  a[i] = f(a[i])
+for (i = 0; i < N; i++) {
+  a[i] = f(a[i]);
 }
 \end{lstlisting}
 
-можно распараллелить на $M$ потоков.
+Можно ли выполниить параллельно?
 
+\pause\bigskip
+
+Зависимости нет $\Rightarrow$ можно выполнить на $\leq$ \texttt{N} потоках.
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Пример}
 
 \begin{lstlisting}
-for (i = 0; i < M - 1; ++i) {
+for (i = 0; i < N - 1; i++) {
   a[i] = f(a[i + 1]);
 }
 \end{lstlisting}
 
-антизависимость $=>$ можно распараллелить на $M$.
+Можно ли выполнить параллельно?
 
+\pause\bigskip
+
+Антизависимость $\Rightarrow$ можно распараллелить на $\leq$ \texttt{N - 1}.
 \end{frame}
 
-\begin{frame}[fragile]
-
+\begin{frame}[fragile]{Пример}
 \begin{lstlisting}
-for (i = 1; i < M; ++i) {
+for (i = 1; i < N; i++) {
   a[i] = f(a[i-1]);
 }
 \end{lstlisting}
 
-нельзя распараллелить
+Можно ли выполнить параллельно?
 
+\pause\bigskip
+
+Истинная зависимость $\Rightarrow$ можно выполнить только в один поток.
 \end{frame}
 
-\begin{frame}[fragile]
-
+\begin{frame}[fragile]{Пример}
 \begin{lstlisting}
 for (i = 0; i < M; ++i) {
   a[i] = f(a[i - 2]);
 }
 \end{lstlisting}
 
-можно распараллелить на два потока
+Можно ли выполнить параллельно?
 
+\pause\bigskip
+
+Можно на двух потоках.
 \end{frame}
 
 \begin{frame}[fragile]
