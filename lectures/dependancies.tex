@@ -53,6 +53,10 @@
 \end{frame}
 
 \begin{frame}[fragile]{Зависимость по выходным данным}
+Output dependence.
+
+\pause\bigskip
+
 \begin{lstlisting}
 x = 2 * y + 5;
 x = 3 + k;
@@ -60,7 +64,7 @@ x = 3 + k;
 
 Мешает ли распараллеливанию?
 
-\pause
+\pause\bigskip
 
 \begin{lstlisting}
 x1 = 2 * y + 5;
@@ -69,6 +73,10 @@ x2 = 3 + k;
 \end{frame}
 
 \begin{frame}[fragile]{Зависимость по входным данным}
+Input dependence.
+
+\pause\bigskip
+
 \begin{lstlisting}
 y = x + 4;
 z = x + 5;
@@ -76,6 +84,10 @@ z = x + 5;
 \end{frame}
 
 \begin{frame}[fragile]{Антизависимость}
+Antidependence.
+
+\pause\bigskip
+
 \begin{lstlisting}
 x = 2 * y + 1
 y = z + 2
@@ -93,6 +105,10 @@ y = z + 2
 \end{frame}
 
 \begin{frame}[fragile]{Истинная зависимость}
+Flow (True) dependence.
+
+\pause\bigskip
+
 \begin{lstlisting}
 x = 2 + z
 y = 4 + x
