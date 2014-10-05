@@ -39,16 +39,16 @@
     \item Зависимость по выходным данным,
     \item Зависимость по входным данным,
     \item Антизависимость,
-    \item Истинная зависимость.
+    \item Истинная или потоковая зависимость.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Зависимости по данным}
 \begin{itemize}
   \item WAW --- Зависимость по выходным данным,
-  \item RAR --- Ложная зависимость,
+  \item RAR --- Зависимость по входным данным,
   \item WAR --- Антизависимость,
-  \item RAW --- Истинная зависимость.
+  \item RAW --- Истинная или потоковая зависимость.
 \end{itemize}
 \end{frame}
 
@@ -104,7 +104,7 @@ y = z + 2;
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Истинная зависимость}
+\begin{frame}[fragile]{Истинная или потоковая зависимость}
 Flow (True) dependence.
 
 \pause\bigskip
