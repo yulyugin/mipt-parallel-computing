@@ -125,64 +125,6 @@ y = 4 + x;
 
 \section{Индексный анализ зависимостей}
 
-\begin{frame}[fragile]{Пример}
-
-\begin{lstlisting}
-for (i = 0; i < N; i++) {
-  a[i] = f(a[i]);
-}
-\end{lstlisting}
-
-Можно ли выполниить параллельно?
-
-\pause\bigskip
-
-Зависимости нет $\Rightarrow$ можно выполнить на $\leq$ \texttt{N} потоках.
-\end{frame}
-
-\begin{frame}[fragile]{Пример}
-
-\begin{lstlisting}
-for (i = 0; i < N - 1; i++) {
-  a[i] = f(a[i + 1]);
-}
-\end{lstlisting}
-
-Можно ли выполнить параллельно?
-
-\pause\bigskip
-
-Антизависимость $\Rightarrow$ можно распараллелить на $\leq$ \texttt{N - 1}.
-\end{frame}
-
-\begin{frame}[fragile]{Пример}
-\begin{lstlisting}
-for (i = 1; i < N; i++) {
-  a[i] = f(a[i - 1]);
-}
-\end{lstlisting}
-
-Можно ли выполнить параллельно?
-
-\pause\bigskip
-
-Истинная зависимость $\Rightarrow$ можно выполнить только в один поток.
-\end{frame}
-
-\begin{frame}[fragile]{Пример}
-\begin{lstlisting}
-for (i = 0; i < M; ++i) {
-  a[i] = f(a[i - 2]);
-}
-\end{lstlisting}
-
-Можно ли выполнить параллельно?
-
-\pause\bigskip
-
-Можно на двух потоках.
-\end{frame}
-
 \begin{frame}[fragile]{Зависимости в невложенных циклах}
 \begin{lstlisting}
 for (i = 1; i < N; i++) {
@@ -216,9 +158,13 @@ $S_2^{N - 1}: ... = A[g(N - 1)];$
 $S_1^k$ --- источник (\abbr source) зависимости, $S_2^l$ --- сток (\abbr sink)
 зависимости.
 
+\pause
+
 Для того, чтоб узнать, можно ли распараллелить цикл необходимо вычислить:
 
 $d = l - k$ --- расстояние зависимости.
+
+\pause
 
 \begin{itemize}
     \item d < 0 $\Rightarrow$ антизависимость.
@@ -231,20 +177,58 @@ $d = l - k$ --- расстояние зависимости.
 
 \begin{frame}[fragile]{Пример}
 \begin{lstlisting}
-for (i = 0; i < M; ++i) {
-  a[i] = f(a[i+1]);
+for (i = 0; i < N; ++i) {
+  a[i] = f(a[i + 1]);
 }
 \end{lstlisting}
 
-Разворачиваем цикл
+Разворачиваем цикл:
 
-\begin{itemize}
-  \item \texttt{a[1] = f(a[2])}
-  \item \texttt{a[2] = f(a[3])}
-\end{itemize}
+\begin{enumerate}
+  \item \texttt{a[1] = f(a[2]);}
+  \item \texttt{a[2] = f(a[3]);}
+  \item \texttt{a[3] = f(a[3]);}
+\end{enumerate}
 
-D = -1 $=>$ в цикле есть антизависимость и от нее можно избавиться копирование данных
+d = -1 $\Rightarrow$ в цикле есть антизависимость и от нее можно избавиться
+копированием данных. Можно выполнить на $\leq$ \texttt{N} потоках.
+\end{frame}
 
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+for (i = 0; i < N; i++) {
+  a[i] = f(a[i]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 0 $\Rightarrow$ зависимости нет. Можно выполнить на $\leq$ \texttt{N} потоках.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+for (i = 1; i < N; i++) {
+  a[i] = f(a[i - 1]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 1 $\Rightarrow$ истинная зависимость. Можно выполнить только в один поток.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+for (i = 2; i < N; i++) {
+  a[i] = f(a[i - 2]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 2 $\Rightarrow$ истинная зависимость. Можно на двух потоках.
 \end{frame}
 
 \section*{Конец}
