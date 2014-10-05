@@ -158,7 +158,7 @@ for (i = 0; i < N - 1; i++) {
 \begin{frame}[fragile]{Пример}
 \begin{lstlisting}
 for (i = 1; i < N; i++) {
-  a[i] = f(a[i-1]);
+  a[i] = f(a[i - 1]);
 }
 \end{lstlisting}
 
@@ -183,25 +183,53 @@ for (i = 0; i < M; ++i) {
 Можно на двух потоках.
 \end{frame}
 
-\begin{frame}[fragile]
-
+\begin{frame}[fragile]{Зависимости в невложенных циклах}
 \begin{lstlisting}
-do {
-  A[f(k)] = ...;
-  ... = A[g(l)];
+for (i = 1; i < N; i++) {
+  A[f(i)] = ...;
+  ... = A[g(i)];
 }
 \end{lstlisting}
 
-Если $f(k) == g(l)$, то распараллелить нельзя, так как производится чтение и запись одного и того же элемента.
+\pause
 
+Раскручиваем цикл:
+
+\bigskip
+
+$S_1^1: A[f(1)] = ...;$
+
+$S_2^1: ... = A[g(1)];$
+
+<...>
+
+$S_1^{N - 1}: A[f(N - 1)] = ...;$
+
+$S_2^{N - 1}: ... = A[g(N - 1)];$
+
+\pause\bigskip
+
+Если $\exists k, l: 0 < k, l < N$ и $f(k) = g(l)$, то есть зависимость.
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}{Расстояние зависимости}
+$S_1^k$ --- источник (\abbr source) зависимости, $S_2^l$ --- сток (\abbr sink)
+зависимости.
 
-Для того, чтоб узнать, можно ли распараллелить цикл необходимо вычислить
+Для того, чтоб узнать, можно ли распараллелить цикл необходимо вычислить:
 
-$D = K - L$
+$d = l - k$ --- расстояние зависимости.
 
+\begin{itemize}
+    \item d < 0 $\Rightarrow$ антизависимость.
+    \item d = 0 $\Rightarrow$ зависимостей между итерациями нет (\abbr loop
+    independent dependence).
+    \item d > 0 $\Rightarrow$ истиная зависимость между операциями цикла,
+    исполняющимися на разных итерациях,
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
 \begin{lstlisting}
 for (i = 0; i < M; ++i) {
   a[i] = f(a[i+1]);
