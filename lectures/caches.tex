@@ -33,10 +33,72 @@
 \end{frame}
 
 \begin{frame}{Локальность (\abbr locality) данных}
-
+\todo picture
 \end{frame}
 
 \section{Устройство и принципы работы}
+
+\begin{frame}{Кэш (\abbr cache)}
+\todo picture
+\end{frame}
+
+\begin{frame}{Поиск в кэше}
+\todo picture
+\end{frame}
+
+\begin{frame}{Ассоциативность}
+\todo
+\end{frame}
+
+\begin{frame}{События при поиске в кэше}
+\end{frame}
+
+\begin{frame}{Кэши и физические/виртуальные адреса}
+\end{frame}
+
+\begin{frame}{Кэш инструкций и данных}
+\end{frame}
+
+\begin{frame}{Многоуровневые кэши}
+\begin{itemize}
+    \item Один уровень кэша имеет ограничения по емкости/скорости,
+    \item Решение --- ирархическая система,
+    \item Кэши высоких уровней имеют большую емкости и большее время доступа.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Многоуровневые кэши}
+\todo picture
+\end{frame}
+
+\begin{frame}{Политики записи в память}
+\begin{itemize}
+    \item WT (write through),
+    \item WB (write back),
+    \item WA (write allocate),
+    \item WC (write combined),
+    \item UC (uncacheable).
+\end{itemize}
+\end{frame}
+
+\section{Кэши в многопроцессорных системах}
+
+\begin{frame}{Кэши в многопроцессорных системах}
+\begin{itemize}
+    \item В качастве кэширующих агентов выступают CPU/другие устройства, имеющие DMA,
+    \item Исполняющимся программам необходимо иметь <<консистентный>> вид на память,
+    \item Обеспечивается подшлядыванием в чужие кэши/явными передачами
+    сообщений и определяется протоколом когерентности системы.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Когерентность}
+\todo
+\end{frame}
+
+\begin{frame}{MESI}
+\inputpicture{mesi}
+\end{frame}
 
 \section*{Конец}
 % The final "thank you" frame
