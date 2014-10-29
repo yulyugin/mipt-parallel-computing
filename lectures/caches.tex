@@ -51,6 +51,25 @@
 \end{frame}
 
 \begin{frame}{События при поиске в кэше}
+\begin{columns}[t]
+    \begin{column}[T]{0.5\textwidth}
+    Внешние:
+    \begin{itemize}
+        \item Чтение --- попадание,
+        \item Чтение --- промах,
+        \item Запись --- попадание,
+        \item Запись --- промах.
+    \end{itemize}
+    \end{column}
+    \begin{column}[T]{0.5\textwidth}
+    Внутренние:
+    \begin{itemize}
+        \item Поиск --- тэг не найден,
+        \item Поиск --- флаг V снят,
+        \item Добавление --- нет свободной ячейки.
+    \end{itemize}
+    \end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Кэши и физические/виртуальные адреса}
