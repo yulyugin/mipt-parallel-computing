@@ -30,7 +30,6 @@ mipt-parallel-computing
 
 ### 1 семестр
 
-1. MPI Hello World
 2. MPI Ping-Pong
 3. MPI ring
 4. Сумма ряда 1/n!
@@ -40,10 +39,14 @@ mipt-parallel-computing
 ### 2 семестр
 
 1. OpenMP ring
-2. POSIX threads ring
 3. Интеграл
 4. Циклы
 5. Выч. Маты
+
+## Контрольные задания
+
+1. POSIX ring.
+2. Найти недостающее число.
 
 ## Замечание
 
