@@ -1,0 +1,79 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Эффективность и ускорение параллельных программ. Закон Амдала.}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Эффективность}
+
+\begin{frame}{Эффективность параллельного алгоритма}
+
+$T_1$ --- время работа самого быстрого последовательного алгоритма.
+
+Ускорение параллельного алгоритма:
+
+$S_p = \frac{T_1}{T_p}$
+
+Эффективность параллельного алгоритма:
+
+$E_p = \frac{S}{p}$
+
+\end{frame}
+
+\section{Закон Амдала}
+
+\begin{frame}{Закон Амдала}
+$\alpha$ --- доля вычислений, которые могут быть получены только
+последовательными расчетами.
+
+\bigskip
+
+Тогда ускорение полученное при использовании $p$ процессоров по сравнению с
+одним не будет превышать величины
+
+\bigskip
+
+$S_p =\frac{1}{\alpha - \frac{1 - \alpha}{p}}$
+\end{frame}
+
+\begin{frame}{Закон Амдала}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{amdahls-law}
+\end{figure}
+\end{frame}
+
+\section*{Конец}
+% The final "thank you" frame
+
+\begin{frame}{Задания}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
