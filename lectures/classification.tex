@@ -1,0 +1,103 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Классификация параллельных вычислительных систем.}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Классификация Флинна}
+
+\begin{frame}{Классификация Флинна}
+
+Классификация архитектур вычислительных систем по признакам наличия параллелизма
+команд и данных.
+
+\begin{table}[htp]
+    \begin{center}
+    \begin{tabular}{|l|c|c|}
+        \hline
+                                & Single data   & Multiple data \\
+        \hline
+        Single instruction      & SISD          & SIMD \\
+        \hline
+        Multiple instruction    & MISD          & MIMD \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Классификация Флинна}
+
+Michael J. Flynn:
+
+\begin{itemize}
+    \item SISD --- компьютер фон-Неймановской архитектуры с одним процессором,
+    \item SIMD --- векторные процессоры. SSE, AVX IA-32 расширения ISA,
+    \item MISD --- представителей данного класса не существует,
+    \item MIMD --- многопроцессорные системы, кластеры и др.
+\end{itemize}
+\end{frame}
+
+\section{Классификация Хокни}
+
+\begin{frame}{Классификация Хокни}
+
+Roger W. Hockney:
+
+\begin{itemize}
+    \item Переключаемые:
+    \begin{itemize}
+        \item С общей памятью,
+        \item С распределенной памятью.
+    \end{itemize}
+    \item Конвейерные,
+    \item Сети:
+    \begin{itemize}
+        \item Регулярные решетки,
+        \item Гиперкубы,
+        \item Иерархические структуры,
+        \item Изменяющие конфигурацию.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section*{Литература}
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{patterson-hennessy} \textit{David A. Patterson, John L. Hennessy}. <<Computer Organization and Design, Fourth Edition: The Hardware/Software Interface.>>
+\end{thebibliography}
+\end{frame}
+
+\section*{Конец}
+% The final "thank you" frame
+
+\begin{frame}{На следующей лекции}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
