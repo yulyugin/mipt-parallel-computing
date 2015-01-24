@@ -57,17 +57,32 @@ Michael J. Flynn:
 
 \begin{frame}{Классификация Хокни}
 
-Roger W. Hockney:
+Roger W. Hockney.
+
+Множественный поток может быть обработан двумя способами:
 
 \begin{itemize}
+    \item Конвейерное устройство обработки, работающее в режиме разделения
+    времени для отдельных потоков,
+    \item Каждый поток обрабатывается отдельным устройством.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Классификация Хокни}
+
+Классификация вычислительных систем класса MIMD:
+
+\begin{itemize}
+    \item Конвейерные,
     \item Переключаемые:
     \begin{itemize}
         \item С общей памятью,
         \item С распределенной памятью.
     \end{itemize}
-    \item Конвейерные,
     \item Сети:
     \begin{itemize}
+        \item Звездообразные,
         \item Регулярные решетки,
         \item Гиперкубы,
         \item Иерархические структуры,
@@ -76,16 +91,73 @@ Roger W. Hockney:
 \end{itemize}
 \end{frame}
 
+\section{Суперскалер}
+
+\begin{frame}{Суперскаларная архитектура}
+\end{frame}
+
+\section{VLIW}
+
+\begin{frame}{VLIW архитектура}
+
+VLIW (Very Long Instruction Word) --- архитектура процессоров, в которой каждая
+инструкция содержит несколько операций, которые будут выполнены параллельно.
+
+\begin{figure}[htpb]
+    \includegraphics[width=0.7\textwidth]{elbrus-2s}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Преимущества}
+\begin{itemize}
+    \item Распределением вычислительных устройств занимается компилятор,
+    \item Пониженное энергопотребление, за счет отсуствия узлов, отвечающих за
+    распределение задач.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Недостатки}
+\begin{itemize}
+    \item Низкая плотность кода. Большое количество NOP-инструкций,
+    \item Увеличенный размер программ,
+    \item Сложность программирования на уровне ISA. Только оптимизации
+    компилятора.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Реализации}
+\begin{itemize}
+    \item Микропроцессоры серии <<Эльбрус>>,
+    \item TriMedia (NXP Semiconductors). 1987--2010 гг.,
+    \item Transmeta Crusoe. 2000--2004 гг.
+    \begin{figure}[htbp]
+        \includegraphics[width=0.4\textwidth]{transmeta-crusoe}
+    \end{figure}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+Код складывающий 4 числа, находящихся в регистрах R1, R2, R3, R4.
+
+\begin{lstlisting}
+R5 = R1 + R2, R6 = R3 + R4;
+R0 = R5 + R6, NOP;
+\end{lstlisting}
+
+\end{frame}
+
 \section*{Литература}
 
 \begin{frame}[allowframebreaks]{Рекомендуемая литература}
 \begin{thebibliography}{99}
     \bibitem{patterson-hennessy} \textit{David A. Patterson, John L. Hennessy}. <<Computer Organization and Design, Fourth Edition: The Hardware/Software Interface.>>
+    \bibitem{vliw} <<Introduction to VLIW Computer Architecture>>. // Introduction to VLIW Computer Architecture. \url{http://www.psut.edu.jo/sites/qaralleh/CO/CA Documents/11_vliw.pdf}
 \end{thebibliography}
 \end{frame}
 
 \section*{Конец}
-% The final "thank you" frame
 
 \begin{frame}{На следующей лекции}
 \end{frame}
