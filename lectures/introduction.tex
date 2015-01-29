@@ -82,17 +82,79 @@
 \section{Измерение производительности}
 
 \begin{frame}{MIPS}
+IPS (\abbr Instructions Per Second).
+\vspace*{0.5cm}
+
+Вариации:
+\begin{itemize}
+    \item kIPS (\abbr thousand instructions per second),
+    \item MIPS (\abbr million instructions per second),
+    \item GIPS (\abbr giga instructions per second).
+\end{itemize}
 \end{frame}
 
 \begin{frame}{FLOPS}
+FLOPS (\abbr FLotin Point Operations Per Second).
+\vfill
+Недостатки:
+\begin{itemize}
+    \item Не учитывает разрядоность операндов,
+    \item Не учитывает другие факторы, не связанные с производительностью
+    вычислительного модуля:
+    \begin{itemize}
+        \item Пропускная способность каналов связи,
+        \item Производительность памяти,
+        \item Работа кэш-памяти.
+    \end{itemize}
+\end{itemize}
+\vfill
+Результаты полученные на одной и той же системе при помощи разных тестов
+производительности могут быть разными!
 \end{frame}
 
-\begin{frame}{Top-500}
+\begin{frame}{Benchmarks}
+Тест производительности (\abbr benchmark).
+\vfill
+Примеры:
+\begin{itemize}
+    \item \href{http://www.netlib.org/utk/people/JackDongarra/faq-linpack.html}{Linpack} --- FLOPS,
+    \item \href{http://www.spec.org/benchmarks.html}{SPEC CPU} --- MIPS,
+    \item \href{http://www.superpi.net}{SuperPI} --- single thread --- время вычислений.
+    \item \href{http://www.3dmark.com/}{3DMark} --- GPU performance --- gaming benchmark.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TOP500 Supercomputers}
+\href{http://top500.org/}{TOP500 Supercomputers}.
+\vfill
+November 2014:
+\begin{table}[htpb]
+    \begin{center}
+    \begin{tabular}{|l|r|r|r|r|}
+    \hline
+            &                   &               &   RMAX,       &   RPEAK,      \\
+    Rank    &   Location        &   Cores       &   TFLOPS      &   TFLOPS      \\
+    \hline
+    1       &   China           &   3,120,000   &   33,862.7    &   54,902.4    \\
+    \hline
+    2       &   United States   &   560,640     &   17,173.2    &   27,112.5    \\
+    \hline
+    3       &   United States   &   1,572,864   &   10,510.0    &   11,280.4    \\
+    \hline
+    4       &   Japan           &   705,024     &   8,586.6     &   10,066.3    \\
+    \hline
+    \multicolumn{5}{c}{...}                                                     \\
+    \hline
+    23      &   Russia          &   37,120      &   1,849.0     &   2,575.9     \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{table}
 \end{frame}
 
 \section{Примеры}
 
-\section{Литература}
+\section*{Конец}
 
 \begin{frame}[allowframebreaks]{Рекомендуемая литература}
 \begin{thebibliography}{99}
@@ -105,9 +167,6 @@
     Architecture: A Quantitative Approach --- 4th ed. --- 2007 --- 676~p.
 \end{thebibliography}
 \end{frame}
-
-\section*{Конец}
-% The final "thank you" frame
 
 \begin{frame}{Задания}
 \end{frame}
