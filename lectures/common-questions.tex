@@ -25,8 +25,10 @@
 
 \begin{frame}{Определение}
 Состояние гонки (\abbr Race condition) --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
+\vspace*{0.5cm}
 
 Свое название получила от похожей ошибки проектирования электронных схем (Гонки сигналов).
+\vspace*{0.5cm}
 
 Состояние гонки --- ошибка проявляющаяся в случайный момент времени.
 \end{frame}
@@ -117,45 +119,12 @@ for (i = 0; i < N; ++i) {
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Взаимная блокировка}
-Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
-\vfill
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
-pthread_mutex_t A, B;
-pthread_mutex_init(&A, NULL);
-pthread_mutex_init(&B, NULL);
-\end{lstlisting}
-
-\begin{columns}[t]
-    \begin{column}[T]{0.45\textwidth}
-        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-// thread 0
-pthread_mutex_lock(&A);
-pthread_mutex_lock(&B);
-// ...
-        \end{lstlisting}
-    \end{column}
-    \begin{column}[T]{0.45\textwidth}
-        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-// thread 1
-pthread_mutex_lock(&B);
-pthread_mutex_lock(&A);
-// ...
-        \end{lstlisting}
-    \end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Livelock}
-Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
-
-Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
-\end{frame}
+\section{Программная реализация}
 
 \begin{frame}[fragile]{Алгоритм Деккера}
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 bool flag[2] = {false, false};
-bool turn = false; // or true
+bool turn = 0;
 \end{lstlisting}
 
 \begin{columns}[t]
@@ -202,7 +171,84 @@ flag[1] = false;
 \end{columns}
 \end{frame}
 
+\begin{frame}{Алгоритм Деккера}
+Особенности:
+\begin{itemize}
+    \item Не требует поддержки атомарных операций чтения/записи $\Rightarrow$
+    переносимость;
+    \item Применим только для случая с двумя процессами;
+    \item Использование ждущего цикла (\abbr busy loop);
+    \item Не работает на суперскалярных процессорах.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Алгоритм Петерсона}
+\begin{lstlisting}[basicstyle=\small]
+bool interested[2];
+int turn;
+
+void enter_region(int thread_id) {
+    int other = 1 - thread_id;
+    interested[thread_it] = true;
+    turn = other;
+
+    while(turn == other && interested[other]);
+}
+
+void leave_region(int thread_id) {
+    interested[thread_id] = false;
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Ошибки}
+
+\begin{frame}[fragile]{Взаимная блокировка}
+Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
+\vfill
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+pthread_mutex_t A, B;
+pthread_mutex_init(&A, NULL);
+pthread_mutex_init(&B, NULL);
+\end{lstlisting}
+
+\begin{columns}[t]
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 0
+pthread_mutex_lock(&A);
+pthread_mutex_lock(&B);
+// ...
+        \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 1
+pthread_mutex_lock(&B);
+pthread_mutex_lock(&A);
+// ...
+        \end{lstlisting}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Livelock}
+Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
+\vspace*{0.5cm}
+
+Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
+\end{frame}
+
 \section*{Конец}
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Dijkstra~E.W.}
+    \href{http://www.cs.utexas.edu/users/EWD/transcriptions/EWD01xx/EWD123.html}{Cooperating
+    Sequential Processes}. --- 1965.
+    \bibitem{} \textit{Tanenbaum~A.S.} Modern operating systems. --- 3rd~ed.
+\end{thebibliography}
+\end{frame}
 
 \begin{frame}{Задания}
 
