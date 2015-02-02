@@ -1,7 +1,7 @@
 % Compile with XeLaTeX, TeXLive 2013 or more recent
 \input{common/config}
 
-\title{Общине вопросы}
+\title{Общине вопросы. Состояние гонки. Примитивы синхронизации.}
 
 \begin{document}
 
@@ -10,36 +10,28 @@
 \end{frame}
 
 \section*{Обзор}
-
 \begin{frame}{На прошлой лекции}
 
 \begin{itemize}
     \item Основы MPI.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{На этой лекции}
 \tableofcontents
-\end{frame} 
-
-% Use [fragile] option to insert listings
-% \begin{frame}[fragile]
+\end{frame}
 
 \section{Состояние гонки}
 
 \begin{frame}{Определение}
-
 Состояние гонки (\abbr Race condition) --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
 
 Свое название получила от похожей ошибки проектирования электронных схем (Гонки сигналов).
 
 Состояние гонки --- ошибка проявляющаяся в случайный момент времени.
-
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 int N = 1000;
 int x = 0;
@@ -64,35 +56,36 @@ for (i = 0; i < N; ++i) {
     \end{lstlisting}
     \end{column}
 \end{columns}
-
 \end{frame}
 
 \section{Синхронизация}
 
 \begin{frame}{Семафор}
-
 Семафор --- объект, ограничивающий количество потоков, которые могут войти в заданный участок кода.
-
+\vfill
 Интерфейс семафора:
-
 \begin{itemize}
     \item init(n) --- установить счетчик в n,
     \item enter() --- подождать пока счетчик не станет больше нуля, затем уменьшить его на единицу,
     \item leave() --- увеличить счетчик на еденицу.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{Мьютекс}
-
-Мьютекс (\abbr mutex) --- <<одноместный>> семафор, служащий для синхранизации одновременно выполняющихся потоков.
-
-\todo Mutex types.
-
+Мьютекс (\abbr mutex, mutual exclusion --- <<взаимное исключение>>) --- <<одноместный>> семафор, служащий для синхранизации одновременно выполняющихся потоков.
+\vfill
+\begin{itemize}
+    \item plain --- нет контроля повторного захвата тем же потоком;
+    \item recursive --- повторные захваты тем же модулем допустимы, ведется
+    счетчик захватов;
+    \item timed --- нет контроля захвата тем же потоком, поддерживается захват
+    мьютекса с тайм-аутом;
+    \item recursive\_timed --- повторные захваты тем же модулем допустимы,
+    поддерживается захват с тайм-аутом.
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 int N = 1000;
 int x = 0;
@@ -122,15 +115,11 @@ for (i = 0; i < N; ++i) {
     \end{lstlisting}
     \end{column}
 \end{columns}
-
 \end{frame}
 
 \begin{frame}[fragile]{Взаимная блокировка}
-
 Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
-
 \vfill
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
 pthread_mutex_t A, B;
 pthread_mutex_init(&A, NULL);
@@ -155,19 +144,15 @@ pthread_mutex_lock(&A);
         \end{lstlisting}
     \end{column}
 \end{columns}
-
 \end{frame}
 
 \begin{frame}{Livelock}
-
 Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
 
 Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
-
 \end{frame}
 
 \begin{frame}[fragile]{Алгоритм Деккера}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 bool flag[2] = {false, false};
 bool turn = false; // or true
@@ -215,48 +200,9 @@ flag[1] = false;
         \end{lstlisting}
     \end{column}
 \end{columns}
-
-\end{frame}
-
-\begin{frame}{Эффективность параллельного алгоритма}
-
-$T_1$ --- время работа самого быстрого последовательного алгоритма.
-
-Ускорение параллельного алгоритма:
-
-$S_p = \frac{T_1}{T_p}$
-
-Эффективность параллельного алгоритма:
-
-$E_p = \frac{S}{p}$
-
-\end{frame}
-
-\section{Эффективность}
-
-\begin{frame}{Закон Амдала}
-$\alpha$ --- доля вычислений, которые могут быть получены только
-последовательными расчетами.
-
-\bigskip
-
-Тогда ускорение полученное при использовании $p$ процессоров по сравнению с
-одним не будет превышать величины
-
-\bigskip
-
-$S_p =\frac{1}{\alpha - \frac{1 - \alpha}{p}}$
-\end{frame}
-
-\begin{frame}{Закон Амдала}
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{amdahls-law}
-\end{figure}
 \end{frame}
 
 \section*{Конец}
-% The final "thank you" frame 
 
 \begin{frame}{Задания}
 
