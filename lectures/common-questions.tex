@@ -39,7 +39,7 @@
 котором производится доступ к общему ресурсу, которые не должен быть использован
 более чем одним потоком исполнения.
 \vfill\pause
-Какие бывают критические ресурсы?
+Какие ресурсы могут быть критическими?
 \pause
 \begin{itemize}
     \item данные,
@@ -240,6 +240,27 @@ void leave_region(int thread_id) {
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]{Spinlock}
+Spinlock --- низкоуровневый примитив синхронизации.
+\vfill
+Реализация:
+\begin{lstlisting}[language={[x86masm]Assembler}, basicstyle=\scriptsize]
+mov eax, spinlock_address
+mov ebx, SPINLOCK_BUSY
+
+wait_cycle:
+lock xchg [eax], ebx
+cmp ebx, SPINLOCK_FREE
+jmp waait_cycle
+
+; critical section
+
+mov eax, spinlock_address
+mov ebx, SPINLOCK_FREE
+lock xchg [eax], ebx
+\end{lstlisting}
+\end{frame}
+
 \section{Ошибки}
 
 \begin{frame}[fragile]{Взаимная блокировка}
@@ -256,6 +277,7 @@ pthread_mutex_init(&B, NULL);
         \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 // thread 0
 pthread_mutex_lock(&A);
+// ...
 pthread_mutex_lock(&B);
 // ...
         \end{lstlisting}
@@ -264,6 +286,7 @@ pthread_mutex_lock(&B);
         \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 // thread 1
 pthread_mutex_lock(&B);
+// ...
 pthread_mutex_lock(&A);
 // ...
         \end{lstlisting}
