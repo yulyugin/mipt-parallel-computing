@@ -30,7 +30,7 @@ all: $(LECTURES)
 amdahls-law.pdf: $(SRC_DIR)/amdahls-law.plt
 	cd $(SRC_DIR) && $(GNUPLOT) amdahls-law.plt
 
-common-questions: amdahls-law.pdf
+efficiency: amdahls-law.pdf
 
 $(LECTURES):
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
