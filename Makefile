@@ -36,4 +36,7 @@ $(LECTURES):
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:
-	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.pdf *.snm *.toc *.vrb
+	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.snm *.toc *.vrb
+
+clobber: clean
+	cd $(SRC_DIR) && $(RM) *.pdf
