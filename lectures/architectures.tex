@@ -44,6 +44,23 @@
 \end{figure}
 \end{frame}
 
+\begin{frame}{Преимущества}
+\begin{itemize}
+    \item просто и дешево масштабируется,
+    \item просто программировать,
+    \item выход из строя одного из процессоров выводит из строя всю систему.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Недостатки}
+\begin{itemize}
+    \item увеличение количества процессоров $\Rightarrow$ увеличение нагрузки на шину,
+    \item когерентность кэш-памяти,
+    \item стоимость системы растет быстрее, чем производительность,
+    \item требуется поддержка ОС.
+\end{itemize}
+\end{frame}
+
 \section{MPP}
 
 \begin{frame}{Массово-параллельная архитектура}
@@ -59,10 +76,30 @@
 \end{figure}
 \end{frame}
 
+\begin{frame}{Преимущества и Недостатки}
+Преимущества:
+\begin{itemize}
+    \item хорошая масштабируемость,
+\end{itemize}
+\vfill
+Недостатки:
+\begin{itemize}
+    \item отсутствие общей памяти $\Rightarrow$ снижение скорости обмена данными,
+    \item каждый процессор может использовать только локальную память,
+    \item сложность написание ПО
+\end{itemize}
+\end{frame}
+
 \section{NUMA}
 
 \begin{frame}{Архитектура с неравномерной памятью}
 NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) система разделяется на множественные узлы, имеющие доступ как к своей локальной памяти, так и к памяти других узлов.
+\vfill
+Недостатки:
+\begin{itemize}
+    \item доступ к удаленной памяти гораздо медленнее, чем к локальной,
+    \item требует поддержки ОС.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Архитектура с неравномерной памятью}
@@ -73,7 +110,16 @@ NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) сист
 \end{frame}
 
 \section*{Конец}
-% The final "thank you" frame 
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Богданов~А.В., Корхов~В.В., Мареев~В.В., Станкова~Е.Н.}
+    Архитектуры и топологии многопроцессорных вычислительных систем. --- М.:
+    ИНТУТ.РУ, 2004 --- 176~с. ISBN 5-9556-0018-3.
+    \bibitem{} \textit{Drepper~U.} What Every Programmer Should Know About Memory
+    \url{http://people.freebsd.org/~lstewart/articles/cpumemory.pdf}
+\end{thebibliography}
+\end{frame}
 
 \begin{frame}{На следующей лекции}
 \end{frame}
