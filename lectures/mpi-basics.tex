@@ -43,27 +43,27 @@
 \section{Базовые функции MPI}
 
 \begin{frame}[fragile]{Инициализация и завершение процессов}
-
 Определены в заголовочном файле \texttt{mpi.h}
-
 \vfill
-
 \begin{lstlisting}
 int MPI_Init(int *pargc, char ***pargv);
 int MPI_Finalize(void);
 \end{lstlisting}
-
 \end{frame}
 
-\begin{frame}{MPI communicator}
-
+\begin{frame}{Коммуникатор MPI}
 \begin{itemize}
-    \item Группа процессов, которые могут взаимодействовать друг с другом
-    \item \texttt{MPI_COMM_WORLD} is the initially defined universe intracommunicator for all processes to conduct various communications once \texttt{MPI_INIT} has been called,
-    \item \texttt{MPI_COMM_SELF},
-    \item User defined communicators.
+    \item Группа процессов, которые могут взаимодействовать друг с другом,
+    \item Все обращения к MPI функциям содерат коммуникатор, как параметр,
+    \vfill
+    \item Виды коммуникаторов:
+    \begin{itemize}
+        \item \texttt{MPI_COMM_WORLD} --- Создается при вызове \texttt{MPI_Init}.
+        Содержит все процессы программы.
+        \item \texttt{MPI_COMM_SELF} --- Содержит только сам процесс,
+        \item Пользовательские коммуникаторы.
+    \end{itemize}
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}[fragile]{Self-identification}
