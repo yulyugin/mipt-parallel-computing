@@ -45,9 +45,17 @@
 \begin{frame}[fragile]{Инициализация и завершение процессов}
 Определены в заголовочном файле \texttt{mpi.h}
 \vfill
+C:
 \begin{lstlisting}
-int MPI_Init(int *pargc, char ***pargv);
+int MPI_Init(int *argc, char ***argv);
 int MPI_Finalize(void);
+\end{lstlisting}
+\vfill
+C++:
+\begin{lstlisting}
+void MPI::Init(int& argc, char**& argv);
+void MPI::Init();
+void MPI::Finalize();
 \end{lstlisting}
 \end{frame}
 
