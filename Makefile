@@ -6,7 +6,7 @@ ifneq ($(VERBOSE),yes)
 MAKEFLAGS += -s
 endif  # VERBOSE
 
-OPTIONS=-halt-on-error
+OPTIONS=-halt-on-error -file-line-error
 
 ifeq ($(UNAME), Linux)
 LATEXCOMMAND=xelatex
