@@ -13,21 +13,31 @@
 
 \begin{frame}{На этой лекции}
 \tableofcontents
-\end{frame} 
+\end{frame}
 
 \section{История MPI}
 
 \begin{frame}{Интерфейс передачи сообщений}
-
 Интерфейс передачи сообщений (\abbr Massage Passing Interface, \texttt{MPI}) --- программный интерфейс, позволяющий обмениваться сообщениями между процессами выполняющими одну задачу.
-
+\vfill
 \begin{itemize}
-    \item Разработан Уильямом Гроуппом, Эвином Ласком и другими.
-    \item Первая версия разрабатывалась в 1993-1994 гг.
-    \item \texttt{MPI} 1.1 опубликован в 12 июня 1995 года. Поддерживается большинством современных реализаций \texttt{MPI}. Первая раелизация появилась в 2002 году.
+    \item Разработан Уильямом Гроуппом, Эвином Ласком и другими;
+    \item Первая версия разрабатывалась в 1993-1994 гг;
+    \item \texttt{MPI} 1.1 опубликован в 12 июня 1995 года. Поддерживается
+    большинством современных реализаций \texttt{MPI}. Первая раелизация
+    появилась в 2002 году;
+    \item Текущая версия --- \texttt{MPI} 3.0. 2012~г.;
     \item Существуют реализации для языков Fortran, Java, C и C++.
 \end{itemize}
+\end{frame}
 
+\begin{frame}{Цель MPI}
+Основная цель:
+\begin{itemize}
+    \item Переносимость кода,
+    \item Эффективная реализация,
+    \item Поддержка архитектур с неоднородной памятью.
+\end{itemize}
 \end{frame}
 
 \section{Базовые функции MPI}
@@ -48,6 +58,7 @@ int MPI_Finalize(void);
 \begin{frame}{MPI communicator}
 
 \begin{itemize}
+    \item Группа процессов, которые могут взаимодействовать друг с другом
     \item \texttt{MPI_COMM_WORLD} is the initially defined universe intracommunicator for all processes to conduct various communications once \texttt{MPI_INIT} has been called,
     \item \texttt{MPI_COMM_SELF},
     \item User defined communicators.
@@ -143,7 +154,7 @@ double MPI_Wtime()
 double MPI_Wtick()
 \end{lstlisting}
 
-Возвращает разрешение таймера (минимальное значение кванта времени). 
+Возвращает разрешение таймера (минимальное значение кванта времени).
 
 \begin{lstlisting}
 int MPI_Barrier(MPI_Comm comm)
@@ -170,7 +181,15 @@ int MPI_Barrier(MPI_Comm comm)
 \end{frame}
 
 \section*{Конец}
-% The final "thank you" frame 
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} MPI Documents. \url{http://www.mpi-forum.org/docs/docs.html}
+    \bibitem{} MPI standart. \url{http://www.mcs.anl.gov/research/projects/mpi}
+    \bibitem{} \textit{Оленев~н.н.} Основы параллельного программирования в
+    системе MPI. --- 2005 --- 81~с.
+\end{thebibliography}
+\end{frame}
 
 \begin{frame}{Задания}
 
