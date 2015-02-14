@@ -18,6 +18,14 @@ RM=rm.exe -f
 GNUPLOT=wgnuplot.exe
 endif
 
+ifeq ($(MIPT), yes)
+target.tex:
+	cd $(SRC_DIR) && echo \\mipttrue > target.tex
+else
+target.tex:
+	cd $(SRC_DIR) && echo \\sbertechtrue > target.tex
+endif
+
 SRC_DIR=lectures
 
 # find all lectures
@@ -32,11 +40,11 @@ amdahls-law.pdf: $(SRC_DIR)/amdahls-law.plt
 
 efficiency: amdahls-law.pdf
 
-$(LECTURES):
+$(LECTURES): target.tex
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:
-	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.snm *.toc *.vrb
+	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.snm *.toc *.vrb template.tex
 
 clobber: clean
 	cd $(SRC_DIR) && $(RM) *.pdf
