@@ -1,0 +1,107 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Разработка многопоточных приложений на Java.}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Атомарные операции,
+    \item Состояние гонки,
+    \item Примитивы синхронизации,
+    \item Программная реализация,
+    \item Популярные ошибки.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Атомарные типы}
+
+\begin{frame}{Атомарные типы}
+Пакет java.util.concurrent.atomic
+\vfill
+\begin{itemize}
+    \item AtomicBoolean,
+    \item AtomicInteger,
+    \item AtomicLong,
+    \item AtomicReference<Type>.
+\end{itemize}
+\vfill
+Операции:
+\begin{itemize}
+    \item Type get();
+    \item void set(Type newValue);
+    \item boolean compareAndSet(Type expect, Type update);
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Атомарные операции}
+Метод compareAndSet позволяет реализовывать другие операции.
+\vfill
+Пример из java.util.concurrent.atomic.AtomicInteger
+\begin{lstlisting}
+public final int getAndDecrement() {
+        for (;;) {
+            int current = get();
+            int next = current - 1;
+            if (compareAndSet(current, next))
+                return current;
+        }
+    }
+\end{lstlisting}
+\end{frame}
+
+\section{Примитивы синхронизации}
+
+\section{Коллекции}
+
+\section*{Конец}
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} Обзор java.util.concurrent.
+    \url{http://habrahabr.ru/company/luxoft/blog/157273}.
+    \bibitem{} The Java Tutorials.
+    \href{http://docs.oracle.com/javase/tutorial/essential/concurrency/index.html}{Lesson: Concurrency.}
+    \bibitem{} \href{http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html}{Package java.util.concurrent}.
+\end{thebibliography}
+\end{frame}
+
+\begin{frame}{Задания}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\begin{itemize}
+    \item Классификации параллельных вычислительных систем:
+    \begin{itemize}
+        \item Классификация Флинна,
+        \item Классификация Хокни,
+    \end{itemize}
+    \item Суперскалярная архитектура,
+    \item VLIW арфитектура.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
