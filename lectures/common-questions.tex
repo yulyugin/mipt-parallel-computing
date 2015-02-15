@@ -13,7 +13,16 @@
 \begin{frame}{На прошлой лекции}
 
 \begin{itemize}
+\ifmipt
     \item Основы MPI.
+\fi
+\ifsbertech
+    \item Область применения МП систем,
+    \item Типы МВС,
+    \item Требования,
+    \item Измерения производительности,
+    \item Закон Мура.
+\fi
 \end{itemize}
 \end{frame}
 
@@ -312,28 +321,40 @@ pthread_mutex_lock(&A);
 \end{thebibliography}
 \end{frame}
 
+\ifmipt
 \begin{frame}{Задания}
-
 Вычислить $\sum \limits_{n=0}^{N} \frac{1}{n!}$.
 
 N --- аргумент командной строки.
 
 Построить графики времени работы в зависимости от количества процессов и ускорения в зависимости от количества процессов.
-
 \end{frame}
+\fi
 
 \begin{frame}{На следующей лекции}
-
 \begin{itemize}
-    \item Классификация Флинна
-    \item Память в параллельных вычислительных системах:
+\ifsbertech
+    \item Многопоточность в Java:
+\fi
+\ifmipt
+    \item Классификация параллельных вычислительных систем:
+\fi
     \begin{itemize}
-        \item Симметричная мультипроцессорность,
-        \item Массово-параллельная архитектура,
-        \item Архитектура с неравномерной памятью.
+\ifsbertech
+        \item Атомарные типы,
+        \item Примитивы синхронизации,
+        \item Коллекции.
+\fi
+\ifmipt
+        \item Классификация Флинна,
+        \item Классификация Хокни.
+\fi
     \end{itemize}
+\ifmipt
+    \item Суперскалярная архитектура,
+    \item VLIW архитектура.
+\fi
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}
