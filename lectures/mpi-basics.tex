@@ -59,6 +59,20 @@ void MPI::Finalize();
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]{MPI <<Hello world!>>}
+\begin{lstlisting}
+#include <stdio.h>
+#include <mpi.h>
+
+int main (int argc, char **argv) {
+    MPI_Init(&argc, &argv);
+    printf("Hello World!\n");
+    MPI_Finalize();
+    return 0;
+}
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}{Коммуникатор MPI}
 \begin{itemize}
     \item Группа процессов, которые могут взаимодействовать друг с другом,
@@ -75,21 +89,19 @@ void MPI::Finalize();
 \end{frame}
 
 \begin{frame}[fragile]{Self-identification}
-
+Размер коммуникатора.
 \begin{lstlisting}
-MPI_Comm_size(MPI_Comm comm, int *size);
+int MPI_Comm_size(MPI_Comm comm, int *size);
 \end{lstlisting}
-
-Returns the size of the group associated with communicator.
-
 \vfill
-
+Rank --- идентификационный номер процесса.
+\begin{itemize}
+    \item Начинается с 0 до (n-1), где n -- число процессов,
+    \item Используется для определения процесса-получателя/отправителя.
+\end{itemize}
 \begin{lstlisting}
-MPI_Comm_rank(MPI_Comm comm, int *rank);
+int MPI_Comm_rank(MPI_Comm comm, int *rank);
 \end{lstlisting}
-
-Determines the rank of the calling process in the communicator.
-
 \end{frame}
 
 \begin{frame}[fragile]{Send/Receive Overview}
@@ -194,7 +206,7 @@ int MPI_Barrier(MPI_Comm comm)
 \begin{thebibliography}{99}
     \bibitem{} MPI Documents. \url{http://www.mpi-forum.org/docs/docs.html}
     \bibitem{} MPI standart. \url{http://www.mcs.anl.gov/research/projects/mpi}
-    \bibitem{} \textit{Оленев~н.н.} Основы параллельного программирования в
+    \bibitem{} \textit{Оленев~Н.Н.} Основы параллельного программирования в
     системе MPI. --- 2005 --- 81~с.
 \end{thebibliography}
 \end{frame}
