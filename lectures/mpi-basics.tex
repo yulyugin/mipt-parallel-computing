@@ -34,8 +34,10 @@
 \begin{frame}{Цель MPI}
 Основная цель:
 \begin{itemize}
+    \item Стандартизация,
     \item Переносимость кода,
     \item Эффективная реализация,
+    \item Богатство возможностей,
     \item Поддержка архитектур с неоднородной памятью.
 \end{itemize}
 \end{frame}
@@ -226,17 +228,13 @@ int MPI_Barrier(MPI_Comm comm)
 \section{Компиляция и запуск}
 
 \begin{frame}[fragile]{Компиляция и запуск}
-
 Для компиляции используется \texttt{mpicc} вместо \texttt{gcc}.
-
 \vfill
-
 Запуск производится командой вида
 
 \begin{lstlisting}
 > mpirun –np <n_processes> <programm> <args>
 \end{lstlisting}
-
 \end{frame}
 
 \section*{Конец}
@@ -251,17 +249,13 @@ int MPI_Barrier(MPI_Comm comm)
 \end{frame}
 
 \begin{frame}{Задания}
-
 \begin{itemize}
-    \item MPI "Hello, World!",
     \item MPI ring,
     \item MPI ping-pong.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{На следующей лекции}
-
 \begin{itemize}
     \item Общая теория параллельного программирования:
     \begin{itemize}
@@ -271,7 +265,6 @@ int MPI_Barrier(MPI_Comm comm)
         \item Закон Амдала.
     \end{itemize}
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}
