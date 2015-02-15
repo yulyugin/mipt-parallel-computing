@@ -44,7 +44,7 @@ $(LECTURES): target.tex
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:
-	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.snm *.toc *.vrb template.tex
+	cd $(SRC_DIR) && $(RM) *.log *.aux *.nav *.out *.snm *.toc *.vrb target.tex
 
 clobber: clean
 	cd $(SRC_DIR) && $(RM) *.pdf
