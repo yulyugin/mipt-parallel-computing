@@ -20,10 +20,10 @@ endif
 
 ifeq ($(MIPT), yes)
 target.tex:
-	cd $(SRC_DIR) && echo \\mipttrue > target.tex
+	cd $(SRC_DIR) && echo "\mipttrue" > target.tex
 else
 target.tex:
-	cd $(SRC_DIR) && echo \\sbertechtrue > target.tex
+	cd $(SRC_DIR) && echo "\sbertechtrue" > target.tex
 endif
 
 SRC_DIR=lectures
