@@ -65,11 +65,47 @@ public final int getAndDecrement() {
 
 \section{Примитивы синхронизации}
 
+\begin{frame}{Synchronized}
+Synchronized блоки помечаются специальным ключевым словом \textcolor{blue}{\texttt{synchronyzed}}.
+\vfill
+Только один потом может находиться внутри synchronized блока.
+\vfill
+Ключевое слово \textcolor{blue}{\texttt{synchronyzed}} может быть использовано для:
+\begin{itemize}
+    \item Instance методы,
+    \item Static методы,
+    \item Блоки внутри Istance методов,
+    \item Блоки внутри Static методов.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Synchronized instance method}
+Synchronized on instance (object) owning the method.
+\vfill
+\begin{lstlisting}[language=Java]
+public synchronized void add(int val) {
+    this.count += val;
+}
+\end{lstlisting}
+\vfill
+One thread per instance.
+\end{frame}
+
+\begin{frame}[fragile]{Synchronized static method}
+\begin{lstlisting}[language=Java]
+public static synchronized void add(int val) {
+    this.count += val;
+}
+\end{lstlisting}
+\vfill
+One thread per class object.
+\end{frame}
+
 \begin{frame}{Semaphore}
 \begin{itemize}
     \item Класс \texttt{java.util.concurrent.Semaphore};
     \item Ограничивает одновременный доступ к ресурсам;
-    \item В отличие от \textcolor{blue}{\texttt{synchronyzed}}--блока, одновременно могут работать несколько потоков (не более заданного числа);
+    \item В отличие от \textcolor{blue}{\texttt{synchronyzed}} блока, одновременно могут работать несколько потоков (не более заданного числа);
     \item Операции:
     \begin{itemize}
         \item \texttt{\textcolor{blue}{void} acquire()};
