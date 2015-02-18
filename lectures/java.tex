@@ -51,7 +51,7 @@
 Метод compareAndSet позволяет реализовывать другие операции.
 \vfill
 Пример из java.util.concurrent.atomic.AtomicInteger
-\begin{lstlisting}
+\begin{lstlisting}[language=Java]
 public final int getAndDecrement() {
         for (;;) {
             int current = get();
@@ -64,6 +64,34 @@ public final int getAndDecrement() {
 \end{frame}
 
 \section{Примитивы синхронизации}
+
+\begin{frame}{Semaphore}
+\begin{itemize}
+    \item Класс \texttt{java.util.concurrent.Semaphore};
+    \item Ограничивает одновременный доступ к ресурсам;
+    \item В отличие от \textcolor{blue}{\texttt{synchronyzed}}--блока, одновременно могут работать несколько потоков (не более заданного числа);
+    \item Операции:
+    \begin{itemize}
+        \item \texttt{\textcolor{blue}{void} acquire()};
+        \item \texttt{\textcolor{blue}{void} release()};
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Semaphore example}
+\begin{lstlisting}[language=Java]
+Semaphore semaphore = new Semaphore(4);
+
+semaphore.acquire();
+
+try {
+    /* Up to four threads may run
+       this code concurrently */
+} finally {
+    semaphore.release();
+}
+\end{lstlisting}
+\end{frame}
 
 \section{Коллекции}
 
