@@ -260,7 +260,7 @@ mov ebx, SPINLOCK_BUSY
 wait_cycle:
 lock xchg [eax], ebx
 cmp ebx, SPINLOCK_FREE
-jmp waait_cycle
+jmp wait_cycle
 
 ; critical section
 
