@@ -259,6 +259,7 @@ non--blocking):
 \begin{frame}[fragile]{Send/Receive Overview}
 \begin{lstlisting}
 int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
+
 int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status);
 \end{lstlisting}
 \end{frame}
@@ -267,7 +268,12 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 \texttt{MPI_Status}:
 
 \begin{itemize}
-    \item Содержит дополнительную информацию о полученном сообщении.
+    \item Содержит:
+    \begin{itemize}
+        \item Source: \texttt{status.MPI_SOURCE},
+        \item Tag:  \texttt{status.MPI_TAG},
+        \item Coune: \texttt{MPI_Get_count}.
+    \end{itemize}
     \item \texttt{MPI_STATUS_IGNORE} --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
 \end{itemize}
 \vfill
@@ -276,6 +282,16 @@ tag:
     \item Число для идентификации сообщения,
     \item \texttt{MPI_ANY_TAG}.
 \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Полученное сообщение}
+Может быть меньше, чем указано в MPI_Recv.
+\vfill
+\texttt{count} --- число реально полученных элементов.
+\vfill
+\begin{lstlisting}
+int MPI_Get_count(MPI_Status *status, MPI_Datatype datatype, int *count);
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{Вычисление времени}
