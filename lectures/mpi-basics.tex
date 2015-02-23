@@ -184,6 +184,78 @@ int main (int argc, char **argv) {
 \end{table}
 \end{frame}
 
+\begin{frame}{Режимы операций передачи сообщений}
+Режим MPI--коммуникаций определяет, при каких условиях операции передачи
+завершаются.
+\vfill
+Режимы могут быть блокирующими (\abbr blocking) или неблокирующими (\abbr
+non--blocking):
+\begin{itemize}
+    \item Blocking --- возврат из функции передачи сообщений только при
+    завершении коммуникаций.
+    \item Non--blocking --- немедленный возврат из функции, контроль завершения
+    передачи лежит на программисте.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Режимы передачи}
+\begin{table}[htpb]
+    \begin{center}
+    \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    Режим               &   Условие завершения                      \\
+    \hline
+    \hline
+    Synchronous send    &   Завершение только после инициации према \\
+    \hline
+    Standart send       &   Сообщение отослано (состояние приема неизвестно)    \\
+    \hline
+    Buffered send       &   Всегда завершается (кроме ошибочных передач), независимо от приема. \\
+    \hline
+    Ready send          &   Всегда завершается (кроме ошибочных передач), независимо от приема  \\
+    \hline
+    Receive             &   Завершается после приема                \\
+    \hline
+    \end{tabularx}
+    \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{Функции передачи <<точка--точка>>}
+\begin{table}[htpb]
+    \begin{center}
+    \begin{tabular}{|l|l|}
+    \hline
+    Режим               &   MPI функция \\
+    \hline
+    \hline
+    Synchronous send    &   MPI_Ssend   \\
+    \hline
+    Standart send       &   MPI_Send    \\
+    \hline
+    Buffered send       &   MPI_Bsend   \\
+    \hline
+    Ready send          &   MPI_Rsend   \\
+    \hline
+    Receive             &   MPI_Recv    \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{Блокирующие и неблокирующие операции}
+\texttt{MPI_\{S|B|R\}Send/Recv} --- блокирующиеся функции.
+\begin{figure}
+\centering
+\begin{tikzpicture}
+    \fill[red] (0,0) circle (0.15\textwidth);
+    \fill[white] (-0.1\textwidth,-0.03\textwidth) rectangle (0.1\textwidth,0.03\textwidth);
+\end{tikzpicture}
+\end{figure}
+\texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты \texttt{MPI_Send/Recv}.
+\end{frame}
+
 \begin{frame}[fragile]{Send/Receive Overview}
 \begin{lstlisting}
 int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
@@ -192,39 +264,18 @@ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, M
 \end{frame}
 
 \begin{frame}{MPI_Status \& tag}
-
 \texttt{MPI_Status}:
 
 \begin{itemize}
     \item Содержит дополнительную информацию о полученном сообщении.
     \item \texttt{MPI_STATUS_IGNORE} --- специальное значение, которое уменьшает количество используемой памяти в том случае, если вы не собираетесь рассматривать это поле.
 \end{itemize}
-
 \vfill
-
 tag:
-
 \begin{itemize}
     \item Число для идентификации сообщения,
     \item \texttt{MPI_ANY_TAG}.
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Блокирующие и не блокирующие операции}
-
-\texttt{MPI_Send/Recv} --- блокирующиеся функции.
-
-\begin{figure}
-\centering
-\begin{tikzpicture}
-    \fill[red] (0,0) circle (0.15\textwidth);
-    \fill[white] (-0.1\textwidth,-0.03\textwidth) rectangle (0.1\textwidth,0.03\textwidth);
-\end{tikzpicture}
-\end{figure}
-
-\texttt{MPI_Isend/Irecv} --- не блокирующиеся варианты \texttt{MPI_Send/Recv}.
-
 \end{frame}
 
 \begin{frame}[fragile]{Вычисление времени}
