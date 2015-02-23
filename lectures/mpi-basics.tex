@@ -294,26 +294,40 @@ int MPI_Get_count(MPI_Status *status, MPI_Datatype datatype, int *count);
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Вычисление времени}
+\section{Замер времени}
 
+\begin{frame}[fragile]{Вычисление времени}
 \begin{lstlisting}
-double MPI_Wtime()
+double MPI_Wtime();
 \end{lstlisting}
 
 Возвращает время в секундах, прошедшее с  некоторого момента в прошлом (точки отсчета). Гарантируется, что эта точка отсчета не будет изменена в течение жизни процесса.
 
 \begin{lstlisting}
-double MPI_Wtick()
+double MPI_Wtick();
 \end{lstlisting}
 
 Возвращает разрешение таймера (минимальное значение кванта времени).
 
 \begin{lstlisting}
-int MPI_Barrier(MPI_Comm comm)
+int MPI_Barrier(MPI_Comm comm);
 \end{lstlisting}
 
 Блокирует работу вызвавшего ее процесса до тех пор, пока все другие процессы группы также не вызовут эту функцию.
+\end{frame}
 
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+MPI_Barrier(MPI_COMM_WORLD);
+if (rank == 0)
+    start_time = MPI_Wtime();
+
+// Parallel code to measure here.
+
+MPI_Barrier(MPI_COMM_WORLD);
+if (rank == 0)
+    printf("Execution time: %lf\n", MPI_Wtime() - start_time);
+\end{lstlisting}
 \end{frame}
 
 \section{Компиляция и запуск}
