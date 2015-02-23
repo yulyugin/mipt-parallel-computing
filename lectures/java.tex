@@ -48,9 +48,9 @@
 \end{frame}
 
 \begin{frame}[fragile]{Атомарные операции}
-Метод compareAndSet позволяет реализовывать другие операции.
+Метод \texttt{compareAndSet} позволяет реализовывать другие операции.
 \vfill
-Пример из java.util.concurrent.atomic.AtomicInteger
+Пример из \texttt{java.util.concurrent.atomic.AtomicInteger}
 \begin{lstlisting}[language=Java]
 public final int getAndDecrement() {
         for (;;) {
@@ -88,6 +88,14 @@ public synchronized void add(int val) {
 }
 \end{lstlisting}
 \vfill
+\begin{lstlisting}[language=Java]
+public void add(int val) {
+    synchronized(this) {
+        this.count += val;
+    }
+}
+\end{lstlisting}
+\vfill
 One thread per instance.
 \end{frame}
 
@@ -95,6 +103,14 @@ One thread per instance.
 \begin{lstlisting}[language=Java]
 public static synchronized void add(int val) {
     this.count += val;
+}
+\end{lstlisting}
+\vfill
+\begin{lstlisting}[language=Java]
+public static void add(int val) {
+    synchronized(MyClass.class) {
+        this.count += val;
+    }
 }
 \end{lstlisting}
 \vfill
