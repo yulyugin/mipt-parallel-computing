@@ -145,26 +145,50 @@ int main (int argc, char **argv) {
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Send/Receive Overview}
+\section{Передача сообщений}
 
+\begin{frame}{Сообщения}
+Сообщение --- массив элементов заданного типа данных MPI.
+\vfill
+Типы данных в MPI:
+\begin{itemize}
+    \item Базовые типы,
+    \item Производные типы.
+\end{itemize}
+\vfill
+Производные типы строятся с использованием базовых типов.
+\end{frame}
+
+\begin{frame}{MPI_Datatype}
+\begin{table}[htpb]
+    \begin{center}
+    \begin{tabular}{|l|l|}
+    \hline
+    MPI_Datatype        &   C Datatype      \\
+    \hline
+    MPI_CHAR            &   Signed char     \\
+    MPI_SHORT           &   Signed short    \\
+    MPI_INT             &   Signed int      \\
+    MPI_LONG            &   Signed long     \\
+    MPI_UNSIGNED_CHAR   &   Unsigned char   \\
+    MPI_UNSIGNED_SHORT  &   Unsigned short  \\
+    MPI_UNSIGNED        &   Unsigned int    \\
+    MPI_UNSIGNED_LONG   &   Unsigned long   \\
+    MPI_FLOAT           &   Float           \\
+    MPI_DOUBLE          &   Double          \\
+    MPI_LONG_DOUBLE     &   Long Double     \\
+    \multicolumn{2}{|c|}{...}               \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Send/Receive Overview}
 \begin{lstlisting}
 int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
 int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status);
 \end{lstlisting}
-
-\end{frame}
-
-\begin{frame}{MPI_Datatype}
-
-\begin{itemize}
-    \item \texttt{MPI_CHAR},
-    \item \texttt{MPI_INT},
-    \item \texttt{MPI_UNSIGNED},
-    \item \texttt{MPI_DOUBLE},
-    \item etc.,
-    \item Custom data types.
-\end{itemize}
-
 \end{frame}
 
 \begin{frame}{MPI_Status \& tag}
