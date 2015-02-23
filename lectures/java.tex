@@ -145,6 +145,28 @@ try {
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{CountDownLatch}
+Класс \texttt{java.util.concurrent.CountDownLatch}.
+\vfill
+Обеспечивает точку синхронизации между N потоками.
+\vfill
+Операции:
+\begin{itemize}
+    \item \texttt{\textcolor{blue}{void} await();}
+    \item \texttt{\textcolor{blue}{void} countDown();}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{CountDownLatch пример}
+\begin{lstlisting}[language=Java]
+CountDownLatch latch = new CountDownLatch(4);
+
+/* This call blocks util latch.countDown()
+ * is called at least 4 times. */
+latch.await();
+\end{lstlisting}
+\end{frame}
+
 \section{Коллекции}
 
 \section*{Конец}
