@@ -317,7 +317,7 @@ int MPI_Barrier(MPI_Comm comm);
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\scriptsize]
 MPI_Barrier(MPI_COMM_WORLD);
 if (rank == 0)
     start_time = MPI_Wtime();
@@ -362,13 +362,10 @@ if (rank == 0)
 
 \begin{frame}{На следующей лекции}
 \begin{itemize}
-    \item Общая теория параллельного программирования:
-    \begin{itemize}
-        \item Состояние гонки,
-        \item Примитивы синхронизации,
-        \item Эффективнось работы параллельного алгоритма,
-        \item Закон Амдала.
-    \end{itemize}
+    \item Общие понятия и определения,
+    \item Состояние гонки,
+    \item Синхронизация,
+    \item Ошибки синхронизации.
 \end{itemize}
 \end{frame}
 
