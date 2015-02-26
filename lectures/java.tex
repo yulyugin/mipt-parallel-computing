@@ -27,6 +27,40 @@
 \tableofcontents
 \end{frame}
 
+\section{Создание множества потоков}
+
+\begin{frame}[fragile]{Runnable интерфейс}
+\begin{lstlisting}[basicstyle=\footnotesize, language=Java]
+public class HelloRunnable implements Runnable {
+
+    public void run() {
+        System.out.println("Hello from a thread!");
+    }
+
+    public static void main(String args[]) {
+        (new Thread(new HelloRunnable())).start();
+    }
+
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Наследование Thread}
+\begin{lstlisting}[basicstyle=\footnotesize, language=Java]
+public class HelloThread extends Thread {
+
+    public void run() {
+        System.out.println("Hello from a thread!");
+    }
+
+    public static void main(String args[]) {
+        (new HelloThread()).start();
+    }
+
+}
+\end{lstlisting}
+\end{frame}
+
 \section{Атомарные типы}
 
 \begin{frame}{Атомарные типы}
@@ -117,6 +151,47 @@ public static void add(int val) {
 One thread per class object.
 \end{frame}
 
+\begin{frame}{Захват монитора}
+\begin{itemize}
+    \item \texttt{\textcolor{blue}{void} wait();}
+    \item \texttt{\textcolor{blue}{void} wait(\textcolor{blue}{long} timeout);}
+    \item \texttt{\textcolor{blue}{void} notify();}
+    \item \texttt{\textcolor{blue}{void} notifyAll();}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}[basicstyle=\tiny, language=Java]
+public class ThreadA {
+    public static void main(String[] args){
+        ThreadB b = new ThreadB();
+        b.start();
+        synchronized(b){
+            try{
+                System.out.println("Waiting for b");
+                b.wait();
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            System.out.println("Total is: " + b.total);
+        }
+    }
+}
+class ThreadB extends Thread{
+    int total;
+    @Override
+    public void run(){
+        synchronized(this){
+            for(int i=0; i<100 ; i++){
+                total += i;
+            }
+            notify();
+        }
+    }
+}
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}{Semaphore}
 \begin{itemize}
     \item Класс \texttt{java.util.concurrent.Semaphore};
@@ -145,6 +220,17 @@ try {
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{Lock}
+Операции:
+\begin{itemize}
+    \item \texttt{\textcolor{blue}{void} lock();}
+    \item \texttt{\textcolor{blue}{boolean} tryLock();}
+    \item \texttt{\textcolor{blue}{boolean} tryLock(\textcolor{blue}{long} time, TimeUnit unit);}
+    \item \texttt{\textcolor{blue}{void} unlock();}
+    \item \texttt{Condition newCondition();}
+\end{itemize}
+\end{frame}
+
 \begin{frame}{CountDownLatch}
 Класс \texttt{java.util.concurrent.CountDownLatch}.
 \vfill
@@ -166,8 +252,6 @@ CountDownLatch latch = new CountDownLatch(4);
 latch.await();
 \end{lstlisting}
 \end{frame}
-
-\section{Коллекции}
 
 \section*{Конец}
 
