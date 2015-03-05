@@ -12,6 +12,13 @@
 \section*{Обзор}
 
 \begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Многопоточность в Java,
+    \item Создание множества потоков и их синхронизация,
+    \item Атомарные типы.
+\fi
+\end{itemize}
 \end{frame}
 
 \begin{frame}{На этой лекции}
@@ -21,10 +28,8 @@
 \section{Классификация Флинна}
 
 \begin{frame}{Классификация Флинна}
-
 Классификация архитектур вычислительных систем по признакам наличия параллелизма
 команд и данных.
-
 \begin{table}[htp]
     \begin{center}
     \begin{tabular}{|l|c|c|}
@@ -38,16 +43,14 @@
     \end{tabular}
     \end{center}
 \end{table}
-
 \end{frame}
 
 \begin{frame}{Классификация Флинна}
-
 Michael J. Flynn:
-
+\vfill
 \begin{itemize}
     \item SISD --- компьютер фон-Неймановской архитектуры с одним процессором,
-    \item SIMD --- векторные процессоры. SSE, AVX IA-32 расширения ISA,
+    \item SIMD --- векторные/матричные процессоры. SSE, AVX IA-32 расширения ISA,
     \item MISD --- представителей данного класса не существует,
     \item MIMD --- многопроцессорные системы, кластеры и др.
 \end{itemize}
@@ -56,23 +59,19 @@ Michael J. Flynn:
 \section{Классификация Хокни}
 
 \begin{frame}{Классификация Хокни}
-
 Roger W. Hockney.
-
+\vfill
 Множественный поток может быть обработан двумя способами:
-
 \begin{itemize}
     \item Конвейерное устройство обработки, работающее в режиме разделения
     времени для отдельных потоков,
     \item Каждый поток обрабатывается отдельным устройством.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{Классификация Хокни}
-
 Классификация вычислительных систем класса MIMD:
-
+\vfill
 \begin{itemize}
     \item Конвейерные,
     \item Переключаемые:
@@ -93,20 +92,47 @@ Roger W. Hockney.
 
 \section{Суперскалер}
 
-\begin{frame}{Суперскаларная архитектура}
+\begin{frame}{Суперскалярная архитектура}
+Суперскалярный процессор --- процессор, способный запускать несколько команд за
+один тактовый цикл.
+
+\vspace*{1cm}\pause
+Планирование потока команд происходит динамически в момент исполнения и определяется самим
+вычислительным модулем.
+\end{frame}
+
+\begin{frame}{Один конвейер --- хорошо, а два --- лучше.}
+Один конвейер --- хорошо, а два --- лучше.
+\vfill\pause
+В процесоре Pentium\textsuperscript\textregistered~было два конвейера:
+\begin{itemize}
+    \item Главный \textit{u--}конвейер --- выполняет произвольные операции,
+    \item Второй \textit{v--}конвейер --- выполняет простые операции.
+\end{itemize}
+\vfill\pause
+При использовании специального компилятора было достигнуто ускорение почти в два
+раза по сравнению с Intel\textsuperscript\textregistered~486.
+\end{frame}
+
+\begin{frame}{Альтернативы}
+Четыре конвейера?
+\vfill\pause
+Нет. Почему?
+\vfill\pause
+Слишком громоздкое аппаратное обеспечение. Альтернативы?
+\vfill\pause
+Один конвейер с большим количеством функциональных блоков.
 \end{frame}
 
 \section{VLIW}
 
 \begin{frame}{VLIW архитектура}
-
 VLIW (Very Long Instruction Word) --- архитектура процессоров, в которой каждая
 инструкция содержит несколько операций, которые будут выполнены параллельно.
 
 \begin{figure}[htpb]
     \includegraphics[width=0.7\textwidth]{elbrus-2s}
 \end{figure}
-
 \end{frame}
 
 \begin{frame}{Преимущества}
@@ -152,12 +178,24 @@ R0 = R5 + R6, NOP;
 
 \begin{frame}[allowframebreaks]{Рекомендуемая литература}
 \begin{thebibliography}{99}
+    \bibitem{} \textit{Таненбаум~Э.} Архитектура компьютера. --- 5-е изд. --- СПб.~Питер, 2007 --- 844~c. ISBN 5-469-01274-3.
     \bibitem{patterson-hennessy} \textit{David A. Patterson, John L. Hennessy}. <<Computer Organization and Design, Fourth Edition: The Hardware/Software Interface.>>
     \bibitem{vliw} <<Introduction to VLIW Computer Architecture>>. // Introduction to VLIW Computer Architecture. \url{http://www.psut.edu.jo/sites/qaralleh/CO/CA Documents/11_vliw.pdf}
 \end{thebibliography}
 \end{frame}
 
 \section*{Конец}
+
+\ifsbertech
+\begin{frame}{Задания}
+Consumer--producer problem.
+\vfill
+Producer пишит в буфер, consumer читает и удаляет записи из того же буфера.
+\vfill
+Задача: Consumer не должен писать в буфер, если тот полон, Producer не должен
+читать буфер если тот пуст.
+\end{frame}
+\fi
 
 \begin{frame}{На следующей лекции}
 \end{frame}
