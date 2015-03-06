@@ -188,12 +188,12 @@ R0 = R5 + R6, NOP;
 
 \ifsbertech
 \begin{frame}{Задания}
-Consumer--producer problem.
+Producer--Consumer problem.
 \vfill
 Producer пишит в буфер, consumer читает и удаляет записи из того же буфера.
 \vfill
-Задача: Consumer не должен писать в буфер, если тот полон, Producer не должен
-читать буфер если тот пуст.
+Задача: Producer не должен писать в буфер, если тот полон. Consumer не должен
+читать из буфера, если тот пуст.
 \end{frame}
 \fi
 
