@@ -19,9 +19,9 @@
     minimum height=0.5cm] (sisd) {SISD};
 \node [draw, below left= 0.5cm and -1.5cm of architecture, minimum width=2cm,
     minimum height=0.5cm] (simd) {SIMD};
-\node [draw, below right= 0.5cm and -1.5cm of architecture, minimum width=2cm,
+\node [draw, below right= 0.5cm and -0.5cm of architecture, minimum width=2cm,
     minimum height=0.5cm] (misd) {MISD};
-\node [draw, below right= 0.5cm and 1cm of architecture, minimum width=2cm,
+\node [draw, below right= 0.5cm and 2cm of architecture, minimum width=2cm,
     minimum height=0.5cm] (mimd) {MIMD};
 
 % Level 1.5
@@ -29,6 +29,11 @@
 \node [below=0cm of misd] {\scriptsize{?}};
 
 % Level 2
+\node [draw, below left=1cm and -0.5cm of simd] {\shortstack{Матричные\\процессоры}};
+\node [draw, below right=1cm and -0.5cm of simd] {\shortstack{Векторные\\процессоры}};
+
+\node [draw, below left=1cm and 0cm of mimd] (multiprocessor) {Мультипроцессоры};
+\node [draw, below right=1cm and 0cm of mimd] (multicomputers) {Мультикомпьютеры};
 
 \end{tikzpicture}
 
