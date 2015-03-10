@@ -12,7 +12,7 @@
 \begin{tikzpicture}[>=latex, font=\small]
 
 % Level 0
-\node [draw] (architecture) {\shortstack{Параллельные\\компьютерные архитектуры}};
+\node [draw, minimum height=1cm] (architecture) {\shortstack{Параллельные\\компьютерные архитектуры}};
 
 % Level 1
 \node [draw, below left= 0.5cm and 1cm of architecture, minimum width=2cm,
@@ -29,11 +29,39 @@
 \node [below=0cm of misd] {\scriptsize{?}};
 
 % Level 2
-\node [draw, below left=1cm and -0.5cm of simd] {\shortstack{Матричные\\процессоры}};
-\node [draw, below right=1cm and -0.5cm of simd] {\shortstack{Векторные\\процессоры}};
+\node [draw, below left=1cm and -0.5cm of simd, minimum height=1cm] {\shortstack{Матричные\\процессоры}};
+\node [draw, below right=1cm and -0.5cm of simd, minimum height=1cm] {\shortstack{Векторные\\процессоры}};
 
-\node [draw, below left=1cm and 0cm of mimd] (multiprocessor) {Мультипроцессоры};
-\node [draw, below right=1cm and 0cm of mimd] (multicomputers) {Мультикомпьютеры};
+\node [draw, below left=1cm and 0cm of mimd, minimum height=1cm] (multiprocessor) {Мультипроцессоры};
+\node [draw, below right=1cm and 0cm of mimd, minimum height=1cm] (multicomputers) {Мультикомпьютеры};
+
+% Level 3
+\node [draw, below left=0.5cm and 0cm of multiprocessor] (uma) {UMA};
+\node [draw, below=0.5cm of multiprocessor] {COMA};
+\node [draw, below right=0.5cm and 0cm of multiprocessor] (numa) {NUMA};
+
+\node [draw, below left=0.5cm and -0.5cm of multicomputers] {COW};
+\node [draw, below right=0.5cm and -0.5cm of multicomputers] (mpp) {MPP};
+
+% Level 4
+\node [draw, below left=0.5cm and -0.5cm of uma, minimum height=1cm] (bus) {\shortstack{С шинной\\организацией}};
+\node [draw, below right=0.5cm and -0.5cm of uma, minimum height=1cm] {Коммутация};
+
+\node [draw, below left=0.5cm and -0.5cm of numa, minimum height=1cm] {CC-NUMA};
+\node [draw, below right=0.5cm and -0.5cm of numa, minimum height=1cm] (nc-numa) {NC-NUMA};
+
+\node[draw, below left=0.5cm and -0.5cm of mpp, minimum height=1cm] (grid) {Решетка};
+\node[draw, below right=0.5cm and -0.5cm of mpp, minimum height=1cm] (hypercube) {Гиперкуб};
+
+% Decorations
+\draw[decorate, decoration={brace, amplitude=3pt}, yshift=3pt] (nc-numa.south
+        east) -- (bus.south west) coordinate[midway] (a1);
+\draw[decorate, decoration={brace, amplitude=3pt}, yshift=3pt] (hypercube.south
+        east) -- (grid.south west) coordinate[midway] (a2);
+
+% Level 4.5
+\node [below=0cm of a1] {Общая память};
+\node [below=0cm of a2] {Обмен сообщениями};
 
 \end{tikzpicture}
 
