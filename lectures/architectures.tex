@@ -12,17 +12,30 @@
 \section*{Обзор}
 
 \begin{frame}{На прошлой лекции}
-
 \begin{itemize}
+\ifmipt
     \item Общая теория параллельного программирования:
+\fi
+\ifsbertech
+    \item Классификация параллельных вычислительных систем:
+\fi
     \begin{itemize}
+\ifmipt
         \item Состояние гонки,
         \item Примитивы синхронизации,
         \item Эффективнось работы параллельного алгоритма,
         \item Закон Амдала.
+\fi
+\ifsbertech
+        \item Классификация Флинна,
+        \item Классификация Хокни.
+\fi
     \end{itemize}
+\ifsbertech
+    \item Суперскалярная архитектура,
+    \item VLIW архитектура.
+\fi
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{На этой лекции}
@@ -182,6 +195,10 @@ Cache Only Memory Access
 \end{frame}
 
 \begin{frame}{На следующей лекции}
+\begin{itemize}
+    \item Ускорение и эффективность параллельной программы.
+    \item Закон Амдала.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
