@@ -102,7 +102,7 @@
 
 \begin{frame}{Массово-параллельная архитектура}
 Массово-параллельная архитектура (\abbr Massive parallel processing, MPP) --- класс архитектур, в которых процессоры имеют доступ исключительно к локальным ресурсам. То есть память разделена физически.
-
+\vfill
 Не обеспечивает встроенного механизма обмена данными между узлами. Реализовывать коммуникации и распределение должен софт.
 \end{frame}
 
@@ -111,6 +111,16 @@
     \centering
     \includegraphics[width=0.65\textwidth]{MPP}
 \end{figure}
+\end{frame}
+
+\begin{frame}{MPP vs. COW}
+\vfill
+С точки зрения логики принципиальной разницы нет.
+\vfill
+MPP --- дорогостоящее высокопроизводительное оборудование.
+\vfill
+COW (Cluster Of Workstations) --- персональные компьютеры/рабочие станции
+объединееные в сеть.
 \end{frame}
 
 \begin{frame}{Преимущества и Недостатки}
@@ -166,6 +176,8 @@ Cache Only Memory Access
     ИНТУТ.РУ, 2004 --- 176~с. ISBN 5-9556-0018-3.
     \bibitem{} \textit{Drepper~U.} What Every Programmer Should Know About Memory
     \url{http://people.freebsd.org/~lstewart/articles/cpumemory.pdf}
+    \bibitem{} \textit{Таненбаум~Э.} Архитектура компьютера. --- 5-е изд. ---
+        СПб.~Питер, 2007 --- 844~c. ISBN 5-469-01274-3.
 \end{thebibliography}
 \end{frame}
 
