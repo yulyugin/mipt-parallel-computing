@@ -241,7 +241,7 @@ int turn;
 
 void enter_region(int thread_id) {
     int other = 1 - thread_id;
-    interested[thread_it] = true;
+    interested[thread_id] = true;
     turn = other;
 
     while(turn == other && interested[other]);
@@ -264,7 +264,7 @@ mov ebx, SPINLOCK_BUSY
 wait_cycle:
 lock xchg [eax], ebx
 cmp ebx, SPINLOCK_FREE
-jmp wait_cycle
+jne wait_cycle
 
 ; critical section
 
