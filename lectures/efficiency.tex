@@ -21,17 +21,15 @@
 \section{Эффективность}
 
 \begin{frame}{Эффективность параллельного алгоритма}
-
 $T_1$ --- время работа самого быстрого последовательного алгоритма.
-
+\vfill
 Ускорение параллельного алгоритма:
 
 $S_p = \frac{T_1}{T_p}$
-
+\vfill
 Эффективность параллельного алгоритма:
 
 $E_p = \frac{S}{p}$
-
 \end{frame}
 
 \section{Закон Амдала}
@@ -39,14 +37,10 @@ $E_p = \frac{S}{p}$
 \begin{frame}{Закон Амдала}
 $\alpha$ --- доля вычислений, которые могут быть получены только
 последовательными расчетами.
-
-\bigskip
-
+\vfill
 Тогда ускорение полученное при использовании $p$ процессоров по сравнению с
 одним не будет превышать величины
-
-\bigskip
-
+\vfill
 $S_p =\frac{1}{\alpha - \frac{1 - \alpha}{p}}$
 \end{frame}
 
@@ -57,8 +51,26 @@ $S_p =\frac{1}{\alpha - \frac{1 - \alpha}{p}}$
 \end{figure}
 \end{frame}
 
+\begin{frame}
+Упращающие допущения:
+\begin{enumerate}
+    \item Количество потоков либо 1, либо N;
+    \item Параллельная часть кода имеет идеальную производительность;
+    \item Параллельная часть бесконечно масштабируема;
+    \item Нет накладных расходов на создание/удаление потоков;
+\end{enumerate}
+\end{frame}
+
 \section*{Конец}
 % The final "thank you" frame
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Gene M. Amdahl}. Validity of the single processor
+    approach to achieving large scale computing capabilities. --- AFIPS spring
+    joint computer conference, 1967.
+\end{thebibliography}
+\end{frame}
 
 \begin{frame}{Задания}
 \end{frame}
