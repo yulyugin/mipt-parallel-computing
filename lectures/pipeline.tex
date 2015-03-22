@@ -1,0 +1,67 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Вычислительный конвейер}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Цикл работы процессора}
+
+\begin{frame}{Цикл работы процессора}
+\centering
+\inputpicture{cpu-cycle}
+\end{frame}
+
+\begin{frame}{Стадии конвейра}
+\begin{itemize}
+    \item Получение инструкции (Instruction Fetch, IF),
+    \item Декодирование (Instruction decode, ID),
+    \item Считывание операндов (Read operands, RO),
+    \item Выполнение (Execute, EX),
+    \item Запись результатов (Write back, WB).
+\end{itemize}
+\end{frame}
+
+\section{Идеальный конвейер}
+
+\begin{frame}{Конвейер}
+\centering
+\inputpicture{pipeline}
+\end{frame}
+
+\begin{frame}{Оценка производительности}
+\end{frame}
+
+\section*{Конец}
+% The final "thank you" frame
+
+\begin{frame}{Задания}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
