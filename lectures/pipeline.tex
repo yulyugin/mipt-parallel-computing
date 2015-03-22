@@ -43,6 +43,56 @@
 \end{frame}
 
 \begin{frame}{Оценка производительности}
+Время выполнения при последовательной обработке:
+\begin{displaymath}
+T_{sequential} = (T_{IF} + T_{ID} + T_{RO} + T_{EX} + T_{WB}) * N
+\end{displaymath}
+\vfill\pause
+Время выполнения при конвейерном исполнении:
+\begin{displaymath}
+T_{pipeline} = 5 * T + (N - 1) * T
+\end{displaymath}
+\begin{displaymath}
+T = max \{T_{IF}, T_{ID}, T_{RO}, T_{EX}, T_{WB}\} + \Delta t
+\end{displaymath}
+\begin{center}
+$\Delta t$ --- время, необходимое для передачи команд\\с одной стадии на другую.
+\end{center}
+\end{frame}
+
+\begin{frame}{Пример}
+Времена выполнения стадий:
+
+$T_{IF} = 20$, $T_{ID} = 15$, $T_{RO} = 20$, $T_{EX} = 25$, $T_{WB} = 20$
+\vfill
+Накладные расходы:
+
+$\Delta t = 5$
+\vfill
+Время выполнения стадии конвейера:
+
+$T = \pause30$
+\end{frame}
+
+\begin{frame}{Пример}
+\begin{table}[htpb]
+    \centering
+    \begin{tabular}{|l|r|r|}
+    \hline
+    \multirow{2}{*}{Количество команд}   &   \multicolumn{2}{c|}{Время обработки}    \\
+    \cline{2-3}
+                        &   последовательной    &   конвейерной     \\
+    \hline
+    1                   &   100                 &   150             \\
+    \hline
+    2                   &   200                 &   180             \\
+    \hline
+    10                  &   1000                &   420             \\
+    \hline
+    100                 &   10000               &   3120            \\
+    \hline
+    \end{tabular}
+\end{table}
 \end{frame}
 
 \section*{Конец}
