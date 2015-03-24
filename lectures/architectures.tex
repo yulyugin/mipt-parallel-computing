@@ -42,169 +42,100 @@
 \tableofcontents
 \end{frame}
 
-\section{Классификация}
+\section{Суперскалер}
 
-\begin{frame}{Параллельные компьютерные архитектуры}
-\centering
-\resizebox{11cm}{6cm}{
-\inputpicture{classification}
-}
+\begin{frame}{Суперскалярная архитектура}
+Суперскалярный процессор --- процессор, способный запускать несколько команд за
+один тактовый цикл.
+
+\vspace*{1cm}\pause
+Планирование потока команд происходит динамически в момент исполнения и определяется самим
+вычислительным модулем.
 \end{frame}
 
-\section{SIMD}
-
-\begin{frame}{Матричные процессоры}
+\begin{frame}{Один конвейер --- хорошо, а два --- лучше.}
+Один конвейер --- хорошо, а два --- лучше.
+\vfill\pause
+В процесоре Pentium\textsuperscript\textregistered~было два конвейера:
 \begin{itemize}
-    \item Общее управляющее устройство, генерирующее поток команд;
-    \item Большое число процессорных элементов;
-    \item Каждый процессорный элемент обрабатывает свой поток данных;
+    \item Главный \textit{u--}конвейер --- выполняет произвольные операции,
+    \item Второй \textit{v--}конвейер --- выполняет простые операции.
 \end{itemize}
-\vfill
-\begin{displaymath}
-\text{\scriptsize{Производительность системы}} = \sum_i
-\text{\scriptsize{производительность~}} i^{\text{\tiny{~го}}}
-\text{\scriptsize{~устройства}}
-\end{displaymath}
+\vfill\pause
+При использовании специального компилятора было достигнуто ускорение почти в два
+раза по сравнению с Intel\textsuperscript\textregistered~486.
 \end{frame}
 
-\begin{frame}{Векторные процессоры}
-Векторный процессор --- процессор, операнды некоторых команд которого могут быть
-упорядочными массивами --- векторами.
-\vfill
-Большинство современных процессоров имеют векторные расширения:
-\begin{itemize}
-    \item ARM --- VFP,
-    \item AMD64 --- 3DNow,
-    \item IA-32 --- SSE, AVX et al.
-\end{itemize}
+\begin{frame}{Альтернативы}
+Четыре конвейера?
+\vfill\pause
+Нет. Почему?
+\vfill\pause
+Слишком громоздкое аппаратное обеспечение. Альтернативы?
+\vfill\pause
+Один конвейер с большим количеством функциональных блоков.
 \end{frame}
 
-\section{MIMD: Мультипроцессоры}
+\section{VLIW}
 
-\begin{frame}{Симметричная мультипроцессорность}
-Симметричная мультипроцессорность (\abbr Symmetric Multiprocessing, SMP) --- архитектура вычислительных систем, в которой все процессоры подключаются к общей памяти (при помощи шины или подобного устройства) симметрично и имеют к ней однородный доступ.
-\vfill
-Так же известна как UMA (Uniform Memory Access или Uniform Memory Architecture).
-\end{frame}
+\begin{frame}{VLIW архитектура}
+VLIW (Very Long Instruction Word) --- архитектура процессоров, в которой каждая
+инструкция содержит несколько операций, которые будут выполнены параллельно.
 
-\begin{frame}{Симметричная мультипроцессорность}
 \begin{figure}[htpb]
-    \centering
-    \includegraphics[width=0.7\textwidth]{SMP}
+    \includegraphics[width=0.7\textwidth]{elbrus-2s}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Преимущества}
-Преимущества:
 \begin{itemize}
-    \item не требуется обмен данными,
-    \item просто писать программы,
-    \item компактность системы,
-    \item низкое энергопотребление.
+    \item Распределением вычислительных устройств занимается компилятор,
+    \item Пониженное энергопотребление, за счет отсуствия узлов, отвечающих за
+    распределение задач.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Недостатки}
-Недостатки:
 \begin{itemize}
-    \item плохая масштабируемость:
-    \begin{itemize}
-        \item увеличение количества процессоров $\Rightarrow$ увеличение
-        нагрузки на шину $\Rightarrow$ падение производительности,
-        \item стоимость системы растет быстрее, чем производительность,
-    \end{itemize}
-    \item проблемы совместного доступа к памяти,
-    \item когерентность кэш-памяти,
-    \item выход из строя одного из процессоров выводит из строя всю систему,
-    \item требуется поддержка ОС.
+    \item Низкая плотность кода. Большое количество NOP-инструкций,
+    \item Увеличенный размер программ,
+    \item Сложность программирования на уровне ISA. Только оптимизации
+    компилятора.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Архитектура с неравномерной памятью}
-NUMA (Non-Uniform Memory Access или Non-Uniform Memory Architecture) система разделяется на множественные узлы, имеющие доступ как к своей локальной памяти, так и к памяти других узлов.
-\vfill
-Недостатки:
+\begin{frame}{Реализации}
 \begin{itemize}
-    \item доступ к удаленной памяти гораздо медленнее, чем к локальной,
-    \item требует поддержки ОС.
+    \item Микропроцессоры серии <<Эльбрус>>,
+    \item TriMedia (NXP Semiconductors). 1987--2010 гг.,
+    \item Transmeta Crusoe. 2000--2004 гг.
+    \begin{figure}[htbp]
+        \includegraphics[width=0.4\textwidth]{transmeta-crusoe}
+    \end{figure}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Архитектура с неравномерной памятью}
-\begin{figure}[htpb]
-    \centering
-    \includegraphics[width=\textwidth]{NUMA}
-\end{figure}
+\begin{frame}[fragile]{Пример}
+
+Код складывающий 4 числа, находящихся в регистрах R1, R2, R3, R4.
+
+\begin{lstlisting}
+R5 = R1 + R2, R6 = R3 + R4;
+R0 = R5 + R6, NOP;
+\end{lstlisting}
+
 \end{frame}
 
-\begin{frame}{COMA}
-\vfill
-Cache Only Memory Access
-\vfill
-\begin{itemize}
-    \item Физическое адресное пространство делится на строки кэша,
-    \item Строки кэша по запросу перемещаются в системе,
-    \item Блоки памяти не имеют собственных машин.
-\end{itemize}
-\end{frame}
-
-\section{MIMD: Мультикомпьютеры}
-
-\begin{frame}{Массово-параллельная архитектура}
-Массово-параллельная архитектура (\abbr Massive parallel processing, MPP) --- класс архитектур, в которых процессоры имеют доступ исключительно к локальным ресурсам. То есть память разделена физически.
-\vfill
-Не обеспечивает встроенного механизма обмена данными между узлами. Реализовывать коммуникации и распределение должен софт.
-\end{frame}
-
-\begin{frame}{Массово-параллельная архитектура}
-\begin{figure}[htpb]
-    \centering
-    \includegraphics[width=0.65\textwidth]{MPP}
-\end{figure}
-\end{frame}
-
-\begin{frame}{MPP vs. COW}
-\vfill
-С точки зрения логики принципиальной разницы нет.
-\vfill
-MPP --- дорогостоящее высокопроизводительное оборудование.
-\vfill
-COW (Cluster Of Workstations) --- персональные компьютеры/рабочие станции
-объединееные в сеть.
-\end{frame}
-
-\begin{frame}{Преимущества}
-Преимущества:
-\begin{itemize}
-    \item простота и дешевизна построения,
-    \item хорошая масштабируемость,
-    \item возможность решать задачи требующие очень большого объема оперативной
-    памяти.
-    \item эффективное решение задач, требующих малого обмена данными.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Недостатки}
-Недостатки:
-\begin{itemize}
-    \item отсутствие общей памяти $\Rightarrow$ снижение скорости обмена данными,
-    \item каждый процессор может использовать только локальную память,
-    \item большой размер системы $\Rightarrow$ большое энергопотребление.
-    \item сложность написания ПО.
-\end{itemize}
-\end{frame}
+\section*{Литература}
 
 \section*{Конец}
 
 \begin{frame}[allowframebreaks]{Рекомендуемая литература}
 \begin{thebibliography}{99}
-    \bibitem{} \textit{Богданов~А.В., Корхов~В.В., Мареев~В.В., Станкова~Е.Н.}
-    Архитектуры и топологии многопроцессорных вычислительных систем. --- М.:
-    ИНТУТ.РУ, 2004 --- 176~с. ISBN 5-9556-0018-3.
-    \bibitem{} \textit{Drepper~U.} What Every Programmer Should Know About Memory
-    \url{http://people.freebsd.org/~lstewart/articles/cpumemory.pdf}
     \bibitem{} \textit{Таненбаум~Э.} Архитектура компьютера. --- 5-е изд. ---
         СПб.~Питер, 2007 --- 844~c. ISBN 5-469-01274-3.
+    \bibitem{vliw} <<Introduction to VLIW Computer Architecture>>. // Introduction to VLIW Computer Architecture. \url{http://www.psut.edu.jo/sites/qaralleh/CO/CA Documents/11_vliw.pdf}
+    \bibitem{patterson-hennessy} \textit{David A. Patterson, John L. Hennessy}. <<Computer Organization and Design, Fourth Edition: The Hardware/Software Interface.>>
 \end{thebibliography}
 \end{frame}
 
