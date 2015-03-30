@@ -35,6 +35,13 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+\centering
+\resizebox{10cm}{2cm}{
+\inputpicture{non-pipeline}
+}
+\end{frame}
+
 \section{Идеальный конвейер}
 
 \begin{frame}{Конвейер}
@@ -63,15 +70,15 @@ $\Delta t$ --- время, необходимое для передачи ком
 \begin{frame}{Пример}
 Времена выполнения стадий:
 
-$T_{IF} = 20$, $T_{ID} = 15$, $T_{RO} = 20$, $T_{EX} = 25$, $T_{WB} = 20$
+$T_{IF} = 4$, $T_{ID} = 3$, $T_{RO} = 4$, $T_{EX} = 4$, $T_{WB} = 3$
 \vfill
 Накладные расходы:
 
-$\Delta t = 5$
+$\Delta t = 1$
 \vfill
 Время выполнения стадии конвейера:
 
-$T = \pause30$
+$T = \pause5$
 \end{frame}
 
 \begin{frame}{Пример}
@@ -79,17 +86,17 @@ $T = \pause30$
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-    \multirow{2}{*}{Количество команд}   &   \multicolumn{2}{c|}{Время обработки}    \\
+    \multirow{2}{*}{Количество команд}   &   \multicolumn{2}{c|}{Время обработки} \\
     \cline{2-3}
-                        &   последовательной    &   конвейерной     \\
+                        &   последовательной    &   конвейерной \\
     \hline
-    1                   &   100                 &   150             \\
+    1                   &   18                  &   25          \\
     \hline
-    2                   &   200                 &   180             \\
+    2                   &   36                  &   30          \\
     \hline
-    10                  &   1000                &   420             \\
+    10                  &   180                 &   70          \\
     \hline
-    100                 &   10000               &   3120            \\
+    100                 &   1800                &   520         \\
     \hline
     \end{tabular}
 \end{table}
