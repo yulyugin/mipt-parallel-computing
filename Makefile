@@ -40,6 +40,11 @@ amdahls-law.pdf: $(SRC_DIR)/amdahls-law.plt
 
 efficiency: amdahls-law.pdf
 
+memory-wall.pdf: $(SRC_DIR)/memory-wall.plt
+	cd $(SRC_DIR) && $(GNUPLOT) memory-wall.plt
+
+caches: memory-wall.pdf
+
 $(LECTURES): target.tex
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
