@@ -12,6 +12,11 @@
 \section*{Обзор}
 
 \begin{frame}{На прошлой лекции}
+\begin{itemize}
+    \item Цикл работы процессора.
+    \item Идеальный конвейер.
+    \item Реальный конвейер.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{На этой лекции}
@@ -50,11 +55,17 @@
 \end{frame}
 
 \begin{frame}{Поиск в кэше}
-\todo picture
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.65\textwidth]{cache-search}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Ассоциативность}
-\todo
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.65\textwidth]{associativity}
+\end{figure}
 \end{frame}
 
 \begin{frame}{События при поиске в кэше}
@@ -80,9 +91,15 @@
 \end{frame}
 
 \begin{frame}{Кэши и физические/виртуальные адреса}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.65\textwidth]{cache-addressing}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Кэш инструкций и данных}
+\centering
+\inputpicture{instr-data-cache}
 \end{frame}
 
 \begin{frame}{Многоуровневые кэши}
@@ -120,7 +137,19 @@
 \end{frame}
 
 \begin{frame}{Когерентность}
-\todo
+\begin{table}[htpb]
+    \begin{center}
+    \begin{tabular}{|l|r|r|r|}
+    \hline
+    \diaghead{0.00001\hskip 0.07\hsize}{Адрес}{CPU} &   CPU0    &   CPU1    &   CPU2    \\
+    \hline
+    0xaabbccd0 & \textcolor{red}{0x15}   & \textcolor{red}{0x12}   & \#\#\#                  \\
+    \hline
+    0xaabbcce0 & \textcolor{green}{0x11} & \textcolor{green}{0x11} & \textcolor{green}{0x11} \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{table}
 \end{frame}
 
 \begin{frame}{MESI}
@@ -140,10 +169,11 @@
 \end{thebibliography}
 \end{frame}
 
-\begin{frame}{Задания}
-\end{frame}
-
 \begin{frame}{На следующей лекции}
+\begin{itemize}
+    \item Графические процессоры.
+    \item Мравнительный анализ графического и центрального процессора.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
