@@ -36,18 +36,84 @@
 \end{frame}
 
 \begin{frame}
+\vfill
 \centering
 \resizebox{10cm}{2cm}{
 \inputpicture{non-pipeline}
 }
+\pause\vfill
+\begin{itemize}
+    \item Пропускна способность - 1 инструкция за такт (18 ns).\pause
+    \item Эффективно? \pause\textcolor{red}{НЕТ!}
+    \begin{itemize}
+        \item Большую часть времени стадии простаивают ожидая, пока другие стадии закончат свою работу.\pause
+    \end{itemize}
+    \item Можем ли мы выполнить это быстрее? \pause\textcolor{green}{ДА!} с помощью \textcolor{blue}{конвейера}.
+\end{itemize}
 \end{frame}
 
 \section{Идеальный конвейер}
 
+\begin{frame}{Что такое конвейер?}
+\begin{itemize}
+    \item \textcolor{blue}{Идея:} попытаться всех загрузить полезной работой.
+    \begin{itemize}
+        \item Конвейеризация - стандартная техника увеличения производительности, не являющаяся специфичной для центрального процессора.\pause
+    \end{itemize}
+    \item Как организовать конвейер?\pause
+    \begin{itemize}
+        \item Разделить процесс на независимые части (\textcolor{blue}{стадии})\pause
+        \item Разрешить стадии работать над следующей задачей, даже если последующие стадии до сих пор заняты работой над предыдущей.\pause
+    \end{itemize}
+    \item Существует большое количество примеров конвейера в реальной жизни:\pause
+    \begin{itemize}
+        \item Линия сборки (автомобили, электроника и др.)
+        \item Контроль безопасности в аэропорту.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Конвейер}
+\begin{itemize}
+    \item Сложно создать аппратуру, которая сможет определить занята ли следующая стадия или нет и остановить конвейер, если необходимо,
+    \item Альтернативно можно сделать все стадии фиксированного размера, равного самой длинной
+    \begin{itemize}
+        \item Это сделает управление конвейера простым, так как следующая стадия всегда готова.
+    \end{itemize}
+\end{itemize}
 \centering
 \inputpicture{pipeline}
+\begin{itemize}
+    \item Пропускная способность также одна инструкция за такт, однако размер такта в 4.5 раза меньше (4ns vs. 18ns).
+\end{itemize}
 \end{frame}
+
+\begin{frame}{Ускорение}
+\begin{itemize}
+    \item Конвейер не уменьшает \textcolor{blue}{латентность} (время выполнения команды). Он увеличивает общую \textcolor{blue}{пропускную способность} (количество выполненных команд в единицу времени).\pause
+    \item Пропускная способность конвейера (=скорость) ограничена \textcolor{blue}{самой медленной} стадией.\pause
+    \item Возможное ускорение
+    \begin{displaymath}
+    Speedup = \frac{Throughput_{Non-pipelined}}{Throughput_{Pipelined}} = \frac{Workload\_Time_{Non-pipelined}}{Slowest\_Stage\_Time_{Pipelined}}
+    \end{displaymath}\pause
+    \item В идеальном случае, когда все стадии одинаковые по длинне
+    \begin{displaymath}
+    Speedup = \frac{Workload\_Time_{Non-pipelined}}{Slowest\_Stage\_Time_{Pipelined}} = Num\_of\_stages
+    \end{displaymath}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ускорение}
+\begin{itemize}
+    \item Как увеличить ускорение?\pause
+    \begin{itemize}
+        \item Разбить на большое количество стадий\pause
+        \item Сбалансировать работу стадий: сделать самую длинную стадию короткой, на сколько это возможно.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{<<Реальный>> конвейер}
 
 \begin{frame}{Оценка производительности}
 Время выполнения при последовательной обработке:
@@ -100,6 +166,13 @@ $T = \pause5$
     \hline
     \end{tabular}
 \end{table}
+\end{frame}
+
+\begin{frame}{Конфликты в конвейере}
+\begin{itemize}
+    \item Конфликты данных,
+    \item Конфликты управления.
+\end{itemize}
 \end{frame}
 
 \section*{Конец}
