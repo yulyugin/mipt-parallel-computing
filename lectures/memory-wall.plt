@@ -14,7 +14,7 @@ set xlabel "Year" font "Times-Roman,14"
 cpu(x) = 0.25 * x - 496.5
 mem(x) = x / 35 - 55.85
 
-set key 1990, 2.8
+set key at 1990,2.8
 
 plot cpu(x) lc rgb 'red' title "CPU Speed", \
      mem(x) lc rgb 'blue' title "Memory Speed"
