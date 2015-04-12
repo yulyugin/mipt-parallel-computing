@@ -53,7 +53,7 @@ mipt-parallel-computing
 2. Java: Добавить ThreadExecutor.
 2. Java: Добавить suspend/resume/stop/wait/notify.
 3. Добавить лекцию про GPU.
-4. Добавить лекцию про pipeline.
+4. Расширить лекцию про pipeline. Добавить проблемы конвейера.
 5. Добавить лекцию про pthreads.
 6. Добавить лекцию про топологии сетей.
 7. Примеры использования колективных операций MPI.
