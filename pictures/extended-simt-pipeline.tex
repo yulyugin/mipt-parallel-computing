@@ -1,0 +1,69 @@
+% This file allows to produce either a separate PDF/PNG image
+% See standalone documentation to understand underlying magic
+
+\documentclass[tikz,convert={density=150,size=600,outext=.png}]{standalone}
+\usetikzlibrary{shapes, calc, arrows, fit, positioning, decorations, patterns, decorations.pathreplacing, chains, snakes}
+\input{../setup-web-fonts}
+\input{../setup-packages}
+\graphicspath{{../pictures/}} % path to pictures, trailing slash is mandatory.
+
+% The actual drawing follows
+\begin{document}
+\begin{tikzpicture}[>=latex, font=\small]
+
+\node[draw, rectangle] (fetch) {\shortstack{Instruction\\fetch}};
+\node[draw, trapezium, trapezium stretches, left=0.8cm of sequencer, rotate=-90, anchor=3cm, minimum width=3cm] (vote) {Vote};
+\node[above left=0.8cm and 0.3cm of vote.south west] (startpc0) {\texttt{PC}$_0$};
+\node[above left=0.2cm and 0.3cm of vote.south west] (startpc1) {\texttt{PC}$_1$};
+\node[below left=0.8cm and 0.3cm of vote.south east] (startpcN) {\texttt{PC}$_N$};
+\node[draw, trapezium, trapezium stretches, right=0.9cm of fetch, rotate=90, anchor=north, minimum width=3cm] (broadcast) {Broadcast};
+\node[draw, rectangle, above right=0.8cm and 0.8cm of broadcast.south east] (match1) {Match};
+\node[draw, rectangle, above right=0.2cm and 0.8cm of broadcast.south east] (match2) {Match};
+\node[draw, rectangle, below right=0.8cm and 0.8cm of broadcast.south west] (matchN) {Match};
+\node[draw, rectangle, right=0.8cm of match1] (exec1) {Execute};
+\node[draw, rectangle, right=0.8cm of match2] (exec2) {Execute};
+\node[draw, rectangle, right=0.8cm of matchN] (execN) {Execute};
+\node[draw, rectangle, right=0.3cm of exec1] (pc1) {\texttt{PC}++};
+\node[draw, rectangle, right=0.3cm of exec2] (pc2) {\texttt{PC}++};
+\node[draw, rectangle, right=0.3cm of execN] (pcN) {\texttt{PC}++};
+\node[right=0.3cm of pc1] (endpc0) {\texttt{PC}$_0$};
+\node[right=0.3cm of pc2] (endpc1) {\texttt{PC}$_1$};
+\node[right=0.3cm of pcN] (endpcN) {\texttt{PC}$_N$};
+
+\draw[->] (startpc0) -- ([yshift=1.05cm] vote.south west);
+\draw[->] (startpc1) -- ([yshift=0.45cm] vote.south west);
+\draw[->] (startpcN) -- ([yshift=-1.05cm] vote.south east);
+\draw[->] (vote) -- (fetch);
+\draw[->] (fetch) -- (broadcast);
+\draw[->] ([yshift=1.05cm] broadcast.south east) -- (match1);
+\draw[->] ([yshift=0.45cm] broadcast.south east) -- (match2);
+\draw[->] ([yshift=-1.05cm] broadcast.south west) -- (matchN);
+\draw[->] (match1) -- (exec1);
+\draw[->] (match2) -- (exec2);
+\draw[->] (matchN) -- (execN);
+\draw[->] (exec1) -- (pc1);
+\draw[->] (exec2) -- (pc2);
+\draw[->] (execN) -- (pcN);
+\draw[->] (pc1) -- (endpc0);
+\draw[->] (pc2) -- (endpc1);
+\draw[->] (pcN) -- (endpcN);
+
+\node[below left=0cm of fetch.north west] {\scriptsize{MPC}};
+\node[below right=0cm and 0cm of fetch.north east] {\scriptsize{Instr}};
+\node[below right=0cm and 0cm of fetch.east] {\scriptsize{MPC}};
+\node[below left=-0.1cm and 0cm of match1.north west] {\scriptsize{Instr}};
+\node[above left=-0.15cm and 0cm of match1.south west] {\scriptsize{MPC}};
+\node[below left=-0.1cm and 0cm of match2.north west] {\scriptsize{Instr}};
+\node[above left=-0.15cm and 0cm of match2.south west] {\scriptsize{MPC}};
+\node[below left=-0.1cm and 0cm of matchN.north west] {\scriptsize{Instr}};
+\node[above left=-0.15cm and 0cm of matchN.south west] {\scriptsize{MPC}};
+\node[below left=-0.1cm and 0cm of exec1.north west] {\scriptsize{Instr}};
+\node[below left=-0.1cm and 0cm of exec2.north west] {\scriptsize{Instr}};
+\node[below left=-0.1cm and 0cm of execN.north west] {\scriptsize{Instr}};
+
+\node[below=0.3cm of exec2.south east] (comment) {\tiny{No match: discard instruction}};
+\draw[->] (comment) -- ([xshift=-0.3cm, yshift=-0.01cm] exec2.south west);
+
+\end{tikzpicture}
+
+\end{document}
