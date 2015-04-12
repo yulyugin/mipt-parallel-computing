@@ -36,12 +36,12 @@ GPU (\abbr Graphics Processing Unit)
 Отличия GPU и CPU:
 \begin{itemize}
     \item GPU дополняет CPU $\Rightarrow$ GPU может выполнять некоторые задачи,
-    присущие CPU, недостаточно эффективно или не выполнять их вообще;
-    \item GPU совместимы на уровне API (OpenGL, Microsoft DirectX);
+    присущие CPU, недостаточно эффективно или не выполнять их вообще;\pause
+    \item GPU совместимы на уровне API (OpenGL, Microsoft DirectX);\pause
     \item Отсутствие бинарной обратной совместимости увеличивает скорость
-    развития GPU архитектуры;
+    развития GPU архитектуры;\pause
     \item GPU способны одновеременно выполнять множество потоков. Каждая точка
-    может быть нарисована независимо;
+    может быть нарисована независимо;\pause
     \item Временная локальность не применима к выполняемым GPU задачам.
 \end{itemize}
 \end{frame}
@@ -60,11 +60,57 @@ Throughput optimized GPU
     \item SIMD --- один тред с широким объемом данных;
     \item SIMT --- много <<идущих в ногу>> потоков.
 \end{itemize}
+\vfill
+SIMD --- same instruction is executed concurrently on different datapath lines.
+\vfill
+SIMT --- multithreaded model. Application lauches a number of threads that all
+enter the same program together. All threads get dinamically scheduled onto
+SIMD datapath. Threads that executing the same instruction get scheduled
+concurrently.
 \end{frame}
 
 \begin{frame}{SIMT pipeline}
 \centering
 \inputpicture{simt-pipeline}
+\vfill
+\texttt{MPC} --- Master PC.
+\end{frame}
+
+\begin{frame}
+Правила игры:
+\begin{itemize}
+    \item One thread per Processing Element (PE);
+    \item All PE execute same instruction;
+    \item Each PE can be disabled individually.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{<<Democratic>> instruction sequencer}
+\begin{itemize}
+    \item One \texttt{PC} per thread;\pause
+    \item Vote: select one of individual \texttt{PC}s as a Master \texttt{PC};\pause
+    \item Which one?\pause~Various policies:
+    \begin{itemize}
+        \item Majority: most common \texttt{PC};
+        \item Minimum: threads which are late;
+        \item Deepest control flow  nesting level;
+        \item Deepest functional call nesting level;
+        \item Combinations of the former.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{New SIMT pipeline}
+\centering
+\resizebox{11cm}{3cm}{
+\inputpicture{extended-simt-pipeline}
+}
+\end{frame}
+
+\begin{frame}
+Goal: keep executing units busy?
+\pause\vfill
+Keep executing units bust \textcolor{green}{doing real work}!
 \end{frame}
 
 \section*{Литература}
@@ -74,7 +120,9 @@ Throughput optimized GPU
     \bibitem{} \textit{Д.~Паттерсон, Дж.~Хеннесси}. Архитектура компьютера и
     проектирование компьютерных систем. 4-е издание --- СПб.~Питер, 2012 ---
     784~с. ISBN: 978-5-459-00291-1.
-\end{thebibliography}
+    \bibitem{} \textit{Sylvain Collange}. Multi-threading or SIMD? How GPU
+    architectures exploit regularity. ARCHI'11. June 14, 2011.
+    \end{thebibliography}
 \end{frame}
 
 \section*{Конец}
