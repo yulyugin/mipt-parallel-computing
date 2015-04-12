@@ -13,11 +13,11 @@
 
 \node[draw, rectangle] (sequencer) {\shortstack{Instruction\\sequencer}};
 \node[draw, rectangle, below=0.5cm of sequencer] (stack) {\shortstack{Mask\\stack}};
-\node[draw, rectangle, right=1cm of sequencer] (fetch) {\shortstack{Instruction\\fetch}};
-\node[draw, trapezium, trapezium stretches, right=1cm of fetch, rotate=90, anchor=north, minimum width=3cm] (broadcast) {Broadcast};
-\node[draw, rectangle, above right=0.8cm and 1cm of broadcast.south east] (exec1) {Execute};
-\node[draw, rectangle, above right=0.2cm and 1cm of broadcast.south east] (exec2) {Execute};
-\node[draw, rectangle, below right=0.8cm and 1cm of broadcast.south west] (execN) {Execute};
+\node[draw, rectangle, right=1.2cm of sequencer] (fetch) {\shortstack{Instruction\\fetch}};
+\node[draw, trapezium, trapezium stretches, right=1.2cm of fetch, rotate=90, anchor=north, minimum width=3cm] (broadcast) {Broadcast};
+\node[draw, rectangle, above right=0.8cm and 1.5cm of broadcast.south east] (exec1) {Execute};
+\node[draw, rectangle, above right=0.2cm and 1.5cm of broadcast.south east] (exec2) {Execute};
+\node[draw, rectangle, below right=0.8cm and 1.5cm of broadcast.south west] (execN) {Execute};
 
 \draw[<->] (sequencer) -- (stack);
 \draw[->] (sequencer) -- (fetch);
@@ -25,6 +25,20 @@
 \draw[->] ([yshift=1.05cm] broadcast.south east) -- (exec1);
 \draw[->] ([yshift=0.45cm] broadcast.south east) -- (exec2);
 \draw[->] ([yshift=-1.05cm] broadcast.south west) -- (execN);
+
+\node[below right=0cm and 0cm of sequencer.north east] {\scriptsize{MPC}};
+\node[below right=0cm and 0cm of sequencer.east] {\scriptsize{\shortstack{Activity\\mask}}};
+\node[below right=0cm and 0cm of fetch.north east] {\scriptsize{Instr}};
+\node[below right=0cm and 0cm of fetch.east] {\scriptsize{\shortstack{Activity\\mask}}};
+\node[below left=-0.1cm and 0cm of exec1.north west] {\scriptsize{Instruction}};
+\node[above left=-0.15cm and 0cm of exec1.south west] {\scriptsize{Activity bit}};
+\node[below left=-0.1cm and 0cm of exec2.north west] {\scriptsize{Instruction}};
+\node[above left=-0.15cm and 0cm of exec2.south west] {\scriptsize{Activity bit}};
+\node[below left=-0.1cm and 0cm of execN.north west] {\scriptsize{Instruction}};
+\node[above left=-0.15cm and 0cm of execN.south west] {\scriptsize{Activity bit}};
+
+\node[below=0.3cm of exec2.south east] (comment) {\tiny{Activity bit = 0: discard instruction}};
+\draw[->] (comment) -- ([xshift=0.1cm, yshift=-0.01cm] exec2.south west);
 
 \end{tikzpicture}
 
