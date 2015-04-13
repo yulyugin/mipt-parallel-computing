@@ -29,8 +29,16 @@
 \section{GPU}
 
 \begin{frame}{GPU}
-GPU (\abbr Graphics Processing Unit)
+Графический процессор (\abbr Graphics Processing Unit, GPU) --- устройство
+предназначенное для ускорения графики.
+\vfill
+Графический процессор изначально создавались, как многоядерная структуа.
+Количество ядер может достигать нескольких тысяч.
+\vfill
+GPU рассчитан на массивно параллельные вычисления.
 \end{frame}
+
+\section{GPU vs. CPU}
 
 \begin{frame}{GPU vs. CPU}
 Отличия GPU и CPU:
@@ -46,10 +54,10 @@ GPU (\abbr Graphics Processing Unit)
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-Latency optimized CPU
-
-Throughput optimized GPU
+\begin{frame}{GPU vs. CPU}
+Latency optimized CPU --- Fast Serial Processing.
+\vfill
+Throughput optimized GPU --- Scalable Parallel Processing.
 \end{frame}
 
 \section{Модели исполнения}
@@ -68,6 +76,8 @@ enter the same program together. All threads get dinamically scheduled onto
 SIMD datapath. Threads that executing the same instruction get scheduled
 concurrently.
 \end{frame}
+
+\section{Принцип работы}
 
 \begin{frame}{SIMT pipeline}
 \centering
@@ -113,7 +123,7 @@ Goal: keep executing units busy?
 Keep executing units bust \textcolor{green}{doing real work}!
 \end{frame}
 
-\section*{Литература}
+\section*{Конец}
 
 \begin{frame}{Рекомендуемая литература}
 \begin{thebibliography}{99}
@@ -124,9 +134,6 @@ Keep executing units bust \textcolor{green}{doing real work}!
     architectures exploit regularity. ARCHI'11. June 14, 2011.
     \end{thebibliography}
 \end{frame}
-
-\section*{Конец}
-% The final "thank you" frame
 
 \begin{frame}{На следующей лекции}
 \begin{itemize}
