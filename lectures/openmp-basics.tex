@@ -8,14 +8,11 @@
 \section*{Обзор}
 
 \begin{frame}
-\tableofcontents
-\end{frame} 
-
-\begin{frame}{На прошлой лекции}
+\titlepage
 \end{frame}
 
 \begin{frame}{На этой лекции}
-\titlepage
+\tableofcontents
 \end{frame}
 
 % Use [fragile] option to insert listings
@@ -25,72 +22,288 @@
 
 \begin{frame}
 
-\todo Write me.
+OpenMP (Open Multi-Processing) --- открытый стандарт для распараллеливания программ на языках C, C++, Fortran.
+
+Описывает совокупность директив компилятора, процедур и переменных окружения.
+
+1997 год --- первая версия для Fortran.
+
+1998 год --- первая версия для C/C++.
+
+\end{frame}
+
+\begin{frame}[fragile]{Директивы компилятора}
+
+Директива компилятора --- указание особенностей обработки при компиляции.
+
+Директивы препроцессора:
+
+\begin{lstlisting}
+#include "file"
+#define
+\end{lstlisting}
+
+Директива \texttt{\#pragma} --- поддержка функций уникальных для хоста или компилятора (ОС) с сохранением совместимости языков C/C++.
+
+\end{frame}
+
+\begin{frame}{Примеры использования \#pragma}
+
+\texttt{\#pragma once} --- аналог include guard.
+
+\texttt{\#pragma message} --- определяет сообщение выдоваемое при компиляции.
+
+\texttt{\#pragma omp}
 
 \end{frame}
 
 \section{Основные команды OpenMP}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Директивы OpenMP}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel
+\begin{lstlisting}
+#pragma omp <directive> options
 \end{lstlisting}
+
+\begin{itemize}
+    \item parallel,
+    \item for,
+    \item single,
+    \item section,
+    \item critical,
+    \item atomic,
+    \item barrier.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Директивы parallel и for}
+
+Директива \texttt{parallel} сообщает компилятору, что блок кода должен быть выполнен в нескольких потоках.
+
+Директива \texttt{for} распределяет итерации цикла между тредами.
+
+\end{frame}
+
+\begin{frame}{Некоторые опции}
+
+\begin{itemize}
+    \item if --- исполнить параллельно, если истина. Последовательно в противном случае.
+    \item private(list) --- локальные для потоков переменные. При входе и выходе значения не определены.
+    \item shared(list) --- общение для всех потоков переменные.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = 8;
+#pragma omp parallel private(i)
+{
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n",
+               omp_get_thread_num(), i);
+}
+\end{lstlisting}
+
+\pause
+
+Что неправильно?
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = 8;
+#pragma omp parallel private(i)
+{
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
+}
+\end{lstlisting}
+
+\pause
+
+Что будет напечатано?
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = 8;
+#pragma omp parallel for
+{
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+int i, N = atoi(argv[1]);
+#pragma omp parallel if(N >= 8) private(i)
+{
+    int id = omp_get_thread_num();
+    for (i = 0; i < N; i++)
+        printf("%d: %d\n", id, i);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Процедуры OpenMP}
+
+\begin{itemize}
+    \item Возвращает номер потока
+    \begin{lstlisting}
+int omp_get_thread_num()
+    \end{lstlisting}
+
+    \item Определяет количество потоков используемое по-умолчанию в параллельной секции.
+    \begin{lstlisting}
+void omp_set_num_threads(int num_threads);
+    \end{lstlisting}
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-int a = {...};
-int j = 0;
-
-#pragma omp parallel for shared(a), private(j)
-{
-  for (j = 0; j < N; ++j)
-    a[j] = a[j] * a[j];
-}
-\end{lstlisting}
-
-Можно использовать только операции сравнения: >=, >, <=, <.
-
-\end{frame}
-
-\begin{frame}[fragile]
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp parallel
 {
-  myid = omp_get_thread_num();
-  if (myid == 0) {
-    // ...
-  } else {
-    // ...
-  }
+    myid = omp_get_thread_num();
+    if (myid == 0) {
+        <...>
+    } else {
+        <...>
+    }
 }
 \end{lstlisting}
 
 \end{frame}
 
+\begin{frame}{Переменные окружения}
+\texttt{OMP_NUM_THREADS} --- определяет количество потоков используемое по-умолчанию в параллельной секции.
+\end{frame}
+
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp for
 \end{lstlisting}
 
-Будет выполнгена с уже созданными потоками, что позволит сохранить время.
+Будет выполнена с уже созданными потоками, что позволит сохранить время.
 
 \end{frame}
 
-\begin{frame}[fragile]{Редукция}
+\section{Редукция}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel reduction (+:sum)
+\begin{frame}{Опция reduction}
+Формат опции: reduction(оператор: список)
+
+\bigskip
+
+Поддерживаеые операторы: +, *, -, \&, |, \^~, \&\&, ||.
+
+\bigskip
+
+Переменные должны иметь скалярный тип: \texttt{float}, \texttt{int},
+\texttt{std::vector}, и т.д.
+\end{frame}
+
+\begin{frame}{Принцип работы}
+\begin{enumerate}
+    \item Для каждой переменной создаются локальные копии в каждом потоке;
+    \item Переменные инициализируются: 0 для аддитивных операций и 1 для
+    мултипликативных;
+    \item После завершения над локальными переменными выполняется заданный
+    оператор.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Операторы reduction}
+\begin{table}[htpb]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Оператор    &   Исходное значение   \\
+    \hline
+    +           &   0                   \\
+    \hline
+    *           &   1                   \\
+    \hline
+    -           &   0                   \\
+    \hline
+    \&          &   \~~0                \\
+    \hline
+    |           &   0                   \\
+    \hline
+    \^~         &   0                   \\
+    \hline
+    \&\&        &   1                   \\
+    \hline
+    ||          &   0                   \\
+    \hline
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+Вычисление суммы элементов массива:
+
+\begin{lstlisting}
+#pragma omp parallel for reduction(+:sum)
+    for (i = 0; i < N; i++)
+        sum += a[i];
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Динамическое распределение нагрузки}
+
+Опция \texttt{schedule}
+
+\begin{lstlisting}[basicstyle=\scriptsize]
+#pragma omp parallel for shared(a), schedule(dynamic)
+    for (i = 0; i < N; i++)
+        a[i] = a[i] * a[i];
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Директива single}
+
+\begin{lstlisting}
+#pragma omp single
+\end{lstlisting}
+
+Обозначение блоков внутри параллельной секции, которые должны быть выполнены
+один раз.
+
+\bigskip
+
+\pause
+
+Опция \texttt{copyprivate(list)} определяет \texttt{private} переменные которые
+будут иметь обновленное значение после выполнения блок \texttt{single}.
+
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+#pragma omp parallel
 {
-  #pragma omp for
-  {
-    sum+= f(a[j]);
-  }
+    #pragma omp for
+    {
+        for (...)
+    }
+    #pragma omp single
+    {
+        write_result(...);
+    }
 }
 \end{lstlisting}
 
@@ -98,13 +311,16 @@ int j = 0;
 
 \begin{frame}[fragile]{Секции}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp sections
-  init();
-#pragma omp section
-  task_1();
-#pragma omp section
-  task_2();
+\begin{lstlisting}
+#pragma omp parallel
+{
+    #pragma omp sections
+        init();
+    #pragma omp section
+        task_1();
+    #pragma omp section
+        task_2();
+}
 \end{lstlisting}
 
 \end{frame}
@@ -113,10 +329,10 @@ int j = 0;
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp critical (label)
 {
-  ...
+    <...>
 }
 \end{lstlisting}
 
@@ -124,10 +340,10 @@ int j = 0;
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 #pragma omp atomic
 {
-  sum += value;
+    sum += value;
 }
 \end{lstlisting}
 
@@ -135,100 +351,74 @@ int j = 0;
 
 \begin{frame}[fragile]
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-omp_lock_t losk;
+\begin{lstlisting}
+omp_lock_t lock;
 omp_init_lock(&lock);
 
 #pragma omp parallel
 {
-  omp_set_lock(&lock);
-  // ...
-  omp_unset_lock(&lock);
-  omp_test_lock(&lock);
-  omp_destroy_lock(&lock);
-}
-\end{lstlisting}
-
-\end{frame}
-
-\section{Компиляция}
-
-\begin{frame}[fragile]
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#include <omp.h>
-\end{lstlisting}
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-> gcc -fopenmp
-\end{lstlisting}
-
-\end{frame}
-
-\begin{frame}[fragile]
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel
-{
-  while (i < N)
-  {
-    #pragma omp for
-    {
-      for (...)
-    }
-    #pragma omp single
-    {
-      ++i;
-    }
-  }
-}
-\end{lstlisting}
-
-\end{frame}
-
-\begin{frame}[fragile]{Динамический режим}
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel for shedul(dinamic)
-{
-  for (i = 0; i < N; ++i) {
+    omp_set_lock(&lock);
     // ...
-  }
+    omp_unset_lock(&lock);
+    omp_test_lock(&lock);
+    omp_destroy_lock(&lock);
 }
 \end{lstlisting}
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Директива ordered}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-#pragma omp parallel for ordered
+\begin{lstlisting}
+#pragma parallel private(i)
 {
-  for (i = 0; i < N; ++i) {
-    // ...
-  }
-  # pragma omp odered
-  {
-    write_result(...);
-  }
+    int id = omp_get_thread_num();
+
+    #pragma omp for ordered
+    for (i = 0; i < N; i++) {
+        printf("Thread %d, iteration %d\n", id, i);
+
+        #pragma omp ordered
+            printf("Thread %d, iteration %d\n", id, i);
+    }
 }
 \end{lstlisting}
 
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Измерение времени}
 
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+\begin{lstlisting}
 omp_set_num_threads();
 omp_get_wtime();
 \end{lstlisting}
 
 \end{frame}
 
+\section{Компиляция}
+
+\begin{frame}[fragile]{Сборка и запуск}
+
+Поддерживается компилятором начиная с GCC 4.2.
+
+Заголовочный файл \texttt{omp.h}:
+
+\begin{lstlisting}
+#include <omp.h>
+\end{lstlisting}
+
+\begin{lstlisting}
+> gcc -fopenmp file.c
+\end{lstlisting}
+
+\end{frame}
+
 \section*{Конец}
-% The final "thank you" frame 
 
 \begin{frame}{Задания}
+
+Посчитать интеграл sin(1/x).
+
 \end{frame}
 
 \begin{frame}{На следующей лекции}

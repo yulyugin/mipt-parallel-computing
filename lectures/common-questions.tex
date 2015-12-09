@@ -1,7 +1,7 @@
 % Compile with XeLaTeX, TeXLive 2013 or more recent
 \input{common/config}
 
-\title{Общине вопросы}
+\title{Общине вопросы. Состояние гонки. Примитивы синхронизации.}
 
 \begin{document}
 
@@ -10,36 +10,70 @@
 \end{frame}
 
 \section*{Обзор}
-
 \begin{frame}{На прошлой лекции}
 
 \begin{itemize}
-    \item Основы MPI.
+\ifmipt
+    \item История MPI,
+    \item Базовые функции MPI,
+    \item Передача сообщений,
+    \item Замер времени,
+    \item Компиляция и запуск.
+\fi
+\ifsbertech
+    \item Область применения МП систем,
+    \item Типы МВС,
+    \item Требования,
+    \item Измерения производительности,
+    \item Закон Мура.
+\fi
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{На этой лекции}
 \tableofcontents
-\end{frame} 
+\end{frame}
 
-% Use [fragile] option to insert listings
-% \begin{frame}[fragile]
+\section{Определения}
+
+\begin{frame}{Атомарные операции}
+Атомарные операции (\abbr atomic operations) --- операции, выполняющиеся как
+единое целое, либо не выполняющиеся вовсе.
+\vspace*{0.5cm}
+
+Доступ к разделяемым ресурсам должен быть атомарным.
+\vspace*{0.5cm}
+
+Не все инструкции процессора атомарны!
+\end{frame}
+
+\begin{frame}{Критическая секция}
+Критическая секция (\abbr critical section) --- участок кода программы, в
+котором производится доступ к общему ресурсу, которые не должен быть использован
+более чем одним потоком исполнения.
+\vfill\pause
+Какие ресурсы могут быть критическими?
+\pause
+\begin{itemize}
+    \item данные,
+    \pause
+    \item устройства.
+\end{itemize}
+\end{frame}
 
 \section{Состояние гонки}
 
-\begin{frame}{Определение}
-
+\begin{frame}{Состояние гонки}
 Состояние гонки (\abbr Race condition) --- ошибка в многопоточной программе, при которой работа приложения зависит от того, в каком порядке выполняются части кода.
+\vspace*{0.5cm}
 
 Свое название получила от похожей ошибки проектирования электронных схем (Гонки сигналов).
+\vspace*{0.5cm}
 
 Состояние гонки --- ошибка проявляющаяся в случайный момент времени.
-
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 int N = 1000;
 int x = 0;
@@ -64,35 +98,48 @@ for (i = 0; i < N; ++i) {
     \end{lstlisting}
     \end{column}
 \end{columns}
+\end{frame}
 
+\begin{frame}{Критерии избежания состояния гонки}
+\begin{itemize}
+    \item Два процесса не должны одновременно находиться в критических областях,
+    \item В программе не должно быть предположения о скорости и количестве
+    процессоров,
+    \item Процесс, находящийся вне критической области, не может блокировать
+    другие процессы,
+    \item Невозможно ситуация, когда процесс вечно ждет попадания в критическую
+    секцию.
+\end{itemize}
 \end{frame}
 
 \section{Синхронизация}
 
 \begin{frame}{Семафор}
-
 Семафор --- объект, ограничивающий количество потоков, которые могут войти в заданный участок кода.
-
+\vfill
 Интерфейс семафора:
-
 \begin{itemize}
     \item init(n) --- установить счетчик в n,
     \item enter() --- подождать пока счетчик не станет больше нуля, затем уменьшить его на единицу,
     \item leave() --- увеличить счетчик на еденицу.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{Мьютекс}
-
-Мьютекс (\abbr mutex) --- <<одноместный>> семафор, служащий для синхранизации одновременно выполняющихся потоков.
-
-\todo Mutex types.
-
+Мьютекс (\abbr mutex, mutual exclusion --- <<взаимное исключение>>) --- <<одноместный>> семафор, служащий для синхранизации одновременно выполняющихся потоков.
+\vfill
+\begin{itemize}
+    \item plain --- нет контроля повторного захвата тем же потоком;
+    \item recursive --- повторные захваты тем же модулем допустимы, ведется
+    счетчик захватов;
+    \item timed --- нет контроля захвата тем же потоком, поддерживается захват
+    мьютекса с тайм-аутом;
+    \item recursive\_timed --- повторные захваты тем же модулем допустимы,
+    поддерживается захват с тайм-аутом.
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Пример}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 int N = 1000;
 int x = 0;
@@ -122,55 +169,14 @@ for (i = 0; i < N; ++i) {
     \end{lstlisting}
     \end{column}
 \end{columns}
-
 \end{frame}
 
-\begin{frame}[fragile]{Взаимная блокировка}
-
-Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
-
-\vfill
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
-pthread_mutex_t A, B;
-pthread_mutex_init(&A, NULL);
-pthread_mutex_init(&B, NULL);
-\end{lstlisting}
-
-\begin{columns}[t]
-    \begin{column}[T]{0.45\textwidth}
-        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-// thread 0
-pthread_mutex_lock(&A);
-pthread_mutex_lock(&B);
-// ...
-        \end{lstlisting}
-    \end{column}
-    \begin{column}[T]{0.45\textwidth}
-        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
-// thread 1
-pthread_mutex_lock(&B);
-pthread_mutex_lock(&A);
-// ...
-        \end{lstlisting}
-    \end{column}
-\end{columns}
-
-\end{frame}
-
-\begin{frame}{Livelock}
-
-Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
-
-Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
-
-\end{frame}
+\section{Программная реализация}
 
 \begin{frame}[fragile]{Алгоритм Деккера}
-
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
 bool flag[2] = {false, false};
-bool turn = false; // or true
+bool turn = 0;
 \end{lstlisting}
 
 \begin{columns}[t]
@@ -215,56 +221,144 @@ flag[1] = false;
         \end{lstlisting}
     \end{column}
 \end{columns}
-
 \end{frame}
 
-\begin{frame}{Эффективность параллельного алгоритма}
-
-$T_1$ --- время работа самого быстрого последовательного алгоритма.
-
-Ускорение параллельного алгоритма:
-
-$S = \frac{T_1}{T_N}$
-
-Эффективность параллельного алгоритма:
-
-$E = \frac{S}{N}$
-
+\begin{frame}{Алгоритм Деккера}
+Особенности:
+\begin{itemize}
+    \item Не требует поддержки атомарных операций чтения/записи $\Rightarrow$
+    переносимость;
+    \item Применим только для случая с двумя процессами;
+    \item Использование ждущего цикла (\abbr busy loop);
+    \item Не работает на суперскалярных процессорах.
+\end{itemize}
 \end{frame}
 
-\section{Эффективность}
+\begin{frame}[fragile]{Алгоритм Петерсона}
+\begin{lstlisting}[basicstyle=\small]
+bool interested[2];
+int turn;
 
-\begin{frame}{Закон Амдала}
+void enter_region(int thread_id) {
+    int other = 1 - thread_id;
+    interested[thread_id] = true;
+    turn = other;
 
-\todo Write me.
+    while(turn == other && interested[other]);
+}
 
+void leave_region(int thread_id) {
+    interested[thread_id] = false;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Spinlock}
+Spinlock --- низкоуровневый примитив синхронизации.
+\vfill
+Реализация:
+\begin{lstlisting}[language={[x86masm]Assembler}, basicstyle=\scriptsize]
+mov eax, spinlock_address
+mov ebx, SPINLOCK_BUSY
+
+wait_cycle:
+lock xchg [eax], ebx
+cmp ebx, SPINLOCK_FREE
+jne wait_cycle
+
+; critical section
+
+mov eax, spinlock_address
+mov ebx, SPINLOCK_FREE
+lock xchg [eax], ebx
+\end{lstlisting}
+\end{frame}
+
+\section{Ошибки}
+
+\begin{frame}[fragile]{Взаимная блокировка}
+Взаимная блокировка (\abbr deadlock) --- ситуация в многозадачной среде, при которой несколько процессов находятся в состоянии бесконечного ожидания ресурсов, занятых самими этими процессами.
+\vfill
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\footnotesize]
+pthread_mutex_t A, B;
+pthread_mutex_init(&A, NULL);
+pthread_mutex_init(&B, NULL);
+\end{lstlisting}
+
+\begin{columns}[t]
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 0
+pthread_mutex_lock(&A);
+// ...
+pthread_mutex_lock(&B);
+// ...
+        \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\textwidth}
+        \begin{lstlisting}[language=C++,basicstyle=\ttfamily,keywordstyle=\color{blue},basicstyle=\scriptsize]
+// thread 1
+pthread_mutex_lock(&B);
+// ...
+pthread_mutex_lock(&A);
+// ...
+        \end{lstlisting}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Livelock}
+Ситуация, когда в отличие от обычной блокировки процессы не зависают, а занимаются бесполезной работой.
+\vspace*{0.5cm}
+
+Состояние системы постоянно меняется, но при этом она <<зациклилась>> и не производит полезной работы.
 \end{frame}
 
 \section*{Конец}
-% The final "thank you" frame 
 
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Dijkstra~E.W.}
+    \href{http://www.cs.utexas.edu/users/EWD/transcriptions/EWD01xx/EWD123.html}{Cooperating
+    Sequential Processes}. --- 1965.
+    \bibitem{} \textit{Tanenbaum~A.S.} Modern operating systems. --- 3rd~ed.
+\end{thebibliography}
+\end{frame}
+
+\ifmipt
 \begin{frame}{Задания}
-
 Вычислить $\sum \limits_{n=0}^{N} \frac{1}{n!}$.
 
 N --- аргумент командной строки.
 
 Построить графики времени работы в зависимости от количества процессов и ускорения в зависимости от количества процессов.
-
 \end{frame}
+\fi
 
 \begin{frame}{На следующей лекции}
-
 \begin{itemize}
-    \item Классификация Флинна
-    \item Память в параллельных вычислительных системах:
+\ifsbertech
+    \item Многопоточность в Java:
+\fi
+\ifmipt
+    \item Классификация параллельных вычислительных систем:
+\fi
     \begin{itemize}
-        \item Симметричная мультипроцессорность,
-        \item Массово-параллельная архитектура,
-        \item Архитектура с неравномерной памятью.
+\ifsbertech
+        \item Атомарные типы,
+        \item Примитивы синхронизации,
+        \item Коллекции.
+\fi
+\ifmipt
+        \item Классификация Флинна,
+        \item Классификация Хокни.
+\fi
     \end{itemize}
+\ifmipt
+    \item Общая и распределенная память.
+    \item Гибридные системы. NUMA-архитектура.
+\fi
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}

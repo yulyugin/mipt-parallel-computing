@@ -1,0 +1,209 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Вычислительный конвейер}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Виды зависимостей;
+    \item Зависимости по данным;
+    \item Индексный анализ зависимостей.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Цикл работы процессора}
+
+\begin{frame}{Цикл работы процессора}
+\centering
+\inputpicture{cpu-cycle}
+\end{frame}
+
+\begin{frame}{Стадии конвейра}
+\begin{itemize}
+    \item Получение инструкции (Instruction Fetch, IF),
+    \item Декодирование (Instruction decode, ID),
+    \item Считывание операндов (Read operands, RO),
+    \item Выполнение (Execute, EX),
+    \item Запись результатов (Write back, WB).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\vfill
+\centering
+\resizebox{10cm}{2cm}{
+\inputpicture{non-pipeline}
+}
+\pause\vfill
+\begin{itemize}
+    \item Пропускна способность - 1 инструкция за такт (18 ns).\pause
+    \item Эффективно? \pause\textcolor{red}{НЕТ!}
+    \begin{itemize}
+        \item Большую часть времени стадии простаивают ожидая, пока другие стадии закончат свою работу.\pause
+    \end{itemize}
+    \item Можем ли мы выполнить это быстрее? \pause\textcolor{green}{ДА!} с помощью \textcolor{blue}{конвейера}.
+\end{itemize}
+\end{frame}
+
+\section{Идеальный конвейер}
+
+\begin{frame}{Что такое конвейер?}
+\begin{itemize}
+    \item \textcolor{blue}{Идея:} попытаться всех загрузить полезной работой.
+    \begin{itemize}
+        \item Конвейеризация - стандартная техника увеличения производительности, не являющаяся специфичной для центрального процессора.\pause
+    \end{itemize}
+    \item Как организовать конвейер?\pause
+    \begin{itemize}
+        \item Разделить процесс на независимые части (\textcolor{blue}{стадии})\pause
+        \item Разрешить стадии работать над следующей задачей, даже если последующие стадии до сих пор заняты работой над предыдущей.\pause
+    \end{itemize}
+    \item Существует большое количество примеров конвейера в реальной жизни:\pause
+    \begin{itemize}
+        \item Линия сборки (автомобили, электроника и др.)
+        \item Контроль безопасности в аэропорту.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Конвейер}
+\begin{itemize}
+    \item Сложно создать аппратуру, которая сможет определить занята ли следующая стадия или нет и остановить конвейер, если необходимо,
+    \item Альтернативно можно сделать все стадии фиксированного размера, равного самой длинной
+    \begin{itemize}
+        \item Это сделает управление конвейера простым, так как следующая стадия всегда готова.
+    \end{itemize}
+\end{itemize}
+\centering
+\inputpicture{pipeline}
+\begin{itemize}
+    \item Пропускная способность также одна инструкция за такт, однако размер такта в 4.5 раза меньше (4ns vs. 18ns).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ускорение}
+\begin{itemize}
+    \item Конвейер не уменьшает \textcolor{blue}{латентность} (время выполнения команды). Он увеличивает общую \textcolor{blue}{пропускную способность} (количество выполненных команд в единицу времени).\pause
+    \item Пропускная способность конвейера (=скорость) ограничена \textcolor{blue}{самой медленной} стадией.\pause
+    \item Возможное ускорение
+    \begin{displaymath}
+    Speedup = \frac{Throughput_{Non-pipelined}}{Throughput_{Pipelined}} = \frac{Workload\_Time_{Non-pipelined}}{Slowest\_Stage\_Time_{Pipelined}}
+    \end{displaymath}\pause
+    \item В идеальном случае, когда все стадии одинаковые по длинне
+    \begin{displaymath}
+    Speedup = \frac{Workload\_Time_{Non-pipelined}}{Slowest\_Stage\_Time_{Pipelined}} = Num\_of\_stages
+    \end{displaymath}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ускорение}
+\begin{itemize}
+    \item Как увеличить ускорение?\pause
+    \begin{itemize}
+        \item Разбить на большое количество стадий\pause
+        \item Сбалансировать работу стадий: сделать самую длинную стадию короткой, на сколько это возможно.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{<<Реальный>> конвейер}
+
+\begin{frame}{Оценка производительности}
+Время выполнения при последовательной обработке:
+\begin{displaymath}
+T_{sequential} = (T_{IF} + T_{ID} + T_{RO} + T_{EX} + T_{WB}) * N
+\end{displaymath}
+\vfill\pause
+Время выполнения при конвейерном исполнении:
+\begin{displaymath}
+T_{pipeline} = 5 * T + (N - 1) * T
+\end{displaymath}
+\begin{displaymath}
+T = max \{T_{IF}, T_{ID}, T_{RO}, T_{EX}, T_{WB}\} + \Delta t
+\end{displaymath}
+\begin{center}
+$\Delta t$ --- время, необходимое для передачи команд\\с одной стадии на другую.
+\end{center}
+\end{frame}
+
+\begin{frame}{Пример}
+Времена выполнения стадий:
+
+$T_{IF} = 4$, $T_{ID} = 3$, $T_{RO} = 4$, $T_{EX} = 4$, $T_{WB} = 3$
+\vfill
+Накладные расходы:
+
+$\Delta t = 1$
+\vfill
+Время выполнения стадии конвейера:
+
+$T = \pause5$
+\end{frame}
+
+\begin{frame}{Пример}
+\begin{table}[htpb]
+    \centering
+    \begin{tabular}{|l|r|r|}
+    \hline
+    \multirow{2}{*}{Количество команд}   &   \multicolumn{2}{c|}{Время обработки} \\
+    \cline{2-3}
+                        &   последовательной    &   конвейерной \\
+    \hline
+    1                   &   18                  &   25          \\
+    \hline
+    2                   &   36                  &   30          \\
+    \hline
+    10                  &   180                 &   70          \\
+    \hline
+    100                 &   1800                &   520         \\
+    \hline
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Конфликты в конвейере}
+\begin{itemize}
+    \item Конфликты данных,
+    \item Конфликты управления.
+\end{itemize}
+\end{frame}
+
+\section*{Конец}
+% The final "thank you" frame
+
+\begin{frame}{На следующей лекции}
+\begin{itemize}
+\ifsbertech
+    \item Кэш-память;
+    \item Назначение кэш-памяти;
+    \item Устройство и принцип работы кэш-памяти;
+    \item Кэши в многопроцессорных системах.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,98 @@
+% This file allows to produce either a separate PDF/PNG image
+% See standalone documentation to understand underlying magic
+
+\documentclass[tikz,convert={density=150,size=600,outext=.png}]{standalone}
+\usetikzlibrary{shapes, calc, arrows, fit, positioning, decorations, patterns, decorations.pathreplacing, chains, snakes}
+\input{../setup-web-fonts}
+\input{../setup-packages}
+\graphicspath{{../pictures/}} % path to pictures, trailing slash is mandatory.
+
+% The actual drawing follows
+\begin{document}
+\begin{tikzpicture}[>=latex, font=\small]
+
+%% Nodes
+
+% Level 0
+\node [draw, minimum height=1cm] (architecture) {\shortstack{Параллельные\\компьютерные архитектуры}};
+
+% Level 1
+\node [draw, below left=1cm and 1cm of architecture, minimum width=2cm,
+    minimum height=0.5cm] (sisd) {SISD};
+\node [draw, below left=1cm and -1.5cm of architecture, minimum width=2cm,
+    minimum height=0.5cm] (simd) {SIMD};
+\node [draw, below right=1cm and -0.5cm of architecture, minimum width=2cm,
+    minimum height=0.5cm] (misd) {MISD};
+\node [draw, below right=1cm and 3cm of architecture, minimum width=2cm,
+    minimum height=0.5cm] (mimd) {MIMD};
+
+% Level 1.5
+\node [below=0cm of sisd] {\shortstack{\scriptsize{Архитектура}\\\scriptsize{фон Неймана}}};
+\node [below=0cm of misd] {\scriptsize{?}};
+
+% Level 2
+\node [draw, below left=1cm and -0.5cm of simd, minimum height=1cm] (matrix) {\shortstack{Матричные\\процессоры}};
+\node [draw, below right=1cm and -0.5cm of simd, minimum height=1cm] (vector) {\shortstack{Векторные\\процессоры}};
+
+\node [draw, below left=1cm and 0cm of mimd, minimum height=1cm] (multiprocessor) {Мультипроцессоры};
+\node [draw, below right=1cm and 0.5cm of mimd, minimum height=1cm] (multicomputers) {Мультикомпьютеры};
+
+% Level 3
+\node [draw, below left=0.5cm and 0cm of multiprocessor, minimum width=1.5cm] (uma) {UMA};
+\node [draw, below=0.5cm of multiprocessor, minimum width=1.5cm] (coma) {COMA};
+\node [draw, below right=0.5cm and 0cm of multiprocessor, minimum width=1.5cm] (numa) {NUMA};
+
+\node [draw, below left=0.5cm and -1cm of multicomputers, minimum width=1.5cm] (cow) {COW};
+\node [draw, below right=0.5cm and -1cm of multicomputers, minimum width=1.5cm] (mpp) {MPP};
+
+% Level 4
+\node [draw, below left=0.5cm and -0.5cm of uma, minimum height=1cm] (bus) {\shortstack{С шинной\\организацией}};
+\node [draw, below right=0.5cm and -0.5cm of uma, minimum height=1cm] (switching) {Коммутация};
+
+\node [draw, below left=0.5cm and -0.5cm of numa, minimum height=1cm] (cc-numa) {CC-NUMA};
+\node [draw, below right=0.5cm and -0.5cm of numa, minimum height=1cm] (nc-numa) {NC-NUMA};
+
+\node[draw, below left=0.5cm and -0.5cm of mpp, minimum height=1cm] (grid) {Решетка};
+\node[draw, below right=0.5cm and -0.5cm of mpp, minimum height=1cm] (hypercube) {Гиперкуб};
+
+%% Decorations
+\draw[decorate, decoration={brace, amplitude=3pt}, yshift=3pt] (nc-numa.south
+        east) -- (bus.south west) coordinate[midway] (a1);
+\draw[decorate, decoration={brace, amplitude=3pt}, yshift=3pt] (hypercube.south
+        east) -- (grid.south west) coordinate[midway] (a2);
+
+% Level 4.5
+\node [below=0cm of a1] {Общая память};
+\node [below=0cm of a2] {Обмен сообщениями};
+
+%% Connections
+\draw[->] (architecture.south) -- (sisd.north);
+\draw[->] (architecture.south) -- (simd.north);
+\draw[->] (architecture.south) -- (misd.north);
+\draw[->] (architecture.south) -- (mimd.north);
+
+\draw[->] (simd.south) -- (matrix.north);
+\draw[->] (simd.south) -- (vector.north);
+
+\draw[->] (mimd.south) -- (multiprocessor.north);
+\draw[->] (mimd.south) -- (multicomputers.north);
+
+\draw[->] (multiprocessor.south) -- (uma.north);
+\draw[->] (multiprocessor.south) -- (coma.north);
+\draw[->] (multiprocessor.south) -- (numa.north);
+
+\draw[->] (multicomputers.south) -- (cow.north);
+\draw[->] (multicomputers.south) -- (mpp.north);
+
+\draw[->] (uma.south) -- (bus.north);
+\draw[->] (uma.south) -- (switching.north);
+
+\draw[->] (numa.south) -- (cc-numa.north);
+\draw[->] (numa.south) -- (nc-numa.north);
+
+\draw[->] (mpp.south) -- (grid.north);
+\draw[->] (mpp.south) -- (hypercube.north);
+
+\end{tikzpicture}
+
+\end{document}

@@ -22,6 +22,7 @@
 *.nav
 *.nlo
 *.out
+*.exe
 *.pdfsync
 *.ps
 *.snm
@@ -33,3 +34,7 @@
 *~lock*
 *.swp
 *.tmp
+*.pdf
+
+" Ignore genrated file
+lectures/target.tex

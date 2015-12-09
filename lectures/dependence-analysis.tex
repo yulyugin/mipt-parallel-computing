@@ -1,0 +1,266 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Зависимости в циклах и их анализ на параллельность.}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Ускорение и эффективность параллельного алгоритма.
+    \item Закон Амдала.
+    \item Область применения закона Амдала.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Виды зависимостей}
+
+\begin{frame}{Виды зависимостей}
+\begin{enumerate}
+    \item Зависимости по данным,
+    \pause
+    \item Зависимости по управлению,
+    \pause
+    \item Зависимости по ресурсам.
+\end{enumerate}
+\end{frame}
+
+\section{Зависимости по данным}
+
+\begin{frame}{Зависимости по данным}
+Виды зависимостей по данным:
+
+\begin{itemize}
+    \item Зависимость по выходным данным,
+    \item Зависимость по входным данным,
+    \item Антизависимость,
+    \item Истинная или потоковая зависимость.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Зависимости по данным}
+\begin{itemize}
+  \item WAW --- Зависимость по выходным данным,
+  \item RAR --- Зависимость по входным данным,
+  \item WAR --- Антизависимость,
+  \item RAW --- Истинная или потоковая зависимость.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Зависимость по выходным данным}
+Output dependence.
+
+\pause\bigskip
+
+\begin{lstlisting}
+x = 2 * y + 5;
+x = 3 + k;
+\end{lstlisting}
+
+Мешает ли распараллеливанию?
+
+\pause\bigskip
+
+\begin{lstlisting}
+x1 = 2 * y + 5;
+x2 = 3 + k;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Зависимость по входным данным}
+Input dependence.
+
+\pause\bigskip
+
+\begin{lstlisting}
+y = x + 4;
+z = x + 5;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Антизависимость}
+Antidependence.
+
+\pause\bigskip
+
+\begin{lstlisting}
+x = 2 * y + 1;
+y = z + 2;
+\end{lstlisting}
+
+Мешает ли распараллеливанию?
+
+\pause
+
+\begin{lstlisting}
+y1 = y;
+x = 2 * y1 + 1;
+y = z + 2;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Истинная или потоковая зависимость}
+Flow (True) dependence.
+
+\pause\bigskip
+
+\begin{lstlisting}
+x = 2 + z;
+y = 4 + x;
+\end{lstlisting}
+
+\pause\bigskip
+
+Мешает ли распараллеливанию?
+
+\pause\bigskip
+
+Да.
+\end{frame}
+
+\section{Индексный анализ зависимостей}
+
+\begin{frame}[fragile]{Зависимости в невложенных циклах}
+\begin{lstlisting}
+for (i = 1; i < N; i++) {
+  A[f(i)] = ...;
+  ... = A[g(i)];
+}
+\end{lstlisting}
+
+\pause
+
+Раскручиваем цикл:
+
+\bigskip
+
+$S_1^1: A[f(1)] = ...;$
+
+$S_2^1: ... = A[g(1)];$
+
+<...>
+
+$S_1^{N - 1}: A[f(N - 1)] = ...;$
+
+$S_2^{N - 1}: ... = A[g(N - 1)];$
+
+\pause\bigskip
+
+Если $\exists k, l: 0 < k, l < N$ и $f(k) = g(l)$, то есть зависимость.
+\end{frame}
+
+\begin{frame}{Расстояние зависимости}
+$S_1^k$ --- источник (\abbr source) зависимости, $S_2^l$ --- сток (\abbr sink)
+зависимости.
+
+\pause
+
+Для того, чтоб узнать, можно ли распараллелить цикл необходимо вычислить:
+
+$d = l - k$ --- расстояние зависимости.
+
+\pause
+
+\begin{itemize}
+    \item d < 0 $\Rightarrow$ антизависимость.
+    \item d = 0 $\Rightarrow$ зависимостей между итерациями нет (\abbr loop
+    independent dependence).
+    \item d > 0 $\Rightarrow$ истиная зависимость между операциями цикла,
+    исполняющимися на разных итерациях,
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+for (i = 0; i < N; ++i) {
+  a[i] = f(a[i + 1]);
+}
+\end{lstlisting}
+
+Разворачиваем цикл:
+
+\begin{enumerate}
+  \item \texttt{a[1] = f(a[2]);}
+  \item \texttt{a[2] = f(a[3]);}
+  \item \texttt{a[3] = f(a[4]);}
+\end{enumerate}
+
+d = -1 $\Rightarrow$ в цикле есть антизависимость и от нее можно избавиться
+копированием данных. Можно выполнить на $\leq$ \texttt{N} потоках.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+
+\begin{lstlisting}
+for (i = 0; i < N; i++) {
+  a[i] = f(a[i]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 0 $\Rightarrow$ зависимости нет. Можно выполнить на $\leq$ \texttt{N} потоках.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+for (i = 1; i < N; i++) {
+  a[i] = f(a[i - 1]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 1 $\Rightarrow$ истинная зависимость. Можно выполнить только в один поток.
+\end{frame}
+
+\begin{frame}[fragile]{Пример}
+\begin{lstlisting}
+for (i = 2; i < N; i++) {
+  a[i] = f(a[i - 2]);
+}
+\end{lstlisting}
+
+\pause\bigskip
+
+d = 2 $\Rightarrow$ истинная зависимость. Можно на двух потоках.
+\end{frame}
+
+\begin{frame}{Зависимости во вложенных циклах}
+\end{frame}
+
+\section*{Конец}
+
+\begin{frame}{На следующей лекции}
+\begin{itemize}
+\ifsbertech
+    \item Цикл работы центрального процессора,
+    \item Идеальный конвейер,
+    \item Реальный конвейер.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}

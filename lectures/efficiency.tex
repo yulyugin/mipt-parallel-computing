@@ -1,0 +1,105 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{Эффективность и ускорение параллельных программ. Закон Амдала.}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Классификация параллельных архитектур;
+    \item Системы с общей и распределенной памятью;
+    \item NUMA-архитектура.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{Эффективность}
+
+\begin{frame}{Эффективность параллельного алгоритма}
+$T_1$ --- время работа самого быстрого последовательного алгоритма.
+\vfill
+Ускорение параллельного алгоритма:
+
+$S_p = \frac{T_1}{T_p}$
+\vfill
+Эффективность параллельного алгоритма:
+
+$E_p = \frac{S}{p}$
+\end{frame}
+
+\section{Закон Амдала}
+
+\begin{frame}{Закон Амдала}
+$\alpha$ --- доля вычислений, которые могут быть получены только
+последовательными расчетами.
+\vfill
+Тогда ускорение полученное при использовании $p$ процессоров по сравнению с
+одним не будет превышать величины
+\vfill
+$S_p =\frac{1}{\alpha + \frac{1 - \alpha}{p}}$
+\end{frame}
+
+\begin{frame}{Закон Амдала}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{amdahls-law}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Закон Амдала}
+Упращающие допущения:
+\begin{enumerate}
+    \item Количество потоков либо 1, либо N;
+    \item Параллельная часть кода имеет идеальную производительность;
+    \item Параллельная часть бесконечно масштабируема;
+    \item Нет накладных расходов на создание/удаление потоков;
+\end{enumerate}
+\end{frame}
+
+\section*{Конец}
+% The final "thank you" frame
+
+\begin{frame}[allowframebreaks]{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Gene M. Amdahl}. Validity of the single processor
+    approach to achieving large scale computing capabilities. --- AFIPS spring
+    joint computer conference, 1967.
+\end{thebibliography}
+\end{frame}
+
+\begin{frame}{Задания}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\begin{itemize}
+\ifsbertech
+    \item Виды зависимостей;
+    \item Зависимости по данным;
+    \item Индексный анализ зависимостей.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}

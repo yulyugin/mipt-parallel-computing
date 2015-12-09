@@ -1,0 +1,161 @@
+% Compile with XeLaTeX, TeXLive 2013 or more recent
+\input{common/config}
+
+\title{GPU}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Обзор}
+
+\begin{frame}{На прошлой лекции}
+\begin{itemize}
+\ifsbertech
+    \item Кэш-память;
+    \item Назначение кэш-памяти;
+    \item Устройство и принцип работы кэш-памяти;
+    \item Кэши в многопроцессорных системах.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{На этой лекции}
+\tableofcontents
+\end{frame}
+
+\section{GPU}
+
+\begin{frame}{GPU}
+Графический процессор (\abbr Graphics Processing Unit, GPU) --- устройство
+предназначенное для ускорения графики.
+\vfill
+Графический процессор изначально создавались, как многоядерная структуа.
+Количество ядер может достигать нескольких тысяч.
+\vfill
+GPU рассчитан на массивно параллельные вычисления.
+\end{frame}
+
+\section{GPU vs. CPU}
+
+\begin{frame}{GPU vs. CPU}
+Отличия GPU и CPU:
+\begin{itemize}
+    \item GPU дополняет CPU $\Rightarrow$ GPU может выполнять некоторые задачи,
+    присущие CPU, недостаточно эффективно или не выполнять их вообще;\pause
+    \item GPU совместимы на уровне API (OpenGL, Microsoft DirectX);\pause
+    \item Отсутствие бинарной обратной совместимости увеличивает скорость
+    развития GPU архитектуры;\pause
+    \item GPU способны одновеременно выполнять множество потоков. Каждая точка
+    может быть нарисована независимо;\pause
+    \item Временная локальность не применима к выполняемым GPU задачам.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{GPU vs. CPU}
+Latency optimized CPU --- Fast Serial Processing.
+\vfill
+Throughput optimized GPU --- Scalable Parallel Processing.
+\end{frame}
+
+\section{Модели исполнения}
+
+\begin{frame}{Модели исполнения}
+\begin{itemize}
+    \item MIMD --- много независимых потоков;
+    \item SIMD --- один тред с широким объемом данных;
+    \item SIMT --- много <<идущих в ногу>> потоков.
+\end{itemize}
+\vfill
+SIMD --- same instruction is executed concurrently on different datapath lines.
+\vfill
+SIMT --- multithreaded model. Application lauches a number of threads that all
+enter the same program together. All threads get dinamically scheduled onto
+SIMD datapath. Threads that executing the same instruction get scheduled
+concurrently.
+\end{frame}
+
+\section{Принцип работы}
+
+\begin{frame}{SIMT pipeline}
+\centering
+\inputpicture{simt-pipeline}
+\vfill
+\texttt{MPC} --- Master PC.
+\end{frame}
+
+\begin{frame}
+Правила игры:
+\begin{itemize}
+    \item One thread per Processing Element (PE);
+    \item All PE execute same instruction;
+    \item Each PE can be disabled individually.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{<<Democratic>> instruction sequencer}
+\begin{itemize}
+    \item One \texttt{PC} per thread;\pause
+    \item Vote: select one of individual \texttt{PC}s as a Master \texttt{PC};\pause
+    \item Which one?\pause~Various policies:
+    \begin{itemize}
+        \item Majority: most common \texttt{PC};
+        \item Minimum: threads which are late;
+        \item Deepest control flow  nesting level;
+        \item Deepest functional call nesting level;
+        \item Combinations of the former.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{New SIMT pipeline}
+\centering
+\resizebox{11cm}{3cm}{
+\inputpicture{extended-simt-pipeline}
+}
+\end{frame}
+
+\begin{frame}
+Goal: keep executing units busy?
+\pause\vfill
+Keep executing units busy \textcolor{green}{doing real work}!
+\end{frame}
+
+\section*{Конец}
+
+\begin{frame}{Рекомендуемая литература}
+\begin{thebibliography}{99}
+    \bibitem{} \textit{Д.~Паттерсон, Дж.~Хеннесси}. Архитектура компьютера и
+    проектирование компьютерных систем. 4-е издание --- СПб.~Питер, 2012 ---
+    784~с. ISBN: 978-5-459-00291-1.
+    \bibitem{} \textit{Sylvain Collange}. Multi-threading or SIMD? How GPU
+    architectures exploit regularity. ARCHI'11. June 14, 2011.
+    \end{thebibliography}
+\end{frame}
+
+\begin{frame}{На следующей лекции}
+\begin{itemize}
+\ifsbertech
+    \item Message Passing Interface;
+    \item История и назначение MPI;
+    \item Базовый функции MPI;
+    \item Передача сообщение;
+    \item Замер времени;
+    \item Компиляция и запуск.
+\fi
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+{\huge{Спасибо за внимание!}\par}
+
+\vfill
+
+\tiny{\textit{Замечание}: все торговые марки и логотипы, использованные в данном материале, являются собственностью их владельцев. Представленная здесь точка зрения отражает личное мнение автора, не выступающего от лица какой-либо организации.}
+
+\end{frame}
+
+\end{document}
