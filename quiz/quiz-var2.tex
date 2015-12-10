@@ -1,0 +1,281 @@
+% Compile with XeLaTeX only
+%
+%\documentclass[a4paper, 12pt, addpoints, answers]{exam}
+\documentclass[a4paper, 12pt, addpoints]{exam}
+
+\pointpoints{б.}{б.}
+\bonuspointpoints{б.}{б.}
+
+\def \variant {2}
+
+\usepackage{fontspec}
+
+\usepackage{xunicode} % some extra unicode support
+\usepackage{xltxtra}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage{csquotes}
+
+\usepackage{polyglossia}
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
+
+\newfontfamily\russianfont{CMU Serif}
+\setromanfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+
+\setdefaultlanguage[spelling=modern]{russian}
+\setotherlanguage{english}
+\newcommand{\todo}{{\color{red}TODO}\ }
+\usepackage{graphicx}
+
+\tolerance=9999 % let the text underfull be ugly as hell, nobody cares.
+\emergencystretch=3cm
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, citecolor=black, urlcolor=black , pdfauthor=Evgeny Yulyugin <yulyugin@gmail.com>, pdftitle=Контрольная по курсу «Введение в распараллеливание алгоритмов и программ»}
+
+\usepackage{footnpag}
+\usepackage{indentfirst}
+\usepackage{underscore}
+\usepackage{url}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true}
+
+\usepackage{nameref}
+\usepackage{amsthm}
+\usepackage{enumitem} % continue enumeration 
+\usepackage{subfigure}
+\usepackage{mdwlist} % compact itemize lists environment
+
+\setcounter{tocdepth}{2}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Ответ:}\enspace}
+
+\title{Введение в распараллеливание алгоритмов и программ. Контрольная работа. Вариант \textnumero \variant}
+\author{}
+% \newcommand{\testdate}{\today}
+\newcommand{\testdate}{11 декабря 2015 г.}
+\date{\testdate}
+
+\typeout{Copyright 2015 Evgeny Yulyugin and the contributors.}
+\begin{document}
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{Вариант \textnumero \variant}{ }{\testdate}
+\runningheader{Вариант \textnumero \variant}{ }{\testdate}
+
+\coverfooter{}{Стр. \thepage\ из \numpages}{}
+\firstpagefooter{}{Стр. \thepage\ из \numpages}{}
+\runningfooter{}{Стр. \thepage\ из \numpages}{}
+
+\maketitle\thispagestyle{headandfoot} % a hack to have proper footers and headers on the first page as well
+
+\medskip
+\makebox[0.9\textwidth]{Ф.И.О.\enspace\hrulefill}
+\medskip
+
+\makebox[0.9\textwidth]{Группа\enspace\hrulefill}
+\medskip
+
+% Grade tables
+\hqword{Вопрос}
+\hpword{Баллов}
+\hsword{Результат}
+\htword{Сумма}
+\vqword{Вопрос}
+\vpword{Баллов}
+\vsword{Результат}
+\vtword{Сумма}
+\cellwidth{0.5em}
+\gradetablestretch{1.8}
+\begin{center}
+\tiny
+%\gradetable[h][questions]
+\partialgradetable{multiplechoice}[h][questions]\\
+\partialgradetable{fullquestions}[h][questions]\\
+\end{center}
+
+\medskip
+
+% Introduce several grading range so that grading tables are short enough to fit on the page
+
+\begingradingrange{multiplechoice} 
+
+\begin{questions}
+\question[1] Выберете верное утверждение. Для следующего цикла:
+\begin{lstlisting}
+for (i = 1; i < N; i++) {
+  a[i] = f(a[i + 1]);
+}
+\end{lstlisting}
+\begin{choices}
+    \choice Нет зависимостей между итереациями цикла. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \choice Истинная зависимость. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \choice Истинная зависимость. Может быть выполнен на одном исполнителе.
+    \correctchoice Антизависимость. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \choice Антизависимость. Может быть выполнен на одном исполнителе.
+\end{choices}
+
+\question[1] Совмещение вычислений и операций передачи данных в программе:
+\begin{choices}
+    \choice возможно при использовании синхронных операций передачи данных
+    \correctchoice возможно при использовании асинхронных операций передачи данных
+    \choice невозможно
+\end{choices}
+
+\question[1] Какая зависимость по данным сложнее всего распараллеливается?
+\begin{choices}
+    \correctchoice Потоковая зависимость
+    \choice Антизависимость
+    \choice Зависимость по выходным данным
+\end{choices}
+
+\question[1] В кластерной вычислительной системе время передачи данных между процессорами определяется:
+\begin{choices}
+    \choice типом элементов передаваемых данных.
+    \correctchoice латентностью среды передачи данных и объемом передаваемых данных.
+    \choice расстоянием между вычислительными узлами.
+    \choice Всеми вышеперечисленными факторами.
+\end{choices}
+
+\question[1] Может ли одна и та же программа на 4-х ядерном процессоре работать медленнее чем на одноядерном?
+\begin{choices}
+    \correctchoice да
+    \choice нет
+\end{choices}
+
+\question[1] Что такое атомарная операция?
+\begin{choices}
+    \choice операция над атомами.
+    \choice операция ввода-вывода.
+    \choice базовая арифметическая операция.
+    \correctchoice операция, которую невозможно прерывать.
+\end{choices}
+
+\question[1] Какая архитектура получила наибольшее распространение среди суперкомпьютеров?
+\begin{choices}
+    \choice MISD,
+    \choice SIMD,
+    \choice SISD,
+    \correctchoice MIMD,
+    \choice Все архитектуры одинакого часто используются.
+\end{choices}
+
+\question[1] Какие зависимости по данным допускают эффективное распараллеливание цикла?
+\begin{choices}
+    \choice растояние зависимости d неопределено
+    \correctchoice растояние зависимости d=0
+    \choice растояние зависимости d=1
+\end{choices}
+
+\question[1] Чему равен вектор направлений для вектора расстояний G=(0,-1)?
+\begin{choices}
+    \choice (=, =)
+    \choice (=, <)
+    \correctchoice (=, >)
+\end{choices}
+
+\question[1] В каких векторах расстояний есть истинная зависимость хотя бы по одной координате ?
+\begin{choices}
+    \correctchoice (1,-1)
+    \correctchoice (1,1)
+    \choice (-1,0)
+\end{choices}
+
+\question[1] Данные могут попадать в кэш при следующих операциях:
+\begin{choices}
+    \correctchoice чтение памяти (load),
+    \correctchoice запись в память (store),
+    \choice арифметические операции,
+    \choice операции с числами с плавающей запятой,
+    \correctchoice предвыборка данных (prefetch),
+    \correctchoice загрузка инструкции (fetch),
+    \choice инвалидация линии (invalidate).
+\end{choices}
+
+\question[1] Выберите правильные варианты окончания: линия данных с фикированным адресом
+\begin{choices}
+    \choice всегда попадает в одну и ту же ячейку кэша,
+    \correctchoice всегда попадает в один и тот же сет,
+    \choice может быть сохранена в любой ячейке кэша.
+\end{choices}
+
+\question[1] Как организована память в массивно-параллельных вычислительных системах?
+\begin{choices}
+    \choice общая память,
+    \choice NUMA память,
+    \correctchoice распределенная память.
+\end{choices}
+
+\question[1] С какого предложения начинается параллельный блок в программе на языке C?
+\begin{choices}
+    \choice \begin{verbatim}#pragma omp for\end{verbatim}
+    \choice \begin{verbatim}#parallel\end{verbatim}
+    \choice \begin{verbatim}#omp parallel\end{verbatim}
+    \choice \begin{verbatim}#include <omp.h>\end{verbatim}
+    \correctchoice \begin{verbatim}#pragma omp parallel\end{verbatim}
+    \choice \begin{verbatim}omp_parallel();\end{verbatim}
+\end{choices}
+
+\endgradingrange{multiplechoice}
+
+\begingradingrange{fullquestions}
+
+\question[3] Определите понятие «критическая секция».
+\begin{solution}[2cm]
+Участок кода программы, в котором производится доступ к общему ресурсу.
+\end{solution}
+
+\question[3] Определите понятие эффективности параллельной алгоритма.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Сформулируйте закон Амдала.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Сформулируйте условия Бернстайна.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Определите понятие расстояния зависимости.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Проанализируйте возможность распараллеливания следующего цикал:
+\begin{lstlisting}
+for (int i=0; i<N; ++i) { a[i] = a[i+4]*tan(a[i -1]);}
+\end{lstlisting}
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Сформулируйте закон Мура.
+\begin{solution}[2cm]
+Количество полупроводниковых элементов на кристалле и
+производительность процессора удваивается в среднем каждые
+полтора–два года.
+\end{solution}
+
+\question[3] Как скомпилировать и запустить программу, написанную с использованием MPI?
+\begin{solution}[2cm]
+\end{solution}
+\endgradingrange{fullquestions} 
+
+% Some extra blank pages
+% \newpage
+% \phantom{Blank page}
+%\newpage
+%\phantom{Blank page}
+
+\end{questions}
+\end{document}

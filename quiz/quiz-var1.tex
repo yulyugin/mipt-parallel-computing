@@ -1,0 +1,294 @@
+% Compile with XeLaTeX only
+%
+%\documentclass[a4paper, 12pt, addpoints, answers]{exam}
+\documentclass[a4paper, 12pt, addpoints]{exam}
+
+\pointpoints{б.}{б.}
+\bonuspointpoints{б.}{б.}
+
+\def \variant {1}
+
+\usepackage{fontspec}
+
+\usepackage{xunicode} % some extra unicode support
+\usepackage{xltxtra}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage{csquotes}
+
+\usepackage{polyglossia}
+\defaultfontfeatures{Scale=MatchLowercase, Mapping=tex-text}
+
+\newfontfamily\russianfont{CMU Serif}
+\setromanfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+
+\setdefaultlanguage[spelling=modern]{russian}
+\setotherlanguage{english}
+\newcommand{\todo}{{\color{red}TODO}\ }
+\usepackage{graphicx}
+
+\tolerance=9999 % let the text underfull be ugly as hell, nobody cares.
+\emergencystretch=3cm
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=black, citecolor=black, urlcolor=black , pdfauthor=Evgeny Yulyugin <yulyugin@gmail.com>, pdftitle=Контрольная по курсу «Введение в распараллеливание алгоритмов и программ»}
+
+\usepackage{footnpag}
+\usepackage{indentfirst}
+\usepackage{underscore}
+\usepackage{url}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize\ttfamily, breaklines=true, keepspaces=true}
+
+\usepackage{nameref}
+\usepackage{amsthm}
+\usepackage{enumitem} % continue enumeration 
+\usepackage{subfigure}
+\usepackage{mdwlist} % compact itemize lists environment
+
+\setcounter{tocdepth}{2}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Ответ:}\enspace}
+
+\title{Введение в распараллеливание алгоритмов и программ. Контрольная работа. Вариант \textnumero \variant}
+\author{}
+% \newcommand{\testdate}{\today}
+\newcommand{\testdate}{11 декабря 2015 г.}
+\date{\testdate}
+
+\typeout{Copyright 2015 Evgeny Yulyugin and the contributors.}
+\begin{document}
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{Вариант \textnumero \variant}{ }{\testdate}
+\runningheader{Вариант \textnumero \variant}{ }{\testdate}
+
+\coverfooter{}{Стр. \thepage\ из \numpages}{}
+\firstpagefooter{}{Стр. \thepage\ из \numpages}{}
+\runningfooter{}{Стр. \thepage\ из \numpages}{}
+
+\maketitle\thispagestyle{headandfoot} % a hack to have proper footers and headers on the first page as well
+
+\medskip
+\makebox[0.9\textwidth]{Ф.И.О.\enspace\hrulefill}
+\medskip
+
+\makebox[0.9\textwidth]{Группа\enspace\hrulefill}
+\medskip
+
+% Grade tables
+\hqword{Вопрос}
+\hpword{Баллов}
+\hsword{Результат}
+\htword{Сумма}
+\vqword{Вопрос}
+\vpword{Баллов}
+\vsword{Результат}
+\vtword{Сумма}
+\cellwidth{0.5em}
+\gradetablestretch{1.8}
+\begin{center}
+\tiny
+%\gradetable[h][questions]
+\partialgradetable{multiplechoice}[h][questions]\\
+\partialgradetable{fullquestions}[h][questions]\\
+\end{center}
+
+\medskip
+
+% Introduce several grading range so that grading tables are short enough to fit on the page
+
+\begingradingrange{multiplechoice} 
+
+\begin{questions}
+\question[1]
+Выберете верное утверждение. Для следующего цикла:
+\begin{lstlisting}
+for (i = 1; i < N; i++) {
+  a[i] = f(a[i - 1]);
+}
+\end{lstlisting}
+\begin{choices}
+    \choice Нет зависимостей между итереациями цикла. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \choice Истинная зависимость. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \correctchoice Истинная зависимость. Может быть выполнен на одном исполнителе.
+    \choice Антизависимость. Может быть выполнен на $\leq$ \texttt{N} исполнителях.
+    \choice Антизависимость. Может быть выполнен на одном исполнителе.
+\end{choices}
+
+\question[1] Какое максимальное количество исполнителей может быть эффективно задействовано для выполнения данного цикла
+\begin{lstlisting}
+for (i = 2; i < N; i++) {
+  a[i] = f(a[i - 2]);
+}
+\end{lstlisting}
+\begin{choices}
+    \choice 1.
+    \choice N.
+    \correctchoice 2.
+    \choice N - 2.
+\end{choices}
+
+\question[1] Для чего использутеся понятие эффективности параллельного алгоритма?
+\begin{choices}
+    \choice Для оценки скорости работы параллельного алгоритма.
+    \correctchoice Для оценки масштабируемости параллельного алгоритма.
+    \choice Для определения области применимости параллельного алгоритма.
+\end{choices}
+
+\question[1] В кластерной вычислительной системе время передачи данных между процессорами определяется:
+\begin{choices}
+    \choice типом элементов передаваемых данных.
+    \correctchoice латентностью среды передачи данных и объемом передаваемых данных.
+    \choice расстоянием между вычислительными узлами.
+    \choice Всеми вышеперечисленными факторами.
+\end{choices}
+
+\question[1] Чем отличаются многоядерная и многопроцессорная архитектуры?
+\begin{choices}
+    \choice в многопроцессорной архитектуре общий кеш,
+    \choice в многопроцессорной архитектуре общая оперативная память,
+    \choice в многоядерной архитектуре общая оперативная память,
+    \correctchoice в многоядерной архитектуре общий кеш.
+\end{choices}
+
+\question[1] С какой зависимостью по данным в цикле можно справиться, скопировав данные на каждый процессор?
+\begin{choices}
+    \correctchoice антизависимость,
+    \choice зависимость по выходным данным,
+    \choice потоковая зависимость.
+\end{choices}
+
+\question[1] Чему равен вектор направлений для вектора расстояний G=(0,1) ?
+\begin{choices}
+    \choice (=, =)
+    \correctchoice (=, <)
+    \choice (=, >)
+\end{choices}
+
+\question[1] В каких векторах расстояний есть антизависимость зависимость хотя бы по одной координате ?
+\begin{choices}
+    \correctchoice (1,-1)
+    \choice (1,1)
+    \correctchoice (-1,0)
+\end{choices}
+
+\question[1] Выберите правильные варианты продолжения фразы: использование кэшей
+при работе приложения целесообразно, если
+\begin{choices}
+    \correctchoice программа показывает временную локальность доступов,
+    \choice программа не обращается в оперативную память,
+    \choice программа работает с очень большим объёмом данных,
+    \correctchoice программа показывает пространственную локальность доступов,
+    \choice программа работает с объёмом данных, меньшим ёмкости кэша
+\end{choices}
+
+\question[1] Выберите правильные варианты.
+\begin{choices}
+    \choice Темпы роста скорости оперативной памяти и процессоров одинаковы с 80-х годов ХХ века.
+    \choice Темп роста скорости оперативной памяти опережает темпы роста скорости работы процессоров.
+    \correctchoice Темп роста скорости процессоров опережает темпы роста скорости оперативной памяти. 
+\end{choices}
+
+\question[1] Наличие каких зависимостей в цикле допускает эффективное распараллеливание?
+\begin{choices}
+    \choice истинная зависимость,
+    \correctchoice антизависимость,
+    \correctchoice истинная зависимость с большим по модулю расстоянием зависимости.
+\end{choices}
+
+\question[1] Какая зависимость по данным сложнее всего распараллеливается?
+\begin{choices}
+    \correctchoice Потоковая зависимость
+    \choice Антизависимость
+    \choice Зависимость по выходным данным
+\end{choices}
+
+\question[1] Сколько вычислительных потоков будет задействовано при выполнении данного куска кода?
+\begin{lstlisting}
+omp_set_num_threads(2);
+#pragma omp for
+for (i = 0; i < N; i++)
+    printf("%d: %d\n", id, i);
+\end{lstlisting}
+\begin{choices}
+    \choice 2,
+    \choice OMP_NUM_THREADS,
+    \correctchoice 1,
+    \choice N.
+\end{choices}
+
+\question[1] Зачем нужна синхронизация типа critical?
+\begin{choices}
+    \choice для определения изменения порядка выполнения циклов,
+    \choice для правильного определения выполнения структурного блока в параллельном режиме,
+    \choice для ускорения процесса выполнения задачи,
+    \correctchoice для задания структурных блоков, выполняющихся только в одном потоке из всего набора параллельных потоков.
+\end{choices}
+
+\endgradingrange{multiplechoice}
+
+\begingradingrange{fullquestions}
+
+\question[3] Определите понятие ускорения параллельного алгоритма.
+\begin{solution}[2cm]
+Ускорением  параллельного  алгоритма  называют  отношение времени  выполнения 
+лучшего последовательного алгоритмам к времени выполнения параллельного
+алгоритма.
+\end{solution}
+
+\question[3] Определите понятие «атомарная операция».
+\begin{solution}[2cm]
+Операция, выполняющаяся как единое целое, либо не выполняющиеся вовсе.
+\end{solution}
+
+\question[3] Может ли эффективность параллельной программы превышать единицу? Ответ обоснуйте.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Сформулируйте закон Амдала.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Определите понятие расстояния зависимости.
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Проанализируйте возможность распараллеливания следующего цикал:
+\begin{lstlisting}
+for (int i=0; i<N; ++i) { a[i] = d[i] + 5*i; c[i] = a[2*i] * 2;}
+\end{lstlisting}
+\begin{solution}[2cm]
+\todo
+\end{solution}
+
+\question[3] Сформулируйте закон Мура.
+\begin{solution}[2cm]
+Количество полупроводниковых элементов на кристалле и
+производительность процессора удваивается в среднем каждые
+полтора–два года.
+\end{solution}
+
+\question[3] Как скомпилировать и запустить программу, написанную с использованием OpenMP?
+\begin{solution}[2cm]
+\end{solution}
+
+\endgradingrange{fullquestions}
+
+% Some extra blank pages
+% \newpage
+% \phantom{Blank page}
+%\newpage
+%\phantom{Blank page}
+
+\end{questions}
+\end{document}
