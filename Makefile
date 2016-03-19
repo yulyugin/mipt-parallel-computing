@@ -18,14 +18,6 @@ RM=rm.exe -f
 GNUPLOT=wgnuplot.exe
 endif
 
-ifeq ($(MIPT), yes)
-target.tex:
-	cd $(SRC_DIR) && echo "\mipttrue" > target.tex
-else
-target.tex:
-	cd $(SRC_DIR) && echo "\sbertechtrue" > target.tex
-endif
-
 SRC_DIR=lectures
 
 # find all lectures
@@ -45,7 +37,7 @@ memory-wall.pdf: $(SRC_DIR)/memory-wall.plt
 
 caches: memory-wall.pdf
 
-$(LECTURES): target.tex
+$(LECTURES):
 	cd $(SRC_DIR) && bash -c "while ( $(LATEXCOMMAND) $(OPTIONS) $@ ; grep -q 'Rerun to get' $@.log ) do true ; done"
 
 clean:

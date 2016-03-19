@@ -13,11 +13,13 @@
 
 \begin{frame}{На прошлой лекции}
 \begin{itemize}
-\ifmipt
-    \item Классификация Флинна.
-    \item Классификация Хокни.
-    \item Общая и расределенная память.
-\fi
+    \item Общая теория параллельного программирования:
+    \begin{itemize}
+        \item Состояние гонки,
+        \item Примитивы синхронизации,
+        \item Эффективнось работы параллельного алгоритма,
+        \item Закон Амдала.
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -541,6 +543,15 @@ int MPI_Reduce(void* sendbuf, void* recvbuf, int count, MPI_Datatype datatype, M
 \end{frame}
 
 \begin{frame}{На следующей лекции}
+\begin{itemize}
+    \item Классификация параллельных вычислительных систем:
+    \begin{itemize}
+        \item Классификация Флинна,
+        \item Классификация Хокни.
+    \end{itemize}
+    \item Общая и распределенная память.
+    \item Гибридные системы. NUMA-архитектура.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
