@@ -217,21 +217,22 @@ November 2014:
 \end{thebibliography}
 \end{frame}
 
+\begin{frame}{Задания}
+Producer--Consumer problem.
+\vfill
+Producer пишит в буфер, consumer читает и удаляет записи из того же буфера.
+\vfill
+Задача: Producer не должен писать в буфер, если тот полон. Consumer не должен
+читать из буфера, если тот пуст.
+\end{frame}
+
 \begin{frame}{На следующей лекции}
 \begin{itemize}
-\ifsbertech
-    \item Общие понятия и определения,
-    \item Состояние гонки,
-    \item Синхронизация,
-    \item Ошибки синхронизации.
-\fi
-\ifmipt
     \item История MPI,
     \item Принцип работы MPI,
     \item Базовые функции MPI,
     \item Компиляция и запуск,
     \item Примеры.
-\fi
 \end{itemize}
 \end{frame}
 

@@ -13,18 +13,11 @@
 
 \begin{frame}{На прошлой лекции}
 \begin{itemize}
-\ifsbertech
-    \item Многопоточность в Java,
-    \item Создание множества потоков и их синхронизация,
-    \item Атомарные типы.
-\fi
-\ifmipt
     \item Атомарные операции,
     \item Состояние гонки,
     \item Примитивы синхронизации,
     \item Программная реализация,
     \item Популярные ошибки.
-\fi
 \end{itemize}
 \end{frame}
 
@@ -261,26 +254,9 @@ COW (Cluster Of Workstations) --- персональные компьютеры/
 
 \section*{Конец}
 
-\ifsbertech
-\begin{frame}{Задания}
-Producer--Consumer problem.
-\vfill
-Producer пишит в буфер, consumer читает и удаляет записи из того же буфера.
-\vfill
-Задача: Producer не должен писать в буфер, если тот полон. Consumer не должен
-читать из буфера, если тот пуст.
-\end{frame}
-\fi
-
 \begin{frame}{На следующей лекции}
 \begin{itemize}
-\ifsbertech
-    \item Системы с общей и распределенной памятью.
-    \item NUMA архитектура.
-\fi
-\ifmipt
     \item Коллективные операции в MPI.
-\fi
 \end{itemize}
 \end{frame}
 

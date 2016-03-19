@@ -35,6 +35,3 @@
 *.swp
 *.tmp
 *.pdf
-
-" Ignore genrated file
-lectures/target.tex

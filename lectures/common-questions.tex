@@ -13,20 +13,11 @@
 \begin{frame}{На прошлой лекции}
 
 \begin{itemize}
-\ifmipt
     \item История MPI,
     \item Базовые функции MPI,
     \item Передача сообщений,
     \item Замер времени,
     \item Компиляция и запуск.
-\fi
-\ifsbertech
-    \item Область применения МП систем,
-    \item Типы МВС,
-    \item Требования,
-    \item Измерения производительности,
-    \item Закон Мура.
-\fi
 \end{itemize}
 \end{frame}
 
@@ -325,7 +316,6 @@ pthread_mutex_lock(&A);
 \end{thebibliography}
 \end{frame}
 
-\ifmipt
 \begin{frame}{Задания}
 Вычислить $\sum \limits_{n=0}^{N} \frac{1}{n!}$.
 
@@ -333,31 +323,16 @@ N --- аргумент командной строки.
 
 Построить графики времени работы в зависимости от количества процессов и ускорения в зависимости от количества процессов.
 \end{frame}
-\fi
 
 \begin{frame}{На следующей лекции}
 \begin{itemize}
-\ifsbertech
-    \item Многопоточность в Java:
-\fi
-\ifmipt
-    \item Классификация параллельных вычислительных систем:
-\fi
+    \item Коллективные операции в MPI
     \begin{itemize}
-\ifsbertech
-        \item Атомарные типы,
-        \item Примитивы синхронизации,
-        \item Коллекции.
-\fi
-\ifmipt
-        \item Классификация Флинна,
-        \item Классификация Хокни.
-\fi
+        \item Синхронизация
+        \item Широковещательная рассылка
+        \item Распределение и сбор данных
+        \item вычислительные операции
     \end{itemize}
-\ifmipt
-    \item Общая и распределенная память.
-    \item Гибридные системы. NUMA-архитектура.
-\fi
 \end{itemize}
 \end{frame}
 
